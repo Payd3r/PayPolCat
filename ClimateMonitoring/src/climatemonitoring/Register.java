@@ -4,11 +4,15 @@
  */
 package climatemonitoring;
 
+import engine.Engine;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import engine.Person;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,9 +24,11 @@ public class Register extends javax.swing.JFrame {
      * Creates new form Register
      */
     ArrayList<User> users;
+    Person person;
+    Engine engine;
+
     public Register() throws IOException {
         initComponents();
-        users = FileManager.readUser(Paths.get("Dati/OperatoriRegistrati.txt"));
     }
 
     /**
@@ -77,6 +83,11 @@ public class Register extends javax.swing.JFrame {
         RadioFemale.setText("F");
 
         jButton1.setText("Registrati");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Email");
 
@@ -178,6 +189,25 @@ public class Register extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        person = new Person();
+
+        person.setSurname("Cattaneo");
+
+        person.setName("Luca");
+        person.setDay("30");
+        person.setMonth("6");
+        person.setYear("2003");
+        person.setBornCity("COMO"); //da mettere maiuscolo dio merda
+        person.setSex("M");
+        try {
+            engine = new Engine(person);
+        } catch (IOException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
