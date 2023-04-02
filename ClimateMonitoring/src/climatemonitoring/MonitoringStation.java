@@ -1,5 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package climatemonitoring;
 
+/**
+ *
+ * @author Catta
+ */
 public class MonitoringStation {
     String id;
     String name;
@@ -24,5 +32,4 @@ public class MonitoringStation {
         this.lat = lat;
         this.lon = lon;
     }
- }
-
+}
