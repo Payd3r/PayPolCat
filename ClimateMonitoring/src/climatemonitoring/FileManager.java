@@ -42,7 +42,7 @@ public class FileManager {
     public static void write(String content, Path path) throws IOException {
         Charset charset = Charset.forName("UTF-8");
         try (BufferedWriter writer = Files.newBufferedWriter(path, charset, StandardOpenOption.APPEND)) {
-            writer.write(content, 0, content.length());
+            writer.write(content + "\n", 0, content.length());
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
         }
