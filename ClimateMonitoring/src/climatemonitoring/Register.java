@@ -23,7 +23,6 @@ public class Register extends javax.swing.JFrame {
     /**
      * Creates new form Register
      */
-
     public Register() throws IOException {
         initComponents();
     }
@@ -206,11 +205,12 @@ public class Register extends javax.swing.JFrame {
         person.setMonth(dateOfBirth[1]);
         person.setYear(dateOfBirth[2]);
         person.setBornCity(txtPlace.getText().toUpperCase()); //da mettere maiuscolo dio merda
-        if(radioMale.isSelected())
+        if (radioMale.isSelected()) {
             person.setSex("M");
-        else
+        } else {
             person.setSex("F");
-        
+        }
+
         Engine engine = null;
         try {
             engine = new Engine(person);
@@ -220,7 +220,12 @@ public class Register extends javax.swing.JFrame {
         String s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + txtStationMonitoring.getText();
         try {
             //JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
-            FileManager.write(s, Paths.get("Dati/OperatoriRegistrati.txt"));
+            FileManager.write("\n" + s, Paths.get("Dati/OperatoriRegistrati.txt"));          
+            JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
+            Menu r = new Menu();
+            r.setVisible(rootPaneCheckingEnabled);
+            this.dispose();
+
         } catch (IOException ex) {
             Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -3,3 +3,6 @@ Andrea;Mauri;MRANDR03P02D416Y;andreamauri20133@gmail.com;Payd3r;prova21;Como
 Luca;Mauri;MRANDR03P02D416Y;andreamauri20131@gmail.com;Payd3r;prova2;Como
 Paolo;Ficara;FCRPLA03D29D416A;paoloficara50@gmail.com;Pol729;password;Como
 Cristiano;Il Goat;LGTCST03D29A476S;paoloficara50@gmail.com;CR7;sonoilgoat;Como
+Andrea;Grasso;GRSNDR08E20C933F;porcodio@gmail.com;pisellone69;suca;centro gay
+leo;messi;MSSLEO03M60F839D;dondestaleomessi@gmail.com;leopepsi;balondor69;fifa.com
+andrea;mauri;MRANDR03P42F372J;andreavoglioicazzi;bananone33;suca;centro gay
