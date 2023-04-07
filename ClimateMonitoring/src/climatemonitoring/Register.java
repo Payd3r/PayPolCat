@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import engine.Person;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,6 +25,14 @@ public class Register extends javax.swing.JFrame {
      */
     public Register() throws IOException {
         initComponents();
+        List<MonitoringStation> monitoringStations = FileManager.readStation(Paths.get("Dati/CentriMonitoraggio.csv"));
+        createComboMonitoringStation(monitoringStations);
+        
+    }
+    
+    private void createComboMonitoringStation(List<MonitoringStation> monitoringStations){
+        for(MonitoringStation x : monitoringStations)
+            comboMonitoringStation.addItem(x.getName());
     }
 
     /**
@@ -56,7 +66,7 @@ public class Register extends javax.swing.JFrame {
         txtNick = new javax.swing.JTextField();
         txtPassw = new javax.swing.JPasswordField();
         jLabel10 = new javax.swing.JLabel();
-        txtStationMonitoring = new javax.swing.JTextField();
+        comboMonitoringStation = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,13 +126,13 @@ public class Register extends javax.swing.JFrame {
                         .addComponent(radioMale)
                         .addGap(18, 18, 18)
                         .addComponent(RadioFemale)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(129, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtStationMonitoring, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                                .addComponent(comboMonitoringStation, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -185,7 +195,7 @@ public class Register extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(txtStationMonitoring, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboMonitoringStation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -215,7 +225,7 @@ public class Register extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + txtStationMonitoring.getText();
+        String s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());
         try {
             //JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
             FileManager.write("\n" + s, Paths.get("Dati/OperatoriRegistrati.txt"));          
@@ -232,6 +242,7 @@ public class Register extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton RadioFemale;
     private javax.swing.ButtonGroup Sex;
+    private javax.swing.JComboBox<String> comboMonitoringStation;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -251,7 +262,6 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassw;
     private javax.swing.JTextField txtPlace;
     private javax.swing.JTextField txtProv;
-    private javax.swing.JTextField txtStationMonitoring;
     private javax.swing.JTextField txtSurn;
     // End of variables declaration//GEN-END:variables
 }
