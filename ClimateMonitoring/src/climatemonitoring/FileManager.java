@@ -4,7 +4,7 @@
  */
 package climatemonitoring;
 
-import java.awt.List;
+import java.util.List;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -19,9 +19,9 @@ import java.util.ArrayList;
  * @author Catta
  */
 public class FileManager {
-    public static ArrayList<User> readUser(Path path) throws IOException {
-        ArrayList<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
-        ArrayList<User> list = new ArrayList<User>();
+    public static List<User> readUser(Path path) throws IOException {
+        List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
+        List<User> list = new ArrayList<User>();
         for (String line : allLines) {
             String[] split = line.split(";");
             list.add(new User(split[0], split[1], split[2], split[3], split[4], split[5], split[6]));
@@ -29,9 +29,9 @@ public class FileManager {
         return list;
     }
 
-    public static ArrayList<MonitoringStation> readStation(Path path) throws IOException {
-        ArrayList<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
-        ArrayList<MonitoringStation> list = new ArrayList<MonitoringStation>();
+    public static List<MonitoringStation> readStation(Path path) throws IOException {
+        List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
+        List<MonitoringStation> list = new ArrayList<MonitoringStation>();
         for (String line : allLines) {
             String[] split = line.split(";");
             list.add(new MonitoringStation(split[0], split[2], split[3], split[4], split[5], split[6]));
