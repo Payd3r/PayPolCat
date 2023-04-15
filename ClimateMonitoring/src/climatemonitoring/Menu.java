@@ -19,22 +19,11 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
-    ArrayList<MonitoringStation> station;
+    ArrayList<InterestingAreas> station;
     ArrayList<User> users;
 
     public Menu() {
         initComponents();
-        /*try {
-            users = FileManager.readUser(Paths.get("Dati/OperatoriRegistrati.txt"));
-        } catch (IOException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            station = FileManager.readStation(Paths.get("Dati/CentriMonitoraggio.csv"));
-            //FileManager.write("Luca;Mauri;MRANDR03P02D416Y;andreamauri2013@gmail.com;Payd3r;prova2;Como" + "\n", Paths.get("Dati/OperatoriRegistrati.txt"));
-        } catch (IOException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
 
     /**
@@ -166,7 +155,6 @@ public class Menu extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        ArrayList<MonitoringStation> station;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

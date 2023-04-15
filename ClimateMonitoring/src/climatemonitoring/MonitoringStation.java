@@ -4,84 +4,43 @@
  */
 package climatemonitoring;
 
+import java.util.List;
+
 /**
  *
- * @author Catta
+ * @author paolo
  */
 public class MonitoringStation {
+    private String name, address;
+    private String[] interestingAreas;
 
-    private String id;
-    private String name;
-    private String countryCode;
-    private String countryName;
-    private String lat;
-    private String lon;
-
-    public MonitoringStation() {
-        id = "";
-        name = "";
-        countryCode = "";
-        countryName = "";
-        lat = "";
-        lon = "";
-    }
-
-    public MonitoringStation(String id, String name, String countryCode, String countryName, String lat, String lon) {
-        this.id = id;
+    public MonitoringStation(String name, String address, String[] interestingAreas) {
         this.name = name;
-        this.countryCode = countryCode;
-        this.countryName = countryName;
-        this.lat = lat;
-        this.lon = lon;
-    }
-
-    public String getId() {
-        return id;
+        this.address = address;
+        this.interestingAreas = interestingAreas;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public String getCountryName() {
-        return countryName;
-    }
-
-    public String getLat() {
-        return lat;
-    }
-
-    public String getLon() {
-        return lon;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setLat(String lat) {
-        this.lat = lat;
+    public String[] getInterestingAreas() {
+        return interestingAreas;
     }
 
-    public void setLon(String lon) {
-        this.lon = lon;
+    public void setInterestingAreas(String[] interestingAreas) {
+        this.interestingAreas = interestingAreas;
     }
-
-    
 }

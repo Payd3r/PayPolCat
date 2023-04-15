@@ -29,12 +29,23 @@ public class FileManager {
         return list;
     }
 
+    public static List<InterestingAreas> readAreas(Path path) throws IOException {
+        List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
+        List<InterestingAreas> list = new ArrayList<InterestingAreas>();
+        for (String line : allLines) {
+            String[] split = line.split(";");
+            list.add(new InterestingAreas(split[0], split[2], split[3], split[4], split[5], split[6]));
+        }
+        return list;
+    }
+    
     public static List<MonitoringStation> readStation(Path path) throws IOException {
         List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
         List<MonitoringStation> list = new ArrayList<MonitoringStation>();
         for (String line : allLines) {
             String[] split = line.split(";");
-            list.add(new MonitoringStation(split[0], split[2], split[3], split[4], split[5], split[6]));
+            String[] areas = split[2].split(",");
+            list.add(new MonitoringStation(split[0], split[1], areas));
         }
         return list;
     }

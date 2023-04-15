@@ -10,7 +10,11 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import engine.Person;
+import java.awt.Color;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -25,14 +29,16 @@ public class Register extends javax.swing.JFrame {
      */
     public Register() throws IOException {
         initComponents();
-        List<MonitoringStation> monitoringStations = FileManager.readStation(Paths.get("Dati/CentriMonitoraggio.csv"));
+        List<MonitoringStation> monitoringStations = FileManager.readStation(Paths.get("Dati/CentroMonitoraggio.txt"));
         createComboMonitoringStation(monitoringStations);
-        
+
     }
-    
-    private void createComboMonitoringStation(List<MonitoringStation> monitoringStations){
-        for(MonitoringStation x : monitoringStations)
+
+    private void createComboMonitoringStation(List<MonitoringStation> monitoringStations) {
+        comboMonitoringStation.addItem("---");
+        for (MonitoringStation x : monitoringStations) {
             comboMonitoringStation.addItem(x.getName());
+        }
     }
 
     /**
@@ -81,6 +87,17 @@ public class Register extends javax.swing.JFrame {
         jLabel6.setText("Provincia");
 
         jLabel7.setText("Sesso");
+
+        txtDBirth.setForeground(new java.awt.Color(153, 153, 153));
+        txtDBirth.setText("01/01/2001");
+        txtDBirth.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDBirthFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDBirthFocusLost(evt);
+            }
+        });
 
         Sex.add(radioMale);
         radioMale.setText("M");
@@ -208,11 +225,17 @@ public class Register extends javax.swing.JFrame {
         Person person = new Person();
         person.setSurname(txtSurn.getText());
         person.setName(txtName.getText());
-        String[] dateOfBirth = txtDBirth.getText().split("/");
-        person.setDay(dateOfBirth[0]);
-        person.setMonth(dateOfBirth[1]);
-        person.setYear(dateOfBirth[2]);
-        person.setBornCity(txtPlace.getText().toUpperCase()); //da mettere maiuscolo dio merda
+        SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = formatter1.parse(txtDBirth.getText());
+            String[] dateOfBirth = txtDBirth.getText().split("/");
+            person.setDay(dateOfBirth[0]);
+            person.setMonth(dateOfBirth[1]);
+            person.setYear(dateOfBirth[2]);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Data inserita in modo errato, riprovare con formato dd/mm/yyyy", "Errore", JOptionPane.INFORMATION_MESSAGE);
+        }
+        person.setBornCity(txtPlace.getText().toUpperCase());
         if (radioMale.isSelected()) {
             person.setSex("M");
         } else {
@@ -222,22 +245,45 @@ public class Register extends javax.swing.JFrame {
         Engine engine = null;
         try {
             engine = new Engine(person);
-        } catch (IOException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            return;
         }
-        String s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());
-        try {
-            //JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
-            FileManager.write("\n" + s, Paths.get("Dati/OperatoriRegistrati.txt"));          
-            JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
-            Menu r = new Menu();
-            r.setVisible(rootPaneCheckingEnabled);
-            this.dispose();
+        String s = "";
+        if (comboMonitoringStation.getSelectedIndex() != 0) {
+            s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());
+            try {
+                //JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
+                FileManager.write("\n" + s, Paths.get("Dati/OperatoriRegistrati.txt"));
+                JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
+                Menu r = new Menu();
+                r.setVisible(rootPaneCheckingEnabled);
+                this.dispose();
 
-        } catch (IOException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
+            CreateMonitoringStation window = new CreateMonitoringStation(s);
+            window.setVisible(rootPaneCheckingEnabled);
+            //this.dispose();
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtDBirthFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDBirthFocusGained
+        if (txtDBirth.getText().equals("01/01/2001")) {
+            txtDBirth.setText("");
+            txtDBirth.setForeground(new Color(0, 0, 0));
+        }
+    }//GEN-LAST:event_txtDBirthFocusGained
+
+    private void txtDBirthFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDBirthFocusLost
+        if (txtDBirth.getText().equals("")) {
+            txtDBirth.setText("01/01/2001");
+            txtDBirth.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtDBirthFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton RadioFemale;
