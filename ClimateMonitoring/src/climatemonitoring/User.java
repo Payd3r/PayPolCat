@@ -94,5 +94,4 @@ public class User {
         this.station = station;
     }
 
-    
 }

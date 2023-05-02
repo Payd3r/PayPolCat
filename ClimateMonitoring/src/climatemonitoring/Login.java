@@ -95,9 +95,11 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean found = false;
+        User u = null;
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getMail().equals(txtEmail.getText()) && users.get(i).getPassword().equals(String.valueOf(txtPassw.getPassword()))) {
                 //acceduto
+                u = new User(users.get(i).getName(), users.get(i).getSurname(), users.get(i).getCf(), users.get(i).getMail(), users.get(i).getNick(), users.get(i).getPassword(), users.get(i).getStation());
                 found = true;
                 break;
             }
@@ -105,7 +107,7 @@ public class Login extends javax.swing.JFrame {
         if (!found) {
             JOptionPane.showMessageDialog(null, "Utente non trovato", "Errore", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            Menu r = new Menu();
+            MenuOperatore r = new MenuOperatore(u);
             r.setVisible(rootPaneCheckingEnabled);
             this.dispose();
             JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);
