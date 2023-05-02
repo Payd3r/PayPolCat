@@ -119,10 +119,10 @@ public class Login extends javax.swing.JFrame {
         if (!found) {
             JOptionPane.showMessageDialog(null, "Utente non trovato", "Errore", JOptionPane.INFORMATION_MESSAGE);
         } else {
+            JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);            
             MenuOperatore r = new MenuOperatore(u);
             r.setVisible(rootPaneCheckingEnabled);
             this.dispose();
-            JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
