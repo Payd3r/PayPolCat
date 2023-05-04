@@ -19,8 +19,7 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
-    ArrayList<InterestingAreas> station;
-    ArrayList<User> users;
+
 
     public Menu() {
         initComponents();

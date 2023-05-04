@@ -29,8 +29,7 @@ public class Register extends javax.swing.JFrame {
      */
     public Register() throws IOException {
         initComponents();
-        List<MonitoringStation> monitoringStations = FileManager.readStation(Paths.get("Dati/CentroMonitoraggio.txt"));
-        createComboMonitoringStation(monitoringStations);
+        createComboMonitoringStation(DatiCondivisi.getInstance().getMonitoringStations());
 
     }
 
@@ -266,7 +265,7 @@ public class Register extends javax.swing.JFrame {
             s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
             CreateMonitoringStation window = new CreateMonitoringStation(s);
             window.setVisible(rootPaneCheckingEnabled);
-            //this.dispose();
+            this.dispose();
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -94,4 +94,8 @@ public class User {
         this.station = station;
     }
 
+    public static User formCSV(String info) {
+        String[] splittedInfo = info.split(";");
+        return new User(splittedInfo[0], splittedInfo[1], splittedInfo[2], splittedInfo[3], splittedInfo[4], splittedInfo[5], splittedInfo[6]);
+    }
 }

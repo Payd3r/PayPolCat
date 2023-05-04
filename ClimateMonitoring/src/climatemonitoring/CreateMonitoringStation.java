@@ -27,7 +27,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         initComponents();
         List<InterestingAreas> monitoringStations = new ArrayList<>();
         try {
-            monitoringStations = FileManager.readAreas(Paths.get("Dati/CoordinateMonitoraggio.csv"));
+            monitoringStations = DatiCondivisi.getInstance().getAreas();
         } catch (IOException ex) {
             Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -40,7 +40,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         initComponents();
         List<InterestingAreas> monitoringStations = new ArrayList<>();
         try {
-            monitoringStations = FileManager.readAreas(Paths.get("Dati/CoordinateMonitoraggio.csv"));
+            monitoringStations = DatiCondivisi.getInstance().getAreas();
         } catch (IOException ex) {
             Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -48,7 +48,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         partialInfo = s;
         areas = new ArrayList<>();
     }
-
+    
     private void createComboMonitoringStation(List<InterestingAreas> monitoringStations) {
         for (InterestingAreas x : monitoringStations) {
             InterestingAreas.addItem(x.getName());
@@ -158,11 +158,12 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
     private void buttonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterActionPerformed
         partialInfo += name.getText();
         String a = "";
-        for(int i = 0; i < areas.size(); i++){
-            if(i < areas.size() - 1)
+        for (int i = 0; i < areas.size(); i++) {
+            if (i < areas.size() - 1) {
                 a += areas.get(i) + ",";
-            else
+            } else {
                 a += areas.get(i);
+            }
         }
         String s = name.getText() + ";" + address.getText() + ";" + a;
         try {
@@ -171,6 +172,14 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        MenuOperatore m = null;
+        try {
+            m = new MenuOperatore(User.formCSV(partialInfo));
+        } catch (IOException ex) {
+            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        m.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_buttonRegisterActionPerformed
 
