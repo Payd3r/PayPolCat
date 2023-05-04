@@ -7,8 +7,13 @@ package climatemonitoring;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,19 +25,31 @@ public class MenuOperatore extends javax.swing.JFrame {
      * Creates new form MenuOperatore
      */
     User operatore;
-
+    
     public MenuOperatore() {
         initComponents();
     }
-
-    public MenuOperatore(User u) throws IOException {
+    
+    public MenuOperatore(User u) throws IOException, ParseException {
         initComponents();
         operatore = u;
         lblWelcome.setText("Benvenuto: " + operatore.getNick());
         createComboMonitoringStation();
+        refreshTable(cmbAreas.getSelectedItem().toString(), operatore.getStation());
     }
-
-    private void createComboMonitoringStation() throws IOException {
+    
+    private void refreshTable(String area, String stazione) throws IOException, ParseException {
+        //TODO: cancellare le righe vecchie
+        DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
+        List<Forecast> f = DatiCondivisi.getInstance().getForecasts();
+        for (int i = 0; i < f.size(); i++) {
+            if (f.get(i).getIdCittà().equals(area) && f.get(i).getNomeStazione().equals(stazione)) {
+                model.addRow(new Object[]{new SimpleDateFormat("dd/MM/yyyy").format(f.get(i).getData()), new SimpleDateFormat("hh:mm:ss").format(f.get(i).getOra()), f.get(i).getVento()[1], f.get(i).getUmidita()[1], f.get(i).getPressione()[1], f.get(i).getTemperatura()[1], f.get(i).getPrecipitazioni()[1], f.get(i).getAltitudine()[1], f.get(i).getMassa()[1]});
+            }
+        }
+    }
+    
+    private void createComboMonitoringStation() throws IOException, ParseException {
         List<MonitoringStation> monitoringStations = DatiCondivisi.getInstance().getMonitoringStations();
         String[] areas = null;
         for (int i = 0; i < monitoringStations.size(); i++) {
@@ -46,7 +63,13 @@ public class MenuOperatore extends javax.swing.JFrame {
         }
         cmbAreas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //cambia la tabella
+                try {
+                    refreshTable(cmbAreas.getSelectedItem().toString(), operatore.getStation());
+                } catch (IOException ex) {
+                    Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -186,17 +209,14 @@ public class MenuOperatore extends javax.swing.JFrame {
 
         tblRilevazioni.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Vento", "Umidita", "Pressione", "Temperatura", "Precipitazioni", "Altitudine dei ghiacciai", "Massa dei ghiacciai"
+                "Data", "Ora", "Vento", "Umidita", "Pressione", "Temperatura", "Precipitazioni", "Altitudine dei ghiacciai", "Massa dei ghiacciai"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                true, true, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

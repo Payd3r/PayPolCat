@@ -6,6 +6,7 @@ package climatemonitoring;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,7 @@ public class Login extends javax.swing.JFrame {
      */
     List<User> users;
 
-    public Login() throws IOException {
+    public Login() throws IOException, ParseException {
         initComponents();
         users = DatiCondivisi.getInstance().getUsers();
     }
@@ -126,6 +127,8 @@ public class Login extends javax.swing.JFrame {
             try {
                 r = new MenuOperatore(u);
             } catch (IOException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
             r.setVisible(rootPaneCheckingEnabled);

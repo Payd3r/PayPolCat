@@ -1,2 +1,1 @@
-3181125;2023-03-31 00:01:00;Vento,5,Molto tanto;Umidita,3,Poca;Pressione,2,Abbastanza;Temperatura,17,Caldino;Precipitazioni,0,nogainnorain;Altitidune,1,basso;Massa,5,SpalleBig
-
+Oradell;suca;31/03/2023;00:01:00;Vento,5,Molto tanto;Umidita,3,Poca;Pressione,2,Abbastanza;Temperatura,4,Caldino;Precipitazioni,0,suca;Altitidune,1,basso;Massa,5,SpalleBig

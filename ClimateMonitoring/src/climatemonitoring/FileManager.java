@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +21,7 @@ import java.util.ArrayList;
  * @author Catta
  */
 public class FileManager {
+    
     public static List<User> readUser(Path path) throws IOException {
         List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
         List<User> list = new ArrayList<User>();
@@ -28,7 +31,7 @@ public class FileManager {
         }
         return list;
     }
-
+    
     public static List<InterestingAreas> readAreas(Path path) throws IOException {
         List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
         List<InterestingAreas> list = new ArrayList<InterestingAreas>();
@@ -49,7 +52,17 @@ public class FileManager {
         }
         return list;
     }
-
+    
+    public static List<Forecast> readForecast(Path path) throws IOException, ParseException {
+        List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
+        List<Forecast> list = new ArrayList<Forecast>();
+        for (String line : allLines) {
+            String[] split = line.split(";");
+            list.add(new Forecast(split[0], split[1], new SimpleDateFormat("dd/MM/yyyy").parse(split[2]), new SimpleDateFormat("hh:mm:ss").parse(split[3]), split[4].split(","), split[5].split(","), split[6].split(","), split[7].split(","), split[8].split(","), split[9].split(","), split[10].split(",")));
+        }
+        return list;
+    }
+    
     public static void write(String content, Path path) throws IOException {
         Charset charset = Charset.forName("UTF-8");
         try (BufferedWriter writer = Files.newBufferedWriter(path, charset, StandardOpenOption.APPEND)) {

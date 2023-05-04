@@ -6,6 +6,7 @@ package climatemonitoring;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,7 +24,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
     /**
      * Creates new form CreateMonitoringStation
      */
-    public CreateMonitoringStation() {
+    public CreateMonitoringStation() throws ParseException {
         initComponents();
         List<InterestingAreas> monitoringStations = new ArrayList<>();
         try {
@@ -36,7 +37,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         areas = new ArrayList<>();
     }
     
-    public CreateMonitoringStation(String s) {
+    public CreateMonitoringStation(String s) throws ParseException {
         initComponents();
         List<InterestingAreas> monitoringStations = new ArrayList<>();
         try {
@@ -177,6 +178,8 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         try {
             m = new MenuOperatore(User.formCSV(partialInfo));
         } catch (IOException ex) {
+            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
         }
         m.setVisible(rootPaneCheckingEnabled);

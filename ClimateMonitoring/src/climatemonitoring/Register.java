@@ -27,7 +27,7 @@ public class Register extends javax.swing.JFrame {
     /**
      * Creates new form Register
      */
-    public Register() throws IOException {
+    public Register() throws IOException, ParseException {
         initComponents();
         createComboMonitoringStation(DatiCondivisi.getInstance().getMonitoringStations());
 
@@ -263,7 +263,12 @@ public class Register extends javax.swing.JFrame {
             }
         } else {
             s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
-            CreateMonitoringStation window = new CreateMonitoringStation(s);
+            CreateMonitoringStation window = null;
+            try {
+                window = new CreateMonitoringStation(s);
+            } catch (ParseException ex) {
+                Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            }
             window.setVisible(rootPaneCheckingEnabled);
             this.dispose();
         }
