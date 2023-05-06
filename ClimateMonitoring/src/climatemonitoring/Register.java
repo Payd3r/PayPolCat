@@ -257,6 +257,7 @@ public class Register extends javax.swing.JFrame {
                 Menu r = new Menu();
                 r.setVisible(rootPaneCheckingEnabled);
                 this.dispose();
+                new Menu().setVisible(true);
 
             } catch (IOException ex) {
                 Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
@@ -271,6 +272,7 @@ public class Register extends javax.swing.JFrame {
             }
             window.setVisible(rootPaneCheckingEnabled);
             this.dispose();
+            new Menu().setVisible(true);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
