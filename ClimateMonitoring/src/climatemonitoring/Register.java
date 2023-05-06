@@ -245,7 +245,7 @@ public class Register extends javax.swing.JFrame {
         try {
             engine = new Engine(person);
         } catch (Exception ex) {
-            return;
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
         }
         String s = "";
         if (comboMonitoringStation.getSelectedIndex() != 0) {

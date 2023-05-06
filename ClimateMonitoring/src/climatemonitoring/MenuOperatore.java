@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +43,7 @@ public class MenuOperatore extends javax.swing.JFrame {
     private void refreshTable(String area, String stazione) throws IOException, ParseException {
         //TODO: cancellare le righe vecchie
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
+        model.setRowCount(0);
         List<Forecast> f = DatiCondivisi.getInstance().getForecasts();
         for (int i = 0; i < f.size(); i++) {
             if (f.get(i).getIdCittà().equals(area) && f.get(i).getNomeStazione().equals(stazione)) {
@@ -61,17 +64,6 @@ public class MenuOperatore extends javax.swing.JFrame {
         for (String x : areas) {
             cmbAreas.addItem(x);
         }
-        cmbAreas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    refreshTable(cmbAreas.getSelectedItem().toString(), operatore.getStation());
-                } catch (IOException ex) {
-                    Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParseException ex) {
-                    Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
     }
 
     /**
@@ -199,9 +191,9 @@ public class MenuOperatore extends javax.swing.JFrame {
 
         lblMas.setText("5");
 
-        cmbAreas.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cmbAreasPropertyChange(evt);
+        cmbAreas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbAreasActionPerformed(evt);
             }
         });
 
@@ -226,6 +218,11 @@ public class MenuOperatore extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblRilevazioni);
 
         btnInsert.setText("Inserisci nuova rilevazione");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -371,44 +368,31 @@ public class MenuOperatore extends javax.swing.JFrame {
         lblMas.setText(sldMassa.getValue() + "");
     }//GEN-LAST:event_sldMassaStateChanged
 
-    private void cmbAreasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbAreasPropertyChange
-
-    }//GEN-LAST:event_cmbAreasPropertyChange
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void cmbAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreasActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuOperatore.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuOperatore.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuOperatore.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuOperatore.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            refreshTable(cmbAreas.getSelectedItem().toString(), operatore.getStation());
+        } catch (IOException ex) {
+            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+    }//GEN-LAST:event_cmbAreasActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuOperatore().setVisible(true);
-            }
-        });
-    }
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        int wind = -1, humidity = -1, pressure = -1, temperature = -1, rainfall = -1, glacierAltitude = -1, massGlaciers = -1;
+        wind = sldVento.getValue();
+        humidity = sldUm.getValue();
+        pressure = sldPres.getValue();
+        temperature = sldTemp.getValue();
+        rainfall = sldPrec.getValue();
+        glacierAltitude = sldAlt.getValue();
+        massGlaciers = sldMassa.getValue();
+        Date now = new Date();
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(now);
+        String time = new SimpleDateFormat("hh:mm:ss").format(now);
+        DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
+        model.addRow(new Object[]{date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers});
+    }//GEN-LAST:event_btnInsertActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInsert;
