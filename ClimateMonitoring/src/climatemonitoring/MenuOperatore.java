@@ -7,6 +7,7 @@ package climatemonitoring;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class MenuOperatore extends javax.swing.JFrame {
     private void refreshTable(String area, String stazione) throws IOException, ParseException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
-        List<Forecast> f = DatiCondivisi.getInstance().getForecasts();
+        List<Forecast> f = FileManager.readForecast(Paths.get("Dati/ParametriClimatici.txt"));
         for (int i = 0; i < f.size(); i++) {
             if (f.get(i).getIdCittà().equals(area) && f.get(i).getNomeStazione().equals(stazione)) {
                 model.addRow(new Object[]{new SimpleDateFormat("dd/MM/yyyy").format(f.get(i).getData()), new SimpleDateFormat("hh:mm:ss").format(f.get(i).getOra()), f.get(i).getVento()[1], f.get(i).getUmidita()[1], f.get(i).getPressione()[1], f.get(i).getTemperatura()[1], f.get(i).getPrecipitazioni()[1], f.get(i).getAltitudine()[1], f.get(i).getMassa()[1]});
@@ -403,7 +404,7 @@ public class MenuOperatore extends javax.swing.JFrame {
         String time = new SimpleDateFormat("hh:mm:ss").format(now);
         //DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         //model.addRow(new Object[]{date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers});
-        AddNotes a = new AddNotes(cmbAreas.getSelectedItem().toString(), operatore.getStation(), date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers);
+        AddNotes a = new AddNotes(operatore, cmbAreas.getSelectedItem().toString(), operatore.getStation(), date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers);
         a.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_btnInsertActionPerformed

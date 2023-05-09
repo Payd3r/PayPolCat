@@ -4,6 +4,8 @@
  */
 package climatemonitoring;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,13 +22,15 @@ public class AddNotes extends javax.swing.JFrame {
      * Creates new form AddNotes
      */
     Forecast temp;
+    User operatore;
 
     public AddNotes() {
         initComponents();
     }
 
-    public AddNotes(String idCitta, String NomeStazione, String date, String time, int wind, int humidity, int pressure, int temperature, int rainfall, int glacierAltitude, int massGlaciers) {
+    public AddNotes(User u, String idCitta, String NomeStazione, String date, String time, int wind, int humidity, int pressure, int temperature, int rainfall, int glacierAltitude, int massGlaciers) {
         initComponents();
+        operatore = u;
         String[] vento = {"Vento", Integer.toString(wind), ""};
         String[] umidita = {"Umidità", Integer.toString(humidity), ""};
         String[] pressione = {"Pressione", Integer.toString(pressure), ""};
@@ -260,6 +264,21 @@ public class AddNotes extends javax.swing.JFrame {
         t = temp.getMassa();
         t[2] = txtMass.getText();
         temp.setMassa(t);
+
+        try {
+            FileManager.write(temp.toCSV(), Paths.get("Dati/ParametriClimatici.txt"));
+        } catch (IOException ex) {
+            Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            MenuOperatore m = new MenuOperatore(operatore);
+            m.setVisible(rootPaneCheckingEnabled);
+            this.dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtVentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVentoKeyPressed

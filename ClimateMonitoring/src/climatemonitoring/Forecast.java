@@ -4,6 +4,7 @@
  */
 package climatemonitoring;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 public class Forecast {
 
-    private String idCittà;
+    private String idCitta;
     private String NomeStazione;
     private Date data;
     private Date ora;
@@ -25,7 +26,7 @@ public class Forecast {
     private String[] massa;
 
     public Forecast(String idCitta, String NomeStazione, Date data, Date ora, String[] vento, String[] umidita, String[] pressione, String[] temperatura, String[] precipitazioni, String[] altitudine, String[] massa) {
-        this.idCittà = idCitta;
+        this.idCitta = idCitta;
         this.NomeStazione = NomeStazione;
         this.data = data;
         this.ora = ora;
@@ -39,7 +40,7 @@ public class Forecast {
     }
 
     public void setIdCittà(String idCittà) {
-        this.idCittà = idCittà;
+        this.idCitta = idCittà;
     }
 
     public void setNomeStazione(String NomeStazione) {
@@ -83,7 +84,7 @@ public class Forecast {
     }
 
     public String getIdCittà() {
-        return idCittà;
+        return idCitta;
     }
 
     public String getNomeStazione() {
@@ -124,6 +125,10 @@ public class Forecast {
 
     public String[] getMassa() {
         return massa;
+    }
+
+    public String toCSV() {
+        return idCitta + ";" + NomeStazione + ";" + new SimpleDateFormat("dd/MM/yyyy").format(data) + ";" + new SimpleDateFormat("hh:mm:ss").format(ora) + ";" + vento[0] + "," + vento[1] + "," + vento[2] + ";" + umidita[0] + "," + umidita[1] + "," + umidita[2] + ";" + pressione[0] + "," + pressione[1] + "," + pressione[2] + ";" + temperatura[0] + "," + temperatura[1] + "," + temperatura[2] + ";" + precipitazioni[0] + "," + precipitazioni[1] + "," + precipitazioni[2] + ";" + altitudine[0] + "," + altitudine[1] + "," + altitudine[2] + ";" + massa[0] + "," + massa[1] + "," + massa[2] + "\n";
     }
 
 }
