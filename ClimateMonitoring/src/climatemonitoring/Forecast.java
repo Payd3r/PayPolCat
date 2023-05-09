@@ -24,8 +24,8 @@ public class Forecast {
     private String[] altitudine;
     private String[] massa;
 
-    public Forecast(String idCittà, String NomeStazione, Date data, Date ora, String[] vento, String[] umidita, String[] pressione, String[] temperatura, String[] precipitazioni, String[] altitudine, String[] massa) {
-        this.idCittà = idCittà;
+    public Forecast(String idCitta, String NomeStazione, Date data, Date ora, String[] vento, String[] umidita, String[] pressione, String[] temperatura, String[] precipitazioni, String[] altitudine, String[] massa) {
+        this.idCittà = idCitta;
         this.NomeStazione = NomeStazione;
         this.data = data;
         this.ora = ora;

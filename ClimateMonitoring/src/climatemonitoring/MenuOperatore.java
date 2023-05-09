@@ -27,11 +27,11 @@ public class MenuOperatore extends javax.swing.JFrame {
      * Creates new form MenuOperatore
      */
     User operatore;
-    
+
     public MenuOperatore() {
         initComponents();
     }
-    
+
     public MenuOperatore(User u) throws IOException, ParseException {
         initComponents();
         operatore = u;
@@ -39,7 +39,7 @@ public class MenuOperatore extends javax.swing.JFrame {
         createComboMonitoringStation();
         refreshTable(cmbAreas.getSelectedItem().toString(), operatore.getStation());
     }
-    
+
     private void refreshTable(String area, String stazione) throws IOException, ParseException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
@@ -50,7 +50,7 @@ public class MenuOperatore extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void createComboMonitoringStation() throws IOException, ParseException {
         List<MonitoringStation> monitoringStations = DatiCondivisi.getInstance().getMonitoringStations();
         String[] areas = null;
@@ -401,8 +401,11 @@ public class MenuOperatore extends javax.swing.JFrame {
         Date now = new Date();
         String date = new SimpleDateFormat("dd/MM/yyyy").format(now);
         String time = new SimpleDateFormat("hh:mm:ss").format(now);
-        DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
-        model.addRow(new Object[]{date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers});
+        //DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
+        //model.addRow(new Object[]{date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers});
+        AddNotes a = new AddNotes(cmbAreas.getSelectedItem().toString(), operatore.getStation(), date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers);
+        a.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
