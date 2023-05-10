@@ -8,13 +8,12 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author crist
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class AddNotes extends javax.swing.JFrame {
 
@@ -22,7 +21,6 @@ public class AddNotes extends javax.swing.JFrame {
      * Creates new form AddNotes
      */
     Forecast temp;
-    User operatore;
 
     public AddNotes() {
         initComponents();
@@ -30,7 +28,6 @@ public class AddNotes extends javax.swing.JFrame {
 
     public AddNotes(User u, String idCitta, String NomeStazione, String date, String time, int wind, int humidity, int pressure, int temperature, int rainfall, int glacierAltitude, int massGlaciers) {
         initComponents();
-        operatore = u;
         String[] vento = {"Vento", Integer.toString(wind), ""};
         String[] umidita = {"Umidità", Integer.toString(humidity), ""};
         String[] pressione = {"Pressione", Integer.toString(pressure), ""};
@@ -270,15 +267,9 @@ public class AddNotes extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            MenuOperatore m = new MenuOperatore(operatore);
-            m.setVisible(rootPaneCheckingEnabled);
-            this.dispose();
-        } catch (IOException ex) {
-            Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MenuOperatore m = new MenuOperatore();
+        m.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtVentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVentoKeyPressed

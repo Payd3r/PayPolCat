@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author Catta
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class DatiCondivisi {
 
@@ -21,6 +21,7 @@ public class DatiCondivisi {
     private List<User> users;
     private List<InterestingAreas> areas;
     private List<Forecast> forecasts;
+    private User operatore;
 
     // Costruttore invisibile
     private DatiCondivisi() throws IOException, ParseException {
@@ -28,6 +29,7 @@ public class DatiCondivisi {
         users = FileManager.readUser(Paths.get("Dati/OperatoriRegistrati.txt"));
         areas = FileManager.readAreas(Paths.get("Dati/CoordinateMonitoraggio.csv"));
         forecasts = FileManager.readForecast(Paths.get("Dati/ParametriClimatici.txt"));
+        operatore = null;
     }
 
     public static DatiCondivisi getInstance() throws IOException, ParseException {
@@ -72,5 +74,13 @@ public class DatiCondivisi {
             }
         }
         return temp;
+    }
+    
+    public User getOperatore() {
+        return operatore;
+    }
+
+    public void setOperatore(User operatore) {
+        this.operatore = operatore;
     }
 }

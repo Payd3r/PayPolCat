@@ -6,7 +6,7 @@ package climatemonitoring;
 
 /**
  *
- * @author Catta
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class InterestingAreas {
 

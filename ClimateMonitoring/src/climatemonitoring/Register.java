@@ -13,14 +13,13 @@ import engine.Person;
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Catta
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class Register extends javax.swing.JFrame {
 

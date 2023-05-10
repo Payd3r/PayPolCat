@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  *
- * @author paolo
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class MonitoringStation {
     private String name, address;

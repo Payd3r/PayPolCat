@@ -5,7 +5,6 @@
 package climatemonitoring;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Payd3r
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class SearchResult extends javax.swing.JFrame {
 

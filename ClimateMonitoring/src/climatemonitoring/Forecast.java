@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * @author Catta
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class Forecast {
 

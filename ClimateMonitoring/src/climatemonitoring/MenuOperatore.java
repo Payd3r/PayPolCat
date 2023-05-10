@@ -4,8 +4,6 @@
  */
 package climatemonitoring;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -21,28 +19,35 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Catta
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class MenuOperatore extends javax.swing.JFrame {
 
     /**
      * Creates new form MenuOperatore
      */
-    User operatore;
     List<Forecast> f;
 
-    public MenuOperatore() throws IOException, ParseException {
+    public MenuOperatore() {
         initComponents();
+        try {
+            lblWelcome.setText("Benvenuto: " + DatiCondivisi.getInstance().getOperatore().getNick());
+            createComboMonitoringStation();
+            refreshTable(cmbAreas.getSelectedItem().toString(), DatiCondivisi.getInstance().getOperatore().getStation());
+        } catch (IOException ex) {
+            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public MenuOperatore(User u) throws IOException, ParseException {
-        initComponents();
-        operatore = u;
-        lblWelcome.setText("Benvenuto: " + operatore.getNick());
-        createComboMonitoringStation();
-        refreshTable(cmbAreas.getSelectedItem().toString(), operatore.getStation());
-    }
-
+//    public MenuOperatore(User u) throws IOException, ParseException {
+//        initComponents();
+//        DatiCondivisi.getInstance().setOperatore(u);
+//        lblWelcome.setText("Benvenuto: " + DatiCondivisi.getInstance().getOperatore().getNick());
+//        createComboMonitoringStation();
+//        refreshTable(cmbAreas.getSelectedItem().toString(), DatiCondivisi.getInstance().getOperatore().getStation());
+//    }
     private void refreshTable(String area, String stazione) throws IOException, ParseException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
@@ -60,7 +65,7 @@ public class MenuOperatore extends javax.swing.JFrame {
         List<MonitoringStation> monitoringStations = DatiCondivisi.getInstance().getMonitoringStations();
         String[] areas = null;
         for (int i = 0; i < monitoringStations.size(); i++) {
-            if (operatore.getStation().equals(monitoringStations.get(i).getName())) {
+            if (DatiCondivisi.getInstance().getOperatore().getStation().equals(monitoringStations.get(i).getName())) {
                 areas = monitoringStations.get(i).getInterestingAreas();
                 break;
             }
@@ -391,7 +396,7 @@ public class MenuOperatore extends javax.swing.JFrame {
 
     private void cmbAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreasActionPerformed
         try {
-            refreshTable(cmbAreas.getSelectedItem().toString(), operatore.getStation());
+            refreshTable(cmbAreas.getSelectedItem().toString(), DatiCondivisi.getInstance().getOperatore().getStation());
         } catch (IOException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -413,8 +418,15 @@ public class MenuOperatore extends javax.swing.JFrame {
         String time = new SimpleDateFormat("hh:mm:ss").format(now);
         //DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         //model.addRow(new Object[]{date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers});
-        AddNotes a = new AddNotes(operatore, cmbAreas.getSelectedItem().toString(), operatore.getStation(), date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers);
-        a.setVisible(rootPaneCheckingEnabled);
+        try {
+            AddNotes a = new AddNotes(DatiCondivisi.getInstance().getOperatore(), cmbAreas.getSelectedItem().toString(), DatiCondivisi.getInstance().getOperatore().getStation(), date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers);
+            a.setVisible(rootPaneCheckingEnabled);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         this.dispose();
     }//GEN-LAST:event_btnInsertActionPerformed
 

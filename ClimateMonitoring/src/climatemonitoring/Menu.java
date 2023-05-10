@@ -5,16 +5,14 @@
 package climatemonitoring;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author Catta
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class Menu extends javax.swing.JFrame {
 

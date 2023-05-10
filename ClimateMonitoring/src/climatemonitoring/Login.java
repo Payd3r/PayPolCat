@@ -5,7 +5,6 @@
 package climatemonitoring;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Catta
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class Login extends javax.swing.JFrame {
 
@@ -127,15 +126,15 @@ public class Login extends javax.swing.JFrame {
         if (!found) {
             JOptionPane.showMessageDialog(null, "Utente non trovato", "Errore", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);
-            MenuOperatore r = null;
             try {
-                r = new MenuOperatore(u);
+                DatiCondivisi.getInstance().setOperatore(u);
             } catch (IOException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
+            JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);
+            MenuOperatore r = new MenuOperatore();
             r.setVisible(rootPaneCheckingEnabled);
             this.dispose();
         }

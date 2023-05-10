@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author paolo
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class CreateMonitoringStation extends javax.swing.JFrame {
     
@@ -174,14 +174,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
             Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        MenuOperatore m = null;
-        try {
-            m = new MenuOperatore(User.formCSV(partialInfo));
-        } catch (IOException ex) {
-            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MenuOperatore m = new MenuOperatore();
         m.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_buttonRegisterActionPerformed

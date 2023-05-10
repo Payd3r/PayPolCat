@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Catta
+ * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class FileManager {
     
