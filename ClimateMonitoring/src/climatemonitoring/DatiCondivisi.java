@@ -63,4 +63,14 @@ public class DatiCondivisi {
         }
         return intAreas;
     }
+
+    public List<Forecast> getForecasts(String name) {
+        List<Forecast> temp = new ArrayList<Forecast>();
+        for (int i = 0; i < forecasts.size(); i++) {
+            if (forecasts.get(i).getIdCittà().equals(name)) {
+                temp.add(forecasts.get(i));
+            }
+        }
+        return temp;
+    }
 }

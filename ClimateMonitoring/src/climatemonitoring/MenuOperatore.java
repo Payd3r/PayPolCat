@@ -38,7 +38,6 @@ public class MenuOperatore extends javax.swing.JFrame {
     public MenuOperatore(User u) throws IOException, ParseException {
         initComponents();
         operatore = u;
-        f = new ArrayList<Forecast>();
         lblWelcome.setText("Benvenuto: " + operatore.getNick());
         createComboMonitoringStation();
         refreshTable(cmbAreas.getSelectedItem().toString(), operatore.getStation());
