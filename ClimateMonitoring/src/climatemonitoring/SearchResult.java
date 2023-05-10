@@ -23,15 +23,16 @@ public class SearchResult extends javax.swing.JFrame {
      * Creates new form SearchResult
      */
     List<Forecast> f;
+    Menu m;
 
     public SearchResult() {
         initComponents();
     }
 
-    public SearchResult(String areaName) throws IOException, ParseException {
+    public SearchResult(String areaName, Menu me) throws IOException, ParseException {
         initComponents();
         refreshTable(areaName);
-
+        m = me;
     }
 
     private void refreshTable(String areaName) throws IOException, ParseException {
@@ -56,25 +57,6 @@ public class SearchResult extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblRilevazioni = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
-        jButton17 = new javax.swing.JButton();
-        jButton18 = new javax.swing.JButton();
-        jButton19 = new javax.swing.JButton();
         jButton20 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -102,44 +84,6 @@ public class SearchResult extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblRilevazioni);
 
-        jButton1.setText("Torna alla home");
-
-        jButton2.setText("Torna alla home");
-
-        jButton3.setText("Torna alla home");
-
-        jButton4.setText("Torna alla home");
-
-        jButton5.setText("Torna alla home");
-
-        jButton6.setText("Torna alla home");
-
-        jButton7.setText("Torna alla home");
-
-        jButton8.setText("Torna alla home");
-
-        jButton9.setText("Torna alla home");
-
-        jButton10.setText("Torna alla home");
-
-        jButton11.setText("Torna alla home");
-
-        jButton12.setText("Torna alla home");
-
-        jButton13.setText("Torna alla home");
-
-        jButton14.setText("Torna alla home");
-
-        jButton15.setText("Torna alla home");
-
-        jButton16.setText("Torna alla home");
-
-        jButton17.setText("Torna alla home");
-
-        jButton18.setText("Torna alla home");
-
-        jButton19.setText("Torna alla home");
-
         jButton20.setText("Torna alla home");
         jButton20.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -160,27 +104,7 @@ public class SearchResult extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 457, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1)
-                        .addComponent(jButton2)
-                        .addComponent(jButton3)
-                        .addComponent(jButton4)
-                        .addComponent(jButton5)
-                        .addComponent(jButton6)
-                        .addComponent(jButton7)
-                        .addComponent(jButton8)
-                        .addComponent(jButton9)
-                        .addComponent(jButton10)
-                        .addComponent(jButton11)
-                        .addComponent(jButton12)
-                        .addComponent(jButton13)
-                        .addComponent(jButton14)
-                        .addComponent(jButton15)
-                        .addComponent(jButton16)
-                        .addComponent(jButton17)
-                        .addComponent(jButton18)
-                        .addComponent(jButton19)
-                        .addComponent(jButton20))
+                    .addComponent(jButton20)
                     .addGap(0, 458, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
@@ -193,47 +117,9 @@ public class SearchResult extends javax.swing.JFrame {
                     .addContainerGap()))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 7, Short.MAX_VALUE)
                     .addComponent(jButton20)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton19)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton18)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton17)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton16)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton15)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton14)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton13)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton12)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton11)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton10)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton9)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton8)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton7)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton6)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton5)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton4)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton3)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton2)
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton1)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 602, Short.MAX_VALUE)))
         );
 
         pack();
@@ -301,31 +187,12 @@ public class SearchResult extends javax.swing.JFrame {
 
     private void jButton20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton20MouseClicked
         dispose();
-        new Menu().setVisible(true);
+        m.setVisible(true);
     }//GEN-LAST:event_jButton20MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton19;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblRilevazioni;
     // End of variables declaration//GEN-END:variables

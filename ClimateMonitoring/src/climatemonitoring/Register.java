@@ -257,21 +257,28 @@ public class Register extends javax.swing.JFrame {
                 r.setVisible(rootPaneCheckingEnabled);
                 this.dispose();
                 new Menu().setVisible(true);
-
             } catch (IOException ex) {
                 Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
-            CreateMonitoringStation window = null;
-            try {
-                window = new CreateMonitoringStation(s);
             } catch (ParseException ex) {
                 Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
             }
-            window.setVisible(rootPaneCheckingEnabled);
-            this.dispose();
-            new Menu().setVisible(true);
+        } else {
+            try {
+                s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
+                CreateMonitoringStation window = null;
+                try {
+                    window = new CreateMonitoringStation(s);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                window.setVisible(rootPaneCheckingEnabled);
+                this.dispose();
+                new Menu().setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -72,12 +72,12 @@ public class DatiCondivisi {
         List<String> intAreas = new ArrayList<String>();
         if (Character.isDigit(s.charAt(0))) {
             //controllo con lat lon           
+            double lat1 = Double.parseDouble(s.split(" ")[0].replaceAll("\\.", ""));
+            double lon1 = Double.parseDouble(s.split(" ")[1].replaceAll("\\.", ""));
             for (int i = 0; i < areas.size(); i++) {
-                double lat1 = Double.parseDouble(s.split(" ")[0]);
-                double lon1 = Double.parseDouble(s.split(" ")[1]);
-                double lat2 = Double.parseDouble(areas.get(i).getLat());
-                double lon2 = Double.parseDouble(areas.get(i).getLon());
-                if (calcDist(lat1, lon1, lat2, lon2) < 1000.0) {
+                double lat2 = Double.parseDouble(areas.get(i).getLat().replaceAll("\\.", ""));
+                double lon2 = Double.parseDouble(areas.get(i).getLon().replaceAll("\\.", ""));
+                if (calcDist(lat1, lon1, lat2, lon2) < 10.0) {
                     if (!intAreas.contains(areas.get(i).getName())) {
                         intAreas.add(areas.get(i).getName());
                     }
@@ -98,6 +98,15 @@ public class DatiCondivisi {
             temp[i] = intAreas.get(i);
         }
         return temp;
+    }
+
+    public boolean existForecast(String area) {
+        for (int i = 0; i < forecasts.size(); i++) {
+            if (forecasts.get(i).getIdCittà().equalsIgnoreCase(area)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Forecast> getForecasts(String name) {

@@ -431,8 +431,14 @@ public class MenuOperatore extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        dispose();
-        new Menu().setVisible(true);
+        try {
+            dispose();
+            new Menu().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tblRilevazioniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRilevazioniMouseClicked
