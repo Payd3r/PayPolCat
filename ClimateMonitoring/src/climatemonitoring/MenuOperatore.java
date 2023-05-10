@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,14 +29,16 @@ public class MenuOperatore extends javax.swing.JFrame {
      * Creates new form MenuOperatore
      */
     User operatore;
+    List<Forecast> f;
 
-    public MenuOperatore() {
+    public MenuOperatore() throws IOException, ParseException {
         initComponents();
     }
 
     public MenuOperatore(User u) throws IOException, ParseException {
         initComponents();
         operatore = u;
+        f = new ArrayList<Forecast>();
         lblWelcome.setText("Benvenuto: " + operatore.getNick());
         createComboMonitoringStation();
         refreshTable(cmbAreas.getSelectedItem().toString(), operatore.getStation());
@@ -44,10 +47,12 @@ public class MenuOperatore extends javax.swing.JFrame {
     private void refreshTable(String area, String stazione) throws IOException, ParseException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
-        List<Forecast> f = FileManager.readForecast(Paths.get("Dati/ParametriClimatici.txt"));
-        for (int i = 0; i < f.size(); i++) {
-            if (f.get(i).getIdCittà().equals(area) && f.get(i).getNomeStazione().equals(stazione)) {
-                model.addRow(new Object[]{new SimpleDateFormat("dd/MM/yyyy").format(f.get(i).getData()), new SimpleDateFormat("hh:mm:ss").format(f.get(i).getOra()), f.get(i).getVento()[1], f.get(i).getUmidita()[1], f.get(i).getPressione()[1], f.get(i).getTemperatura()[1], f.get(i).getPrecipitazioni()[1], f.get(i).getAltitudine()[1], f.get(i).getMassa()[1]});
+        List<Forecast> temp = FileManager.readForecast(Paths.get("Dati/ParametriClimatici.txt"));
+        f = new ArrayList<Forecast>();
+        for (int i = 0; i < temp.size(); i++) {
+            if (temp.get(i).getIdCittà().equals(area) && temp.get(i).getNomeStazione().equals(stazione)) {
+                model.addRow(new Object[]{new SimpleDateFormat("dd/MM/yyyy").format(temp.get(i).getData()), new SimpleDateFormat("hh:mm:ss").format(temp.get(i).getOra()), temp.get(i).getVento()[1], temp.get(i).getUmidita()[1], temp.get(i).getPressione()[1], temp.get(i).getTemperatura()[1], temp.get(i).getPrecipitazioni()[1], temp.get(i).getAltitudine()[1], temp.get(i).getMassa()[1]});
+                f.add(temp.get(i));
             }
         }
     }
@@ -214,6 +219,11 @@ public class MenuOperatore extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblRilevazioni.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblRilevazioniMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblRilevazioni);
@@ -413,6 +423,67 @@ public class MenuOperatore extends javax.swing.JFrame {
         dispose();
         new Menu().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tblRilevazioniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRilevazioniMouseClicked
+        JTable source = (JTable) evt.getSource();
+        int row = source.rowAtPoint(evt.getPoint());
+        int column = source.columnAtPoint(evt.getPoint());
+        String s = source.getModel().getValueAt(row, column) + "";
+        String[] temp;
+        String str = "";
+        boolean vis = false;
+        switch (column) {
+            case 2:
+                temp = f.get(row).getVento();
+                str = "Vento " + temp[1] + "\nNota: ";
+                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                vis = true;
+                break;
+            case 3:
+                temp = f.get(row).getUmidita();
+                str = "Umidità " + temp[1] + "\nNota: ";
+                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                vis = true;
+                break;
+            case 4:
+                temp = f.get(row).getPressione();
+                str = "Pressione " + temp[1] + "\nNota: ";
+                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                vis = true;
+                break;
+            case 5:
+                temp = f.get(row).getTemperatura();
+                str = "Temperatura " + temp[1] + "\nNota: ";
+                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                vis = true;
+                break;
+            case 6:
+                temp = f.get(row).getPrecipitazioni();
+                str = "Precipitazioni " + temp[1] + "\nNota: ";
+                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                vis = true;
+                break;
+            case 7:
+                temp = f.get(row).getAltitudine();
+                str = "Altitudine " + temp[1] + "\nNota: ";
+                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                vis = true;
+                break;
+            case 8:
+                temp = f.get(row).getMassa();
+                str = "Massa " + temp[1] + "\nNota: ";
+                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                vis = true;
+                break;
+            default:
+                vis = false;
+                break;
+        }
+        if (vis) {
+            JOptionPane.showMessageDialog(null, str);
+        }
+
+    }//GEN-LAST:event_tblRilevazioniMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInsert;

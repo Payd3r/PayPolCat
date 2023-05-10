@@ -50,12 +50,17 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setText("Password");
 
+        txtEmail.setText("suca@gmail.com");
+
         jButton1.setText("Accedi");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        txtPassw.setText("1234");
+        txtPassw.setToolTipText("");
 
         jButton2.setText("Cancel");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
