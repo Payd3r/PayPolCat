@@ -75,16 +75,16 @@ public class DatiCondivisi {
         List<String> intAreas = new ArrayList<String>();
         if (Character.isDigit(s.charAt(0))) {
             //controllo con lat lon           
-            double lat1 = Double.parseDouble(s.split(" ")[0].replaceAll("\\.", ""));
-            double lon1 = Double.parseDouble(s.split(" ")[1].replaceAll("\\.", ""));
+            double lat1 = Double.parseDouble(s.split(" ")[0]);
+            double lon1 = Double.parseDouble(s.split(" ")[1]);
             intAreas = cercaLimitrofo(lat1, lon1);
         } else {
             //controllo con nome città
             List<InterestingAreas> l = areas.parallelStream().filter(elemento -> elemento.contains(s)).collect(Collectors.toList());
             if (l.size() == 1) {
                 intAreas.add(l.get(0).getName());
-                double lat1 = Double.parseDouble(l.get(0).getLat().replaceAll("\\.", ""));
-                double lon1 = Double.parseDouble(l.get(0).getLon().replaceAll("\\.", ""));
+                double lat1 = Double.parseDouble(l.get(0).getLat());
+                double lon1 = Double.parseDouble(l.get(0).getLon());
                 intAreas = cercaLimitrofo(lat1, lon1);
             } else {
                 for (int i = 0; i < l.size(); i++) {
@@ -97,12 +97,12 @@ public class DatiCondivisi {
 
     public List<String> cercaLimitrofo(double lat1, double lon1) {
         List<String> intAreas = new ArrayList<String>();
-        double lat2,lon2;
+        double lat2, lon2;
         for (int i = 0; i < areas.size(); i++) {
-            lat2 = Double.parseDouble(areas.get(i).getLat().replaceAll("\\.", ""));
-            lon2 = Double.parseDouble(areas.get(i).getLon().replaceAll("\\.", ""));
-            double dist = calcDist(lat1, lon1,45.740960,9.130840);
-            if (dist < 10.0) {
+            lat2 = Double.parseDouble(areas.get(i).getLat());
+            lon2 = Double.parseDouble(areas.get(i).getLon());
+            double dist = calcDist(lat1, lon1, lat2, lon2);
+            if (dist < 5.0) {
                 if (!intAreas.contains(areas.get(i).getName())) {
                     intAreas.add(areas.get(i).getName());
                 }

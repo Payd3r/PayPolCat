@@ -59,6 +59,12 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel1.setText("Cerca previsioni meteo");
 
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
+
         jButton1.setText("Cerca");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,14 +199,19 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {            
+        try {
             DatiCondivisi.getInstance().sortAreas();
             if (jTextField1.getText().length() <= 0) {
-                JOptionPane.showMessageDialog(null, "Inserire almeno due caratteri");
+                JOptionPane.showMessageDialog(null, "Inserire almeno un carattere");
             } else {
                 String[] a = DatiCondivisi.getInstance().cercaAreaGeografica(jTextField1.getText());
-                jList1.setVisible(true);
-                jList1.setListData(a);
+                if (a.length != 0) {
+                    jList1.setVisible(true);
+                    jList1.setListData(a);
+                } else {
+                    jList1.setVisible(false);
+                    JOptionPane.showMessageDialog(null, "Non esiste questa zona");
+                }
 
             }
         } catch (IOException ex) {
@@ -247,6 +258,11 @@ public class Menu extends javax.swing.JFrame {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        if (evt.getKeyChar() == '\n')
+            jButton1ActionPerformed(null);
+    }//GEN-LAST:event_jTextField1KeyTyped
 
     /**
      * @param args the command line arguments
