@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -93,11 +92,11 @@ public class DatiCondivisi {
                 }
             }
         }
-        String[] temp = new String[intAreas.size()];
-        for (int i = 0; i < intAreas.size(); i++) {
-            temp[i] = intAreas.get(i);
-        }
-        return temp;
+//        String[] temp = new String[intAreas.size()];
+//        for (int i = 0; i < intAreas.size(); i++) {
+//            temp[i] = intAreas.get(i);
+//        }
+        return intAreas.toArray(String[]::new);
     }
 
     public boolean existForecast(String area) {
