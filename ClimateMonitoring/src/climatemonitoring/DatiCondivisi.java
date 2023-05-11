@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -62,12 +63,12 @@ public class DatiCondivisi {
     private static double calcDist(double lat1, double lon1, double lat2, double lon2) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+        double a = Math.pow(Math.sin(dLat / 2), 2)
+                + Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = 6371 * c;
-        return distance;
+        return 6371 * c;
     }
 
     public String[] cercaAreaGeografica(String s) {
@@ -96,10 +97,12 @@ public class DatiCondivisi {
 
     public List<String> cercaLimitrofo(double lat1, double lon1) {
         List<String> intAreas = new ArrayList<String>();
+        double lat2,lon2;
         for (int i = 0; i < areas.size(); i++) {
-            double lat2 = Double.parseDouble(areas.get(i).getLat().replaceAll("\\.", ""));
-            double lon2 = Double.parseDouble(areas.get(i).getLon().replaceAll("\\.", ""));
-            if (calcDist(lat1, lon1, lat2, lon2) < 10.0) {
+            lat2 = Double.parseDouble(areas.get(i).getLat().replaceAll("\\.", ""));
+            lon2 = Double.parseDouble(areas.get(i).getLon().replaceAll("\\.", ""));
+            double dist = calcDist(lat1, lon1,45.740960,9.130840);
+            if (dist < 10.0) {
                 if (!intAreas.contains(areas.get(i).getName())) {
                     intAreas.add(areas.get(i).getName());
                 }
