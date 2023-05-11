@@ -193,14 +193,15 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            if (jTextField1.getText().length() <= 1) {
+        try {            
+            DatiCondivisi.getInstance().sortAreas();
+            if (jTextField1.getText().length() <= 0) {
                 JOptionPane.showMessageDialog(null, "Inserire almeno due caratteri");
             } else {
                 String[] a = DatiCondivisi.getInstance().cercaAreaGeografica(jTextField1.getText());
                 jList1.setVisible(true);
                 jList1.setListData(a);
-                
+
             }
         } catch (IOException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
@@ -261,21 +262,21 @@ public class Menu extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Menu.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Menu.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Menu.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Menu.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);

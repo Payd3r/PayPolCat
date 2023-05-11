@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -73,30 +76,36 @@ public class DatiCondivisi {
             //controllo con lat lon           
             double lat1 = Double.parseDouble(s.split(" ")[0].replaceAll("\\.", ""));
             double lon1 = Double.parseDouble(s.split(" ")[1].replaceAll("\\.", ""));
-            for (int i = 0; i < areas.size(); i++) {
-                double lat2 = Double.parseDouble(areas.get(i).getLat().replaceAll("\\.", ""));
-                double lon2 = Double.parseDouble(areas.get(i).getLon().replaceAll("\\.", ""));
-                if (calcDist(lat1, lon1, lat2, lon2) < 10.0) {
-                    if (!intAreas.contains(areas.get(i).getName())) {
-                        intAreas.add(areas.get(i).getName());
-                    }
-                }
-            }
+            intAreas = cercaLimitrofo(lat1, lon1);
         } else {
             //controllo con nome città
-            for (int i = 0; i < areas.size(); i++) {
-                if (areas.get(i).getName().toLowerCase().contains(s)) {
-                    if (!intAreas.contains(areas.get(i).getName())) {
-                        intAreas.add(areas.get(i).getName());
-                    }
+            List<InterestingAreas> l = areas.parallelStream().filter(elemento -> elemento.contains(s)).collect(Collectors.toList());
+            if (l.size() == 1) {
+                intAreas.add(l.get(0).getName());
+                double lat1 = Double.parseDouble(l.get(0).getLat().replaceAll("\\.", ""));
+                double lon1 = Double.parseDouble(l.get(0).getLon().replaceAll("\\.", ""));
+                intAreas = cercaLimitrofo(lat1, lon1);
+            } else {
+                for (int i = 0; i < l.size(); i++) {
+                    intAreas.add(l.get(i).getName());
                 }
             }
         }
-//        String[] temp = new String[intAreas.size()];
-//        for (int i = 0; i < intAreas.size(); i++) {
-//            temp[i] = intAreas.get(i);
-//        }
         return intAreas.toArray(String[]::new);
+    }
+
+    public List<String> cercaLimitrofo(double lat1, double lon1) {
+        List<String> intAreas = new ArrayList<String>();
+        for (int i = 0; i < areas.size(); i++) {
+            double lat2 = Double.parseDouble(areas.get(i).getLat().replaceAll("\\.", ""));
+            double lon2 = Double.parseDouble(areas.get(i).getLon().replaceAll("\\.", ""));
+            if (calcDist(lat1, lon1, lat2, lon2) < 10.0) {
+                if (!intAreas.contains(areas.get(i).getName())) {
+                    intAreas.add(areas.get(i).getName());
+                }
+            }
+        }
+        return intAreas;
     }
 
     public boolean existForecast(String area) {
@@ -125,4 +134,15 @@ public class DatiCondivisi {
     public void setOperatore(User operatore) {
         this.operatore = operatore;
     }
+
+    public void sortAreas() {
+        Collections.sort(areas, new Comparator<InterestingAreas>() {
+            @Override
+            public int compare(InterestingAreas lhs, InterestingAreas rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getName().compareTo(rhs.getName()) > 0 ? 1 : (lhs.getName().compareTo(rhs.getName())) < 0 ? -1 : 0;
+            }
+        });
+    }
+
 }

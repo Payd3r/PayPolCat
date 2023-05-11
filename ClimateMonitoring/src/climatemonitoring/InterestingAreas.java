@@ -4,6 +4,8 @@
  */
 package climatemonitoring;
 
+import java.util.stream.Stream;
+
 /**
  *
  * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
@@ -83,5 +85,8 @@ public class InterestingAreas {
         this.lon = lon;
     }
 
-    
+    boolean contains(String s) {
+        return this.name.toLowerCase().contains(s.toLowerCase());
+    }
+
 }
