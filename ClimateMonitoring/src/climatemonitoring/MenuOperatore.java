@@ -18,16 +18,25 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Classe che descrive la finestra dove un operatore può consultare le rilevazioni dell'area di interesse selezionata ed aggiungere dati alla stessa
  *
- * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
+ * @author Ficara Paolo
+ * @author Mauri Andrea
+ * @author Luca Cattaneo
  */
 public class MenuOperatore extends javax.swing.JFrame {
 
     /**
      * Creates new form MenuOperatore
      */
-    List<Forecast> f;
+    private List<Forecast> f;
 
+    /**
+     * Costruttore che crea l'oggetto della finestra dove si andrà ad aggiungere una rilevazione
+     * riempie la combobox con i relativi dati e popola la tabella con i dati salvati in precedenza
+     * 
+     */
+    
     public MenuOperatore() {
         initComponents();
         try {
@@ -48,6 +57,8 @@ public class MenuOperatore extends javax.swing.JFrame {
 //        createComboMonitoringStation();
 //        refreshTable(cmbAreas.getSelectedItem().toString(), DatiCondivisi.getInstance().getOperatore().getStation());
 //    }
+    
+    
     private void refreshTable(String area, String stazione) throws IOException, ParseException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);

@@ -17,11 +17,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- *
+ * Classe che fornisce metodi per la lettura e la scrittura dei file di dati.
  * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class FileManager {
 
+    /**
+     * Legge il file degli utenti e restituisce una lista di oggetti User.
+     *
+     * @param path il percorso del file da leggere
+     * @return una lista di oggetti User letti dal file
+     * @throws IOException se si verifica un errore di input/output durante la lettura del file
+     */
     public static List<User> readUser(Path path) throws IOException {
         List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
         List<User> list = new ArrayList<User>();
@@ -32,6 +39,13 @@ public class FileManager {
         return list;
     }
 
+    /**
+     * Legge il file delle aree interessanti e restituisce una lista di oggetti InterestingAreas.
+     *
+     * @param path il percorso del file da leggere
+     * @return una lista di oggetti InterestingAreas letti dal file
+     * @throws IOException se si verifica un errore di input/output durante la lettura del file
+     */
     public static List<InterestingAreas> readAreas(Path path) throws IOException {
         List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
         List<InterestingAreas> list = new ArrayList<InterestingAreas>();
@@ -42,6 +56,13 @@ public class FileManager {
         return list;
     }
 
+    /**
+     * Legge il file delle stazioni di monitoraggio e restituisce una lista di oggetti MonitoringStation.
+     *
+     * @param path il percorso del file da leggere
+     * @return una lista di oggetti MonitoringStation letti dal file
+     * @throws IOException se si verifica un errore di input/output durante la lettura del file
+     */
     public static List<MonitoringStation> readStation(Path path) throws IOException {
         List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
         List<MonitoringStation> list = new ArrayList<MonitoringStation>();
@@ -53,6 +74,14 @@ public class FileManager {
         return list;
     }
 
+    /**
+     * Legge il file delle previsioni meteo e restituisce una lista di oggetti Forecast.
+     *
+     * @param path il percorso del file da leggere
+     * @return una lista di oggetti Forecast letti dal file
+     * @throws IOException    se si verifica un errore di input/output durante la lettura del file
+     * @throws ParseException se si verifica un errore durante il parsing delle date
+     */
     public static List<Forecast> readForecast(Path path) throws IOException, ParseException {
         List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
         List<Forecast> list = new ArrayList<Forecast>();
@@ -63,6 +92,13 @@ public class FileManager {
         return list;
     }
 
+    /**
+     * Scrive il contenuto specificato nel file specificato.
+     *
+     * @param content il contenuto da scrivere nel file
+     * @param path    il percorso del file in cui scrivere
+     * @throws IOException se si verifica un errore di input/output durante la scrittura del file
+     */
     public static void write(String content, Path path) throws IOException {
         Charset charset = Charset.forName("UTF-8");
         try (BufferedWriter writer = Files.newBufferedWriter(path, charset, StandardOpenOption.APPEND)) {
@@ -71,5 +107,4 @@ public class FileManager {
             System.err.format("IOException: %s%n", x);
         }
     }
-
 }

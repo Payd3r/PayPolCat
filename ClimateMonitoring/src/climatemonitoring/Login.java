@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
+ * Classe che rappresenta una finestra di login.
  *
  * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
@@ -21,8 +22,14 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    List<User> users;    
+    private List<User> users;
 
+    /**
+     * Crea una nuova istanza di Login.
+     *
+     * @throws IOException se si verifica un errore di input/output
+     * @throws ParseException se si verifica un errore di parsing
+     */
     public Login() throws IOException, ParseException {
         initComponents();
         this.setBackground(Color.BLUE);

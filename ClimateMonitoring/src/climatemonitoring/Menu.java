@@ -12,13 +12,15 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Classe che rappresenta il menu principale dell'applicazione.
  * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class Menu extends javax.swing.JFrame {
 
     /**
-     * Creates new form Menu
+     * Crea una nuova istanza della classe Menu.
+     * @throws IOException se si verifica un errore di input/output.
+     * @throws ParseException se si verifica un errore durante il parsing.
      */
     public Menu() throws IOException, ParseException {
         initComponents();

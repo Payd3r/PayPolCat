@@ -14,21 +14,32 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Classe che rappresenta la finestra di visualizzazione dei risultati di
+ * ricerca.
  *
  * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class SearchResult extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SearchResult
-     */
-    List<Forecast> f;
-    Menu m;
+    private List<Forecast> f;
+    private Menu m;
 
+    /**
+     * Crea una nuova istanza di SearchResult.
+     */
     public SearchResult() {
         initComponents();
     }
 
+    /**
+     * Crea una nuova istanza di SearchResult con il nome dell'area di ricerca e
+     * il menu associato.
+     *
+     * @param areaName il nome dell'area di ricerca
+     * @param me il menu associato
+     * @throws IOException se si verifica un errore di input/output
+     * @throws ParseException se si verifica un errore durante il parsing
+     */
     public SearchResult(String areaName, Menu me) throws IOException, ParseException {
         initComponents();
         refreshTable(areaName);

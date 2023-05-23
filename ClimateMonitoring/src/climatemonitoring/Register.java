@@ -18,13 +18,19 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
+ * La classe Register rappresenta una finestra di registrazione utente. Permette
+ * all'utente di inserire i propri dati personali e effettuare la registrazione.
  *
  * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
  */
 public class Register extends javax.swing.JFrame {
 
     /**
-     * Creates new form Register
+     * Crea una nuova istanza della classe Register.
+     *
+     * @throws IOException se si verifica un errore di input/output
+     * @throws ParseException se si verifica un errore durante il parsing della
+     * data di nascita
      */
     public Register() throws IOException, ParseException {
         initComponents();
