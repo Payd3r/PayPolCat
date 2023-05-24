@@ -8,7 +8,9 @@ import java.util.stream.Stream;
 
 /**
  * Classe che rappresenta un'area interessante.
- * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
+ * @author Ficara Paolo
+ * @author Mauri Andrea 
+ * @author Luca Cattaneo
  */
 public class InterestingAreas {
 

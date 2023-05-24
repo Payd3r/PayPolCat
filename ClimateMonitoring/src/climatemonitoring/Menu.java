@@ -13,7 +13,9 @@ import javax.swing.JOptionPane;
 
 /**
  * Classe che rappresenta il menu principale dell'applicazione.
- * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
+ * @author Ficara Paolo
+ * @author Mauri Andrea 
+ * @author Luca Cattaneo
  */
 public class Menu extends javax.swing.JFrame {
 

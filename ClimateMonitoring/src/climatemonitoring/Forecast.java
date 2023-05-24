@@ -9,7 +9,9 @@ import java.util.Date;
 
 /**
  * Classe che rappresenta una previsione meteorologica.
- * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
+ * @author Ficara Paolo
+ * @author Mauri Andrea 
+ * @author Luca Cattaneo
  */
 public class Forecast {
 

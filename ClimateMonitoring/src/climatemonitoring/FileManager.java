@@ -18,7 +18,9 @@ import java.util.ArrayList;
 
 /**
  * Classe che fornisce metodi per la lettura e la scrittura dei file di dati.
- * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
+ * @author Ficara Paolo
+ * @author Mauri Andrea 
+ * @author Luca Cattaneo
  */
 public class FileManager {
 

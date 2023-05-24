@@ -7,7 +7,9 @@ package climatemonitoring;
 /**
  * La classe User rappresenta un utente con diverse informazioni personali.
  *
- * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
+ * @author Ficara Paolo
+ * @author Mauri Andrea 
+ * @author Luca Cattaneo
  */
 public class User {
 

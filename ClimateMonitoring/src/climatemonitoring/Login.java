@@ -15,7 +15,9 @@ import javax.swing.JOptionPane;
 /**
  * Classe che rappresenta una finestra di login.
  *
- * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
+ * @author Ficara Paolo
+ * @author Mauri Andrea 
+ * @author Luca Cattaneo
  */
 public class Login extends javax.swing.JFrame {
 

@@ -8,7 +8,9 @@ import java.util.List;
 
 /**
  * Classe che rappresenta una stazione di monitoraggio.
- * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
+ * @author Ficara Paolo
+ * @author Mauri Andrea 
+ * @author Luca Cattaneo
  */
 public class MonitoringStation {
     private String name;

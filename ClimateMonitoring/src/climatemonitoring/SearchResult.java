@@ -17,7 +17,9 @@ import javax.swing.table.DefaultTableModel;
  * Classe che rappresenta la finestra di visualizzazione dei risultati di
  * ricerca.
  *
- * @author Ficara Paolo, Mauri Andrea, Luca Cattaneo
+ * @author Ficara Paolo
+ * @author Mauri Andrea 
+ * @author Luca Cattaneo
  */
 public class SearchResult extends javax.swing.JFrame {
 
