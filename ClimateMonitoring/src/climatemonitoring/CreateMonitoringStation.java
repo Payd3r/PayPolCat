@@ -12,21 +12,21 @@ import java.util.logging.Logger;
  * Classe che descrive la finestra dove viene creata una nuova stazione di monitoraggio
  *
  * @author Ficara Paolo
- * @author Mauri Andrea 
+ * @author Mauri Andrea
  * @author Luca Cattaneo
- * 
+ *
  */
 public class CreateMonitoringStation extends javax.swing.JFrame {
-    
+
     //attributi
     private String partialInfo;
     private List<String> areas;
 
     //costruttori
     /**
-     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio
-     * e inizializza tutti i tuoi componenti.
-     * @throws ParseException 
+     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio e inizializza tutti i tuoi componenti.
+     *
+     * @throws ParseException
      */
     public CreateMonitoringStation() throws IOException, ParseException {
         initComponents();
@@ -36,12 +36,12 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         partialInfo = "";
         areas = new ArrayList<>();
     }
-    
+
     /**
-     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio
-     * e inizializza tutti i tuoi componenti. 
+     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio e inizializza tutti i tuoi componenti.
+     *
      * @param s credenziali dell'operatore che si sta registrando
-     * @throws ParseException 
+     * @throws ParseException
      * @throws IOException
      */
     public CreateMonitoringStation(String s) throws ParseException, IOException {
@@ -52,14 +52,14 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         partialInfo = s;
         areas = new ArrayList<>();
     }
-    
+
     //metodi
     private void createComboMonitoringStation(List<InterestingAreas> monitoringStations) {
         for (InterestingAreas x : monitoringStations) {
             InterestingAreas.addItem(x.getName());
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -71,7 +71,6 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         address = new javax.swing.JTextField();
         InterestingAreas = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        buttonRegister = new javax.swing.JButton();
         buttonAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,13 +85,6 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel4.setText("Registra centro aree");
-
-        buttonRegister.setText("Registra");
-        buttonRegister.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRegisterActionPerformed(evt);
-            }
-        });
 
         buttonAdd.setText("Aggiungi");
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -117,17 +109,14 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonRegister)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InterestingAreas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(address))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buttonAdd)
-                        .addGap(16, 16, 16))))
+                    .addComponent(InterestingAreas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(address))
+                .addGap(101, 101, 101))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonAdd)
+                .addGap(150, 150, 150))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,17 +134,17 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(InterestingAreas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonAdd))
-                .addGap(30, 30, 30)
-                .addComponent(buttonRegister)
-                .addGap(33, 33, 33))
+                    .addComponent(InterestingAreas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(buttonAdd)
+                .addGap(46, 46, 46))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterActionPerformed
+    private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
+        areas.add(InterestingAreas.getItemAt(InterestingAreas.getSelectedIndex()));
         partialInfo += name.getText();
         String a = "";
         for (int i = 0; i < areas.size(); i++) {
@@ -172,21 +161,24 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        MenuOperatore m = new MenuOperatore();
-        m.setVisible(rootPaneCheckingEnabled);
+//        MenuOperatore m = new MenuOperatore();
+//        m.setVisible(rootPaneCheckingEnabled);
+        String[] info = partialInfo.split(";");
         this.dispose();
-    }//GEN-LAST:event_buttonRegisterActionPerformed
-
-    private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
-        areas.add(InterestingAreas.getItemAt(InterestingAreas.getSelectedIndex()));
+        try {
+            DatiCondivisi.getInstance().setOperatore(new User(info[0], info[1], info[2], info[3], info[4], info[5], InterestingAreas.getItemAt(InterestingAreas.getSelectedIndex())));
+            new Menu().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_buttonAddActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> InterestingAreas;
     private javax.swing.JTextField address;
     private javax.swing.JButton buttonAdd;
-    private javax.swing.JButton buttonRegister;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

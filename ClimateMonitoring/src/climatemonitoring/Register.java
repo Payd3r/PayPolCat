@@ -279,7 +279,7 @@ public class Register extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public String controlloCampi() {
+    private String controlloCampi() {
         String s = "";
         if (txtName.getText().length() < 1) {
             s += "Nome assente!\n";
@@ -295,6 +295,7 @@ public class Register extends javax.swing.JFrame {
         }
         return s;
     }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String err = "";
         if ((err = controlloCampi()) != "")
@@ -325,6 +326,7 @@ public class Register extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
             String s = "";
             if (comboMonitoringStation.getSelectedIndex() != 0) {
                 s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());
@@ -334,6 +336,7 @@ public class Register extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
                     Menu r = new Menu();
                     r.setVisible(rootPaneCheckingEnabled);
+                    DatiCondivisi.getInstance().setOperatore(new User(txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
                     this.dispose();
                     new Menu().setVisible(true);
                 } catch (IOException ex) {
@@ -352,10 +355,8 @@ public class Register extends javax.swing.JFrame {
                     }
                     window.setVisible(rootPaneCheckingEnabled);
                     this.dispose();
-                    new Menu().setVisible(true);
+                    //new Menu().setVisible(true);
                 } catch (IOException ex) {
-                    Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParseException ex) {
                     Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
