@@ -1,6 +1,1 @@
-Oradell;suca;31/03/2023;00:01:00;Vento,5,Molto tanto;Umidita,3,Poca;Pressione,2,Abbastanza;Temperatura,4,Caldino;Precipitazioni,0,suca;Altitidune,1,basso;Massa,5,SpalleBig
-Trenton;suca;09/05/2023;11:47:45;Vento,4,;Umidità,5,;Pressione,2,;Temperatura,5,altissima;Precipitazioni,2,;Altitudine,1,;Massa,5,
-Trenton;suca;09/05/2023;11:50:18;Vento,4,suca;Umidità,3,mauri;Pressione,5,frocio;Temperatura,5,;Precipitazioni,5,;Altitudine,5,;Massa,5,
-Trenton;suca;09/05/2023;11:55:31;Vento,5,;Umidità,4,;Pressione,4,;Temperatura,4,;Precipitazioni,4,;Altitudine,4,;Massa,4,
-Trenton;suca;09/05/2023;11:58:03;Vento,5,;Umidità,5,;Pressione,5,;Temperatura,5,;Precipitazioni,5,;Altitudine,5,;Massa,5,
-Schoharie;suca;09/05/2023;11:59:01;Vento,4,;Umidità,5,;Pressione,5,;Temperatura,5,;Precipitazioni,5,;Altitudine,5,;Massa,5,
+

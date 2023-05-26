@@ -68,7 +68,6 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("Password");
 
         txtEmail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtEmail.setText("suca@gmail.com");
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Accedi");
@@ -79,7 +78,6 @@ public class Login extends javax.swing.JFrame {
         });
 
         txtPassw.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtPassw.setText("1234");
         txtPassw.setToolTipText("");
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
