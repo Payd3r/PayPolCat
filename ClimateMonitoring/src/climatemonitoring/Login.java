@@ -5,6 +5,8 @@
 package climatemonitoring;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
@@ -16,7 +18,7 @@ import javax.swing.JOptionPane;
  * Classe che rappresenta una finestra di login.
  *
  * @author Ficara Paolo
- * @author Mauri Andrea 
+ * @author Mauri Andrea
  * @author Luca Cattaneo
  */
 public class Login extends javax.swing.JFrame {
@@ -34,6 +36,8 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() throws IOException, ParseException {
         initComponents();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
         this.setBackground(Color.BLUE);
         users = DatiCondivisi.getInstance().getUsers();
     }
@@ -66,6 +70,7 @@ public class Login extends javax.swing.JFrame {
         txtEmail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtEmail.setText("suca@gmail.com");
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Accedi");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,6 +82,7 @@ public class Login extends javax.swing.JFrame {
         txtPassw.setText("1234");
         txtPassw.setToolTipText("");
 
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setText("Cancel");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,16 +115,16 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(txtPassw)
                             .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
+                        .addGap(121, 121, 121)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(36, 36, 36)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -137,30 +143,34 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        boolean found = false;
-        User u = null;
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getMail().equals(txtEmail.getText()) && users.get(i).getPassword().equals(String.valueOf(txtPassw.getPassword()))) {
-                //acceduto
-                u = new User(users.get(i).getName(), users.get(i).getSurname(), users.get(i).getCf(), users.get(i).getMail(), users.get(i).getNick(), users.get(i).getPassword(), users.get(i).getStation());
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            JOptionPane.showMessageDialog(null, "Utente non trovato", "Errore", JOptionPane.INFORMATION_MESSAGE);
+        if (txtPassw.getPassword().length < 1 || txtPassw.getPassword().length > 16 || txtEmail.getText().length() < 1 || !txtEmail.getText().contains("@")) {
+            JOptionPane.showMessageDialog(null, "Compilare correttamente entrambi i campi", "Errore", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            try {
-                DatiCondivisi.getInstance().setOperatore(u);
-            } catch (IOException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            boolean found = false;
+            User u = null;
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getMail().equals(txtEmail.getText()) && users.get(i).getPassword().equals(String.valueOf(txtPassw.getPassword()))) {
+                    //acceduto
+                    u = new User(users.get(i).getName(), users.get(i).getSurname(), users.get(i).getCf(), users.get(i).getMail(), users.get(i).getNick(), users.get(i).getPassword(), users.get(i).getStation());
+                    found = true;
+                    break;
+                }
             }
-            JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);
-            MenuOperatore r = new MenuOperatore();
-            r.setVisible(rootPaneCheckingEnabled);
-            this.dispose();
+            if (!found) {
+                JOptionPane.showMessageDialog(null, "Utente non trovato", "Errore", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                try {
+                    DatiCondivisi.getInstance().setOperatore(u);
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);
+                MenuOperatore r = new MenuOperatore();
+                r.setVisible(rootPaneCheckingEnabled);
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
