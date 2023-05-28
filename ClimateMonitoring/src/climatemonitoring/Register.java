@@ -37,12 +37,16 @@ public class Register extends javax.swing.JFrame {
      * @throws ParseException se si verifica un errore durante il parsing della
      * data di nascita
      */
-    public Register() throws IOException, ParseException {
-        initComponents();
+    public void grafica() {
         ImageIcon img = new ImageIcon("Dati/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
+    }
+
+    public Register() throws IOException, ParseException {
+        initComponents();
+        grafica();
         createComboMonitoringStation(DatiCondivisi.getInstance().getMonitoringStations());
     }
 
@@ -290,11 +294,29 @@ public class Register extends javax.swing.JFrame {
         if (txtSurn.getText().length() < 1) {
             s += "Cognome assente!\n";
         }
+        if (!radioMale.isSelected() && !RadioFemale.isSelected()) {
+            s += "Sesso non selezionato!\n";
+        }
+        SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = formatter1.parse(txtDBirth.getText());
+        } catch (ParseException ex) {
+            s += "Data sbagliata!\n";
+        }
+        if (txtProv.getText().length() != 2) {
+            s += "Errore inserimento provincia!\n";
+        }
         if (txtPlace.getText().length() < 1) {
             s += "Comune di nascita assente!\n";
         }
-        if (!radioMale.isSelected() && !RadioFemale.isSelected()) {
-            s += "Sesso non selezionato!\n";
+        if (txtEmail.getText().length() < 1 && !txtEmail.getText().contains("@")) {
+            s += "Errore inserimento mail!\n";
+        }
+        if (txtNick.getText().length() < 1) {
+            s += "Errore inserimento nick!\n";
+        }
+        if (txtPassw.getText().length() < 1) {
+            s += "Errore inserimento pass!\n";
         }
         return s;
     }
@@ -304,64 +326,64 @@ public class Register extends javax.swing.JFrame {
         if ((err = controlloCampi()) != "")
             JOptionPane.showMessageDialog(null, err);
         else {
-            Person person = new Person();
-            person.setSurname(txtSurn.getText());
-            person.setName(txtName.getText());
-            SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
             try {
+                Person person = new Person();
+                person.setSurname(txtSurn.getText());
+                person.setName(txtName.getText());
+                SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
                 Date date = formatter1.parse(txtDBirth.getText());
                 String[] dateOfBirth = txtDBirth.getText().split("/");
                 person.setDay(dateOfBirth[0]);
                 person.setMonth(dateOfBirth[1]);
                 person.setYear(dateOfBirth[2]);
-            } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(null, "Data inserita in modo errato, riprovare con formato dd/mm/yyyy", "Errore", JOptionPane.INFORMATION_MESSAGE);
-            }
-            person.setBornCity(txtPlace.getText().toUpperCase());
-            if (radioMale.isSelected()) {
-                person.setSex("M");
-            } else {
-                person.setSex("F");
-            }
-            Engine engine = null;
-            try {
-                engine = new Engine(person);
-            } catch (Exception ex) {
-                Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            String s = "";
-            if (comboMonitoringStation.getSelectedIndex() != 0) {
-                s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());
+                person.setBornCity(txtPlace.getText().toUpperCase());
+                if (radioMale.isSelected()) {
+                    person.setSex("M");
+                } else {
+                    person.setSex("F");
+                }
+                Engine engine = null;
                 try {
-                    //JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
-                    FileManager.write("\n" + s, Paths.get("Dati/OperatoriRegistrati.txt"));
-                    JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
-                    Menu r = new Menu();
-                    r.setVisible(rootPaneCheckingEnabled);
-                    DatiCondivisi.getInstance().setOperatore(new User(txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
-                    this.dispose();
-                    new Menu().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParseException ex) {
+                    engine = new Engine(person);
+                } catch (Exception ex) {
                     Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
-                try {
-                    s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
-                    CreateMonitoringStation window = null;
+
+                String s = "";
+                if (comboMonitoringStation.getSelectedIndex() != 0) {
+                    s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());
                     try {
-                        window = new CreateMonitoringStation(s);
+                        //JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
+                        FileManager.write("\n" + s, Paths.get("Dati/OperatoriRegistrati.txt"));
+                        JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
+                        Menu r = new Menu();
+                        r.setVisible(rootPaneCheckingEnabled);
+                        DatiCondivisi.getInstance().setOperatore(new User(txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
+                        this.dispose();
+                        new Menu().setVisible(true);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ParseException ex) {
                         Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    window.setVisible(rootPaneCheckingEnabled);
-                    this.dispose();
-                    //new Menu().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    try {
+                        s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
+                        CreateMonitoringStation window = null;
+                        try {
+                            window = new CreateMonitoringStation(s);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        window.setVisible(rootPaneCheckingEnabled);
+                        this.dispose();
+                        //new Menu().setVisible(true);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+            } catch (Exception a) {
+                JOptionPane.showMessageDialog(null, a);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

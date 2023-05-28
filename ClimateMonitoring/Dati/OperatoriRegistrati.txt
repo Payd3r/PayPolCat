@@ -1,1 +1,3 @@
 Mario;Rossi;RSSMRA00A01F205F;mariorossi@mail.com;mrossi;1234;Meteo & co
+andrea;mauri;MRANDR03P02D416J;andreamauri2013@gmail.com;Payd3r;11234;3b Meteo
+Mario;Rossi;RSSMRA01A01F205G;mauriorossi@gmail.com;super_mario;1234;3b Meteo

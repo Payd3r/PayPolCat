@@ -4,6 +4,8 @@
  */
 package climatemonitoring;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  * ricerca.
  *
  * @author Ficara Paolo
- * @author Mauri Andrea 
+ * @author Mauri Andrea
  * @author Luca Cattaneo
  */
 public class SearchResult extends javax.swing.JFrame {
@@ -27,13 +29,19 @@ public class SearchResult extends javax.swing.JFrame {
     private List<Forecast> f;
     private Menu m;
 
+    public void grafica() {
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
+    }
+
     /**
      * Crea una nuova istanza di SearchResult.
      */
     public SearchResult() {
         initComponents();
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
-        this.setIconImage(img.getImage());
+        grafica();
     }
 
     /**
@@ -47,8 +55,7 @@ public class SearchResult extends javax.swing.JFrame {
      */
     public SearchResult(String areaName, Menu me) throws IOException, ParseException {
         initComponents();
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
-        this.setIconImage(img.getImage());
+        grafica();
         refreshTable(areaName);
         m = me;
     }
@@ -102,6 +109,7 @@ public class SearchResult extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblRilevazioni);
 
+        jButton20.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton20.setText("Torna alla home");
         jButton20.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -113,31 +121,23 @@ public class SearchResult extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1034, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 457, Short.MAX_VALUE)
-                    .addComponent(jButton20)
-                    .addGap(0, 458, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(432, 432, 432)
+                .addComponent(jButton20)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 632, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(34, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 7, Short.MAX_VALUE)
-                    .addComponent(jButton20)
-                    .addGap(0, 602, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
