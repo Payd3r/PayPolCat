@@ -4,6 +4,8 @@
  */
 package climatemonitoring;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -13,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -39,6 +42,10 @@ public class MenuOperatore extends javax.swing.JFrame {
     
     public MenuOperatore() {
         initComponents();
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
         try {
             lblWelcome.setText("Benvenuto: " + DatiCondivisi.getInstance().getOperatore().getNick());
             createComboMonitoringStation();

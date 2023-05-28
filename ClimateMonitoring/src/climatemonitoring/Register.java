@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,6 +39,8 @@ public class Register extends javax.swing.JFrame {
      */
     public Register() throws IOException, ParseException {
         initComponents();
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
         createComboMonitoringStation(DatiCondivisi.getInstance().getMonitoringStations());
@@ -295,7 +298,7 @@ public class Register extends javax.swing.JFrame {
         }
         return s;
     }
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String err = "";
         if ((err = controlloCampi()) != "")
@@ -326,7 +329,7 @@ public class Register extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             String s = "";
             if (comboMonitoringStation.getSelectedIndex() != 0) {
                 s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());

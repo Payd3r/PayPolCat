@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +32,8 @@ public class SearchResult extends javax.swing.JFrame {
      */
     public SearchResult() {
         initComponents();
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
     }
 
     /**
@@ -44,6 +47,8 @@ public class SearchResult extends javax.swing.JFrame {
      */
     public SearchResult(String areaName, Menu me) throws IOException, ParseException {
         initComponents();
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
         refreshTable(areaName);
         m = me;
     }

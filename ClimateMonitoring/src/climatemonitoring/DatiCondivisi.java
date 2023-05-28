@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Classe singleton che legge e memorizza le informazioni necessarie per l'applicazione
+ * Classe singleton che legge e memorizza le informazioni necessarie per
+ * l'applicazione
  *
  * @author Ficara Paolo
- * @author Mauri Andrea 
+ * @author Mauri Andrea
  * @author Luca Cattaneo
- * 
+ *
  */
 public class DatiCondivisi {
 
@@ -34,15 +35,16 @@ public class DatiCondivisi {
         areas = FileManager.readAreas(Paths.get("Dati/CoordinateMonitoraggio.csv"));
         forecasts = FileManager.readForecast(Paths.get("Dati/ParametriClimatici.txt"));
         operatore = null;
+        sortAreas();
     }
-    
-    //metodi
 
+    //metodi
     /**
      * Metodo che crea l'unica instanza della classe
+     *
      * @return l'istanza della classe
      * @throws IOException
-     * @throws ParseException 
+     * @throws ParseException
      */
     public static DatiCondivisi getInstance() throws IOException, ParseException {
         // Crea l'oggetto solo se NON esiste:
@@ -53,7 +55,20 @@ public class DatiCondivisi {
     }
 
     /**
+     * Metodo che ricrea l'unica instanza della classe
+     *     
+     * @throws IOException
+     * @throws ParseException
+     */
+    public void refresh() throws IOException, ParseException {
+        // Ricrea l'oggetto:       
+        monitoringStations = FileManager.readStation(Paths.get("Dati/CentroMonitoraggio.txt"));
+        users = FileManager.readUser(Paths.get("Dati/OperatoriRegistrati.txt"));
+    }
+
+    /**
      * Metodo che restituisce le stazioni di monitoraggio
+     *
      * @return una <strong>List</strong> di MonitoringStation
      */
     public List<MonitoringStation> getMonitoringStations() {
@@ -62,6 +77,7 @@ public class DatiCondivisi {
 
     /**
      * Metodo che restituisce gli utenti registrati
+     *
      * @return una <strong>List</strong> di <strong>User</strong>
      */
     public List<User> getUsers() {
@@ -70,6 +86,7 @@ public class DatiCondivisi {
 
     /**
      * Metodo che restituisce le aree di interesse
+     *
      * @return una <strong>List</strong> di <strong>InterestingAreas</strong>
      */
     public List<InterestingAreas> getAreas() {
@@ -78,6 +95,7 @@ public class DatiCondivisi {
 
     /**
      * Metodo che restituisce tutte le rilevazioni eseguite fin'ora
+     *
      * @return una <strong>List</strong> di <strong>Forecast</strong>
      */
     public List<Forecast> getForecasts() {
@@ -97,8 +115,10 @@ public class DatiCondivisi {
 
     /**
      * Metodo che cerca l'area geografica interessata dal cittadino
+     *
      * @param s l'area da cercare
-     * @return un <strong>array</strong> di <strong>String</strong> che memorizza le città nell'area d'interesse
+     * @return un <strong>array</strong> di <strong>String</strong> che
+     * memorizza le città nell'area d'interesse
      */
     public String[] cercaAreaGeografica(String s) {
         List<String> intAreas = new ArrayList<String>();
@@ -125,10 +145,13 @@ public class DatiCondivisi {
     }
 
     /**
-     * Metodo che cerca le città aree di interesse vicine ad un determinato punto
+     * Metodo che cerca le città aree di interesse vicine ad un determinato
+     * punto
+     *
      * @param lat1 latitudine
      * @param lon1 longitudine
-     * @return una <strong>List</strong> di <strong>String</strong> contenente le aree di interesse vicine
+     * @return una <strong>List</strong> di <strong>String</strong> contenente
+     * le aree di interesse vicine
      */
     public List<String> cercaLimitrofo(double lat1, double lon1) {
         List<String> intAreas = new ArrayList<String>();
@@ -147,9 +170,12 @@ public class DatiCondivisi {
     }
 
     /**
-     * Metodo che controlla se una determinata area di interesse ha delle rilevazioni
+     * Metodo che controlla se una determinata area di interesse ha delle
+     * rilevazioni
+     *
      * @param area area di interesse
-     * @return <strong>true</strong> se l'area ha rilevazioni, <strong>falso</strong> se 
+     * @return <strong>true</strong> se l'area ha rilevazioni,
+     * <strong>falso</strong> se
      */
     public boolean existForecast(String area) {
         for (int i = 0; i < forecasts.size(); i++) {
@@ -162,6 +188,7 @@ public class DatiCondivisi {
 
     /**
      * Metodo che restituisce le rilevazioni di una determinata città
+     *
      * @param name nome città
      * @return una <strong>List</strong> di <strong>Forecast</strong>
      */
@@ -177,6 +204,7 @@ public class DatiCondivisi {
 
     /**
      * Metodo che restituisce l'operatore attualmente in sessione
+     *
      * @return un oggetto <strong>User</strong> che descrive l'operatore
      */
     public User getOperatore() {
@@ -185,6 +213,7 @@ public class DatiCondivisi {
 
     /**
      * Metodo che modifica il valore dell'oggetto operatore attuale
+     *
      * @param operatore nuovo valore operatore
      */
     public void setOperatore(User operatore) {

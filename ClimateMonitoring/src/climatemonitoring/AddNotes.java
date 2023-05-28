@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  * Classe che descrive la finestra dove viene aggiunta una nota alla rilevazione selezionata
@@ -49,6 +50,8 @@ public class AddNotes extends javax.swing.JFrame {
      */
     public AddNotes(String idCitta, String nomeStazione, String date, String time, int wind, int humidity, int pressure, int temperature, int rainfall, int glacierAltitude, int massGlaciers) throws ParseException {
         initComponents();
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
         String[] vento = {"Vento", Integer.toString(wind), ""};
         String[] umidita = {"Umidità", Integer.toString(humidity), ""};
         String[] pressione = {"Pressione", Integer.toString(pressure), ""};
