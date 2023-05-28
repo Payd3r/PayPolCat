@@ -64,6 +64,9 @@ public class DatiCondivisi {
         // Ricrea l'oggetto:       
         monitoringStations = FileManager.readStation(Paths.get("Dati/CentroMonitoraggio.txt"));
         users = FileManager.readUser(Paths.get("Dati/OperatoriRegistrati.txt"));
+        areas = FileManager.readAreas(Paths.get("Dati/CoordinateMonitoraggio.csv"));
+        forecasts = FileManager.readForecast(Paths.get("Dati/ParametriClimatici.txt"));
+        sortAreas();
     }
 
     /**

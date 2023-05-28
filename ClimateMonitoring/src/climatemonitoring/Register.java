@@ -293,7 +293,7 @@ public class Register extends javax.swing.JFrame {
         if (txtPlace.getText().length() < 1) {
             s += "Comune di nascita assente!\n";
         }
-        if (!radioMale.isSelected()) {
+        if (!radioMale.isSelected() && !RadioFemale.isSelected()) {
             s += "Sesso non selezionato!\n";
         }
         return s;
