@@ -29,13 +29,6 @@ public class SearchResult extends javax.swing.JFrame {
     private List<Forecast> f;
     private Menu m;
 
-    public void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
-        this.setIconImage(img.getImage());
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
-    }
-
     /**
      * Crea una nuova istanza di SearchResult.
      */
@@ -43,7 +36,13 @@ public class SearchResult extends javax.swing.JFrame {
         initComponents();
         grafica();
     }
-
+    
+    private void grafica() {
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
+    }
     /**
      * Crea una nuova istanza di SearchResult con il nome dell'area di ricerca e
      * il menu associato.

@@ -41,13 +41,6 @@ public class MenuOperatore extends javax.swing.JFrame {
      * tabella con i dati salvati in precedenza
      *
      */
-    public void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
-        this.setIconImage(img.getImage());
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
-    }
-
     public MenuOperatore() {
         initComponents();
         grafica();
@@ -61,7 +54,13 @@ public class MenuOperatore extends javax.swing.JFrame {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    private void grafica() {
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
+    }
 //    public MenuOperatore(User u) throws IOException, ParseException {
 //        initComponents();
 //        DatiCondivisi.getInstance().setOperatore(u);

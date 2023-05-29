@@ -32,15 +32,8 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
      * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
      * stazione di monitoraggio e inizializza tutti i tuoi componenti.
      *
-     * @throws ParseException
+     * @throws ParseException Errore nella scrittura della data o dell'ora
      */
-    public void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
-        this.setIconImage(img.getImage());
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
-    }
-
     public CreateMonitoringStation() throws IOException, ParseException {
         initComponents();
         grafica();
@@ -50,14 +43,15 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         partialInfo = "";
         areas = new ArrayList<>();
     }
+    
 
     /**
      * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
      * stazione di monitoraggio e inizializza tutti i tuoi componenti.
      *
      * @param s credenziali dell'operatore che si sta registrando
-     * @throws ParseException
-     * @throws IOException
+     * @throws ParseException Errore nella scrittura della data o dell'ora
+     * @throws IOException Errore in lettuera o scrittura nel file delle stazioni di monitoraggio
      */
     public CreateMonitoringStation(String s) throws ParseException, IOException {
         initComponents();
@@ -68,7 +62,13 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         partialInfo = s;
         areas = new ArrayList<>();
     }
-
+    
+    private void grafica() {
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
+    }
     //metodi
     private void createComboMonitoringStation(List<InterestingAreas> monitoringStations) {
         for (InterestingAreas x : monitoringStations) {

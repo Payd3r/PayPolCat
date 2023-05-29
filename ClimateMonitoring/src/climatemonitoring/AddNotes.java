@@ -34,7 +34,7 @@ public class AddNotes extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void grafica() {
+    private void grafica() {
         ImageIcon img = new ImageIcon("Dati/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -59,7 +59,7 @@ public class AddNotes extends javax.swing.JFrame {
      * @param glacierAltitude rilevazione dell'altitudine dei ghiacciai
      * @param massGlaciers rilevazione della massa dei ghiacciai
      *
-     * @throws ParseException
+     * @throws ParseException Errore nella scrittura della data o dell'ora
      */
     public AddNotes(String idCitta, String nomeStazione, String date, String time, int wind, int humidity, int pressure, int temperature, int rainfall, int glacierAltitude, int massGlaciers) throws ParseException {
         initComponents();

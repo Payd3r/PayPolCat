@@ -29,12 +29,6 @@ public class Menu extends javax.swing.JFrame {
      * @throws IOException se si verifica un errore di input/output.
      * @throws ParseException se si verifica un errore durante il parsing.
      */
-    public void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
-        this.setIconImage(img.getImage());
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
-    }
     public Menu() throws IOException, ParseException {
         initComponents();
         grafica();
@@ -49,7 +43,13 @@ public class Menu extends javax.swing.JFrame {
             jButton5.setVisible(false);
         }
     }
-
+    
+    private void grafica() {
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

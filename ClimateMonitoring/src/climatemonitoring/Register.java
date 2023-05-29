@@ -37,19 +37,19 @@ public class Register extends javax.swing.JFrame {
      * @throws ParseException se si verifica un errore durante il parsing della
      * data di nascita
      */
-    public void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
-        this.setIconImage(img.getImage());
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
-    }
-
     public Register() throws IOException, ParseException {
         initComponents();
         grafica();
         createComboMonitoringStation(DatiCondivisi.getInstance().getMonitoringStations());
     }
-
+    
+    private void grafica() {
+        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        this.setIconImage(img.getImage());
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
+    }
+    
     private void createComboMonitoringStation(List<MonitoringStation> monitoringStations) {
         comboMonitoringStation.addItem("---");
         for (MonitoringStation x : monitoringStations) {

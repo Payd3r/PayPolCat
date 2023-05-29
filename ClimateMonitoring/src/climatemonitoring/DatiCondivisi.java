@@ -43,8 +43,8 @@ public class DatiCondivisi {
      * Metodo che crea l'unica instanza della classe
      *
      * @return l'istanza della classe
-     * @throws IOException
-     * @throws ParseException
+     * @throws IOException Errore nella lettura o scrittura dei file
+     * @throws ParseException Errore nella scrittura della data o dell'ora
      */
     public static DatiCondivisi getInstance() throws IOException, ParseException {
         // Crea l'oggetto solo se NON esiste:
@@ -57,8 +57,8 @@ public class DatiCondivisi {
     /**
      * Metodo che ricrea l'unica instanza della classe
      *     
-     * @throws IOException
-     * @throws ParseException
+     * @throws IOException Errore nella lettura o scrittura dei file
+     * @throws ParseException Errore nella scrittura della data o dell'ora
      */
     public void refresh() throws IOException, ParseException {
         // Ricrea l'oggetto:       
