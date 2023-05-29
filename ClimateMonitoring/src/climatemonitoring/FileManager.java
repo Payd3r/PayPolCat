@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * Classe che fornisce metodi per la lettura e la scrittura dei file di dati.
+ * Classe che fornisce metodi per la lettura e la scrittura su file di dati.
  *
  * @author Ficara Paolo
  * @author Mauri Andrea

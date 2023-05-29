@@ -4,8 +4,6 @@
  */
 package climatemonitoring;
 
-import java.util.List;
-
 /**
  * Classe che rappresenta una stazione di monitoraggio.
  * @author Ficara Paolo
