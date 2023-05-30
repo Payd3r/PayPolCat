@@ -4,7 +4,6 @@
  */
 package climatemonitoring;
 
-import java.util.stream.Stream;
 
 /**
  * Classe che rappresenta un'area interessante.

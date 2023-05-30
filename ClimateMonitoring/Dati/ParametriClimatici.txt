@@ -3,3 +3,4 @@ Carimate;Meteo & co;28/05/2023;03:38:40;Vento,5,sucone;Umidità,5,;Pressione,3,;
 Carimate;Meteo & co;28/05/2023;03:41:10;Vento,1,;Umidità,5,;Pressione,5,;Temperatura,5,;Precipitazioni,5,;Altitudine,5,;Massa,5,
 Rataje;3b Meteo;28/05/2023;09:59:48;Vento,4,;Umidità,2,;Pressione,4,;Temperatura,2,;Precipitazioni,5,;Altitudine,3,;Massa,5,
 Carimate;Meteo & co;28/05/2023;10:20:14;Vento,5,;Umidità,5,;Pressione,5,;Temperatura,5,;Precipitazioni,5,;Altitudine,5,;Massa,5,
+A i Afjord;Centro maggica;29/05/2023;06:37:57;Vento,5,;Umidità,4,;Pressione,5,;Temperatura,5,;Precipitazioni,5,;Altitudine,5,;Massa,5,
