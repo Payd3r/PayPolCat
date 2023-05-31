@@ -112,12 +112,6 @@ public class Register extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Sesso");
 
-        txtPlace.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPlaceActionPerformed(evt);
-            }
-        });
-
         txtDBirth.setForeground(new java.awt.Color(153, 153, 153));
         txtDBirth.setText("01/01/2001");
         txtDBirth.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -126,11 +120,6 @@ public class Register extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtDBirthFocusLost(evt);
-            }
-        });
-        txtDBirth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDBirthActionPerformed(evt);
             }
         });
 
@@ -401,14 +390,6 @@ public class Register extends javax.swing.JFrame {
             txtDBirth.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtDBirthFocusLost
-
-    private void txtDBirthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDBirthActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDBirthActionPerformed
-
-    private void txtPlaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlaceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPlaceActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
