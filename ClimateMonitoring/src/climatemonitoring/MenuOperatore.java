@@ -56,7 +56,7 @@ public class MenuOperatore extends javax.swing.JFrame {
     }
     
     private void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
@@ -71,7 +71,7 @@ public class MenuOperatore extends javax.swing.JFrame {
     private void refreshTable(String area, String stazione) throws IOException, ParseException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
-        List<Forecast> temp = FileManager.readForecast(Paths.get("Dati/ParametriClimatici.txt"));
+        List<Forecast> temp = FileManager.readForecast(Paths.get("../Data/ParametriClimatici.txt"));
         f = new ArrayList<Forecast>();
         for (int i = 0; i < temp.size(); i++) {
             if (temp.get(i).getIdCittà().equals(area) && temp.get(i).getNomeStazione().equals(stazione)) {

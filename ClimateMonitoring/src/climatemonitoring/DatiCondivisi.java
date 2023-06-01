@@ -62,10 +62,10 @@ public class DatiCondivisi {
      */
     public void refresh() throws IOException, ParseException {
         // Ricrea l'oggetto:       
-        monitoringStations = FileManager.readStation(Paths.get("Dati/CentroMonitoraggio.txt"));
-        users = FileManager.readUser(Paths.get("Dati/OperatoriRegistrati.txt"));
-        areas = FileManager.readAreas(Paths.get("Dati/CoordinateMonitoraggio.csv"));
-        forecasts = FileManager.readForecast(Paths.get("Dati/ParametriClimatici.txt"));
+        monitoringStations = FileManager.readStation(Paths.get("../Data/CentroMonitoraggio.txt"));
+        users = FileManager.readUser(Paths.get("../Data/OperatoriRegistrati.txt"));
+        areas = FileManager.readAreas(Paths.get("../Data/CoordinateMonitoraggio.csv"));
+        forecasts = FileManager.readForecast(Paths.get("../Data/ParametriClimatici.txt"));
         sortAreas();
     }
 

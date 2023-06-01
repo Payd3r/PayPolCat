@@ -35,7 +35,7 @@ public class AddNotes extends javax.swing.JFrame {
     }
 
     private void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
@@ -292,7 +292,7 @@ public class AddNotes extends javax.swing.JFrame {
         temp.setMassa(t);
 
         try {
-            FileManager.write(temp.toCSV(), Paths.get("Dati/ParametriClimatici.txt"));
+            FileManager.write(temp.toCSV(), Paths.get("../Data/ParametriClimatici.txt"));
         } catch (IOException ex) {
             Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
         }

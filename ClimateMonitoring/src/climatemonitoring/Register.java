@@ -44,7 +44,7 @@ public class Register extends javax.swing.JFrame {
     }
     
     private void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
@@ -343,7 +343,7 @@ public class Register extends javax.swing.JFrame {
                     s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());
                     try {
                         //JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
-                        FileManager.write("\n" + s, Paths.get("Dati/OperatoriRegistrati.txt"));
+                        FileManager.write("\n" + s, Paths.get("../Data/OperatoriRegistrati.txt"));
                         JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
                         Menu r = new Menu();
                         r.setVisible(rootPaneCheckingEnabled);

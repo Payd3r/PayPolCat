@@ -43,7 +43,6 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         partialInfo = "";
         areas = new ArrayList<>();
     }
-    
 
     /**
      * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
@@ -51,7 +50,8 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
      *
      * @param s credenziali dell'operatore che si sta registrando
      * @throws ParseException Errore nella scrittura della data o dell'ora
-     * @throws IOException Errore in lettuera o scrittura nel file delle stazioni di monitoraggio
+     * @throws IOException Errore in lettuera o scrittura nel file delle
+     * stazioni di monitoraggio
      */
     public CreateMonitoringStation(String s) throws ParseException, IOException {
         initComponents();
@@ -62,13 +62,14 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         partialInfo = s;
         areas = new ArrayList<>();
     }
-    
+
     private void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
+
     //metodi
     private void createComboMonitoringStation(List<InterestingAreas> monitoringStations) {
         for (InterestingAreas x : monitoringStations) {
@@ -186,34 +187,38 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
-        partialInfo += name.getText() + "\n";
-        String a = "";
-        for (int i = 0; i < areas.size(); i++) {
-            if (i < areas.size() - 1) {
-                a += areas.get(i) + ",";
-            } else {
-                a += areas.get(i);
+        if (name.getText().length() < 1 || address.getText().length() < 1 || areas.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Errore compilare tutti i campi!");
+        } else {
+            partialInfo += name.getText() + "\n";
+            String a = "";
+            for (int i = 0; i < areas.size(); i++) {
+                if (i < areas.size() - 1) {
+                    a += areas.get(i) + ",";
+                } else {
+                    a += areas.get(i);
+                }
             }
-        }
-        String s = name.getText() + ";" + address.getText() + ";" + a + "\n";
-        try {
-            FileManager.write(s, Paths.get("Dati/CentroMonitoraggio.txt"));
-            FileManager.write(partialInfo, Paths.get("Dati/OperatoriRegistrati.txt"));
-        } catch (IOException ex) {
-            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            String s = name.getText() + ";" + address.getText() + ";" + a + "\n";
+            try {
+                FileManager.write(s, Paths.get("../Data/CentroMonitoraggio.txt"));
+                FileManager.write(partialInfo, Paths.get("../Data/OperatoriRegistrati.txt"));
+            } catch (IOException ex) {
+                Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
+            }
 //        MenuOperatore m = new MenuOperatore();
 //        m.setVisible(rootPaneCheckingEnabled);
-        String[] info = partialInfo.split(";");
-        this.dispose();
-        try {
-            DatiCondivisi.getInstance().setOperatore(new User(info[0], info[1], info[2], info[3], info[4], info[5], name.getText()));
-            DatiCondivisi.getInstance().refresh();
-            new Menu().setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
+            String[] info = partialInfo.split(";");
+            this.dispose();
+            try {
+                DatiCondivisi.getInstance().setOperatore(new User(info[0], info[1], info[2], info[3], info[4], info[5], name.getText()));
+                DatiCondivisi.getInstance().refresh();
+                new Menu().setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_buttonAddActionPerformed
 

@@ -44,7 +44,7 @@ public class Menu extends javax.swing.JFrame {
     }
     
     private void grafica() {
-        ImageIcon img = new ImageIcon("Dati/icon.jpg");
+        ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
