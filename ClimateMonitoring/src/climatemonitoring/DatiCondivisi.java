@@ -30,10 +30,10 @@ public class DatiCondivisi {
 
     // Costruttore
     private DatiCondivisi() throws IOException, ParseException {
-        monitoringStations = FileManager.readStation(Paths.get("../Data/CentroMonitoraggio.txt"));
-        users = FileManager.readUser(Paths.get("../Data/OperatoriRegistrati.txt"));
-        areas = FileManager.readAreas(Paths.get("../Data/CoordinateMonitoraggio.csv"));
-        forecasts = FileManager.readForecast(Paths.get("../Data/ParametriClimatici.txt"));
+        monitoringStations = FileManager.readStation(Paths.get("Data/CentroMonitoraggio.txt"));
+        users = FileManager.readUser(Paths.get("Data/OperatoriRegistrati.txt"));
+        areas = FileManager.readAreas(Paths.get("Data/CoordinateMonitoraggio.csv"));
+        forecasts = FileManager.readForecast(Paths.get("Data/ParametriClimatici.txt"));
         operatore = null;
         sortAreas();
     }
