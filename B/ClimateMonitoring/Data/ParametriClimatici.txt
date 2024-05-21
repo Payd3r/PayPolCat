@@ -1,0 +1,1 @@
+Aalst;paolo;01/06/2023;03:20:12;Vento,4,a;Umidità,4,b;Pressione,2,c;Temperatura,3,d;Precipitazioni,4,e;Altitudine,5,f;Massa,5,g
