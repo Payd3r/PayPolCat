@@ -40,12 +40,14 @@ public class DatiCondivisi {
                 "zf5BpoQqzEnEFvcJm1Fox8X1KcX6IR");
         users = DBManager.readUser(conn);
         areas = DBManager.readAreas(conn);
+        forecasts = DBManager.readForecast(conn);
+        monitoringStations = DBManager.readStation(conn);
 //        monitoringStations = DBManager.readStation(Paths.get("Data/CentroMonitoraggio.txt"));
 //        users = DBManager.readUser(Paths.get("Data/OperatoriRegistrati.txt"));
 //        areas = DBManager.readAreas(Paths.get("Data/CoordinateMonitoraggio.csv"));
 //        forecasts = DBManager.readForecast(Paths.get("Data/ParametriClimatici.txt"));
-//        operatore = null;
-//        sortAreas();
+        operatore = null;
+        sortAreas();
     }
 
     //metodi
@@ -53,10 +55,10 @@ public class DatiCondivisi {
      * Metodo che crea l'unica instanza della classe
      *
      * @return l'istanza della classe
-     * @throws IOException Errore nella lettura o scrittura dei file
-     * @throws ParseException Errore nella scrittura della data o dell'ora
+     * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
+     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
      */
-    public static DatiCondivisi getInstance() throws IOException, ParseException {
+    public static DatiCondivisi getInstance() throws ClassNotFoundException, SQLException {
         // Crea l'oggetto solo se NON esiste:
         if (instance == null) {
             instance = new DatiCondivisi();
@@ -67,15 +69,14 @@ public class DatiCondivisi {
     /**
      * Metodo che ricrea l'unica instanza della classe
      *
-     * @throws IOException Errore nella lettura o scrittura dei file
-     * @throws ParseException Errore nella scrittura della data o dell'ora
+     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
      */
-    public void refresh() throws IOException, ParseException {
+    public void refresh() throws SQLException {
         // Ricrea l'oggetto:       
-        monitoringStations = DBManager.readStation(Paths.get("../Data/CentroMonitoraggio.txt"));
-        users = DBManager.readUser(Paths.get("../Data/OperatoriRegistrati.txt"));
-        areas = DBManager.readAreas(Paths.get("../Data/CoordinateMonitoraggio.csv"));
-        forecasts = DBManager.readForecast(Paths.get("../Data/ParametriClimatici.txt"));
+        users = DBManager.readUser(conn);
+        areas = DBManager.readAreas(conn);
+        forecasts = DBManager.readForecast(conn);
+        monitoringStations = DBManager.readStation(conn);
         sortAreas();
     }
 

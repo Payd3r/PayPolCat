@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe che fornisce metodi per la lettura e la scrittura su file di dati.
+ * Classe che fornisce metodi per la lettura del database
  *
  * @author Ficara Paolo
  * @author Mauri Andrea
@@ -18,7 +18,7 @@ import java.util.List;
 public class DBManager {
 
     /**
-     * Legge il database nella tabella operatoriregistrati e restituisce una lista di oggetti User.
+     * Legge il database nella tabella "operatoriregistrati" e restituisce una lista di oggetti User.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti User letti dal database
@@ -39,11 +39,12 @@ public class DBManager {
                     rs.getInt("id_stazione")
             ));
         }
+        rs.close();
         return list;
     }
 
     /**
-     * Legge il database dalla tabella coordinatemonitoraggio e restituisce una lista di oggetti InterestingAreas.
+     * Legge il database dalla tabella "coordinatemonitoraggio" e restituisce una lista di oggetti InterestingAreas.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti InterestingAreas letti dal database
@@ -63,62 +64,78 @@ public class DBManager {
                     rs.getString("longitudine")
             ));
         }
+        rs.close();
         return list;
     }
 
     /**
-     * Legge il file delle stazioni di monitoraggio e restituisce una lista di oggetti MonitoringStation.
+     * Legge il database nella tabella "centromonitoraggio" e restituisce una lista di oggetti MonitoringStation.
      *
-     * @param path il percorso del file da leggere
-     * @return una lista di oggetti MonitoringStation letti dal file
-     * @throws IOException se si verifica un errore di input/output durante la lettura del file
+     * @param conn la connessione al database
+     * @return una lista di oggetti MonitoringStation letti dal database
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
-    public static List<MonitoringStation> readStation(Path path) throws IOException {
-        List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
-        List<MonitoringStation> list = new ArrayList<MonitoringStation>();
-        for (String line : allLines) {
-            if (!line.equals("")) {
-                String[] split = line.split(";");
-                String[] areas = split[2].split(",");
-                list.add(new MonitoringStation(split[0], split[1], areas));
-            }
-        }
+    public static List<MonitoringStation> readStation(Connection conn) throws SQLException  {
+        List<MonitoringStation> list = new ArrayList<>();
+        PreparedStatement stmt = conn.prepareStatement("select * "
+                + "from centromonitoraggio as cm "
+                + "join lavora as l on cm.id = l.id_centro "
+                + "join operatoriregistrati as or on l.id_operatore = or.id "
+                + "join parametriclimatici as pc on or.id = pc.id_operatore"
+                + "join ");
+        ResultSet rs = stmt.executeQuery();
+//        while(rs.next()) {
+//            list.add(new MonitoringStation(
+//                    rs.getString("nome"),
+//                    rs.getString("indirizzo"),
+//                    
+//            ));
+//        }
+        rs.close();
         return list;
     }
 
     /**
-     * Legge il file delle previsioni meteo e restituisce una lista di oggetti Forecast.
+     * Legge il databse nella tabella "parametriclimatici" e restituisce una lista di oggetti Forecast.
      *
-     * @param path il percorso del file da leggere
-     * @return una lista di oggetti Forecast letti dal file
-     * @throws IOException se si verifica un errore di input/output durante la lettura del file
-     * @throws ParseException se si verifica un errore durante il parsing delle date
+     * @param conn la connessione al database
+     * @return una lista di oggetti Forecast letti dal database
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
-    public static List<Forecast> readForecast(Path path) throws IOException, ParseException {
-        List<String> allLines = (ArrayList) Files.readAllLines(path, StandardCharsets.UTF_8);
-        List<Forecast> list = new ArrayList<Forecast>();
-        for (String line : allLines) {
-            if (!line.equals("")) {
-                String[] split = line.split(";");
-                list.add(new Forecast(split[0], split[1], new SimpleDateFormat("dd/MM/yyyy").parse(split[2]), new SimpleDateFormat("hh:mm:ss").parse(split[3]), split[4].split(","), split[5].split(","), split[6].split(","), split[7].split(","), split[8].split(","), split[9].split(","), split[10].split(",")));
-            }
+    public static List<Forecast> readForecast(Connection conn) throws SQLException  {
+        List<Forecast> list = new ArrayList<>();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM parametriclimatici as pc "
+                + "JOIN operatoriregistrati AS opr ON pc.id_operatore = opr.id");
+        ResultSet rs = stmt.executeQuery();
+        while(rs.next()) {
+            list.add(new Forecast(
+                    rs.getString(""),
+                    rs.getString("nome"),
+                    rs.getDate("data"), 
+                    (jdk.jfr.Timestamp) rs.getTimestamp("ora"),
+                    rs.getString("nota_vento").split(";"),
+                    rs.getString("nota_umidita").split(";"),
+                    rs.getString("nota_pressione").split(";"),
+                    rs.getString("nota_temperatura").split(";"),
+                    rs.getString("nota_precipitazioni").split(";"),
+                    rs.getString("nota_altitudine").split(";"),
+                    rs.getString("nota_massa").split(";")
+            ));
         }
+        rs.close();
         return list;
     }
 
     /**
-     * Scrive il contenuto specificato nel file specificato.
+     * Esegue la query di inserimento specificata nel database
      *
-     * @param content il contenuto da scrivere nel file
-     * @param path il percorso del file in cui scrivere
-     * @throws IOException se si verifica un errore di input/output durante la scrittura del file
+     * @param conn la connessione al database
+     * @param query la insert da eseguire sul database
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
-    public static void write(String content, Path path) throws IOException {
-        Charset charset = Charset.forName("UTF-8");
-        try (BufferedWriter writer = Files.newBufferedWriter(path, charset, StandardOpenOption.APPEND)) {
-            writer.write(content + "\n", 0, content.length());
-        } catch (IOException x) {
-            System.err.format("IOException: %s%n", x);
-        }
+    public static void write(Connection conn, String query) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery();
+        rs.close();
     }
 }

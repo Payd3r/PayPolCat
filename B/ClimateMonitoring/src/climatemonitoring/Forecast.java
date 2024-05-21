@@ -6,6 +6,7 @@ package climatemonitoring;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import jdk.jfr.Timestamp;
 
 /**
  * Classe che rappresenta una previsione meteorologica.
@@ -18,7 +19,7 @@ public class Forecast {
     private String idCitta;
     private String NomeStazione;
     private Date data;
-    private Date ora;
+    private Timestamp ora;
     private String[] vento;
     private String[] umidita;
     private String[] pressione;
@@ -42,7 +43,7 @@ public class Forecast {
      * @param altitudine i dati relativi all'altitudine
      * @param massa i dati relativi alla massa
      */
-    public Forecast(String idCitta, String NomeStazione, Date data, Date ora, String[] vento, String[] umidita, String[] pressione, String[] temperatura, String[] precipitazioni, String[] altitudine, String[] massa) {
+    public Forecast(String idCitta, String NomeStazione, Date data, Timestamp ora, String[] vento, String[] umidita, String[] pressione, String[] temperatura, String[] precipitazioni, String[] altitudine, String[] massa) {
         this.idCitta = idCitta;
         this.NomeStazione = NomeStazione;
         this.data = data;
@@ -88,7 +89,7 @@ public class Forecast {
      *
      * @param ora l'ora della previsione da impostare
      */
-    public void setOra(Date ora) {
+    public void setOra(Timestamp ora) {
         this.ora = ora;
     }
 
@@ -187,7 +188,7 @@ public class Forecast {
      *
      * @return l'ora della previsione
      */
-    public Date getOra() {
+    public Timestamp getOra() {
         return ora;
     }
 
