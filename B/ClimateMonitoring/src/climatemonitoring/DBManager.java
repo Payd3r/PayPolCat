@@ -81,18 +81,18 @@ public class DBManager {
         List<MonitoringStation> list = new ArrayList<>();
         PreparedStatement stmt = conn.prepareStatement("select * "
                 + "from centromonitoraggio as cm "
-                + "join lavora as l on cm.id = l.id_centro "
-                + "join operatoriregistrati as opr on l.id_operatore = opr.id "
-                + "join parametriclimatici as pc on opr.id = pc.id_operatore "
-                + "join ");
+                + "join stazioni as s on s.id_centro = cm.id"
+                + "join coordinatemonitoraggio as c on c.id = s.id_areainteresse");
         ResultSet rs = stmt.executeQuery();
-//        while(rs.next()) {
+        List<String> areeInteresse = new ArrayList<>();
+        while(rs.next()) {
+//            areeInteresse.add(rs.getString("nome")); 
 //            list.add(new MonitoringStation(
 //                    rs.getString("nome_centro"),
 //                    rs.getString("indirizzo"),
-//                    
+//
 //            ));
-//        }
+        }
         rs.close();
         return list;
     }

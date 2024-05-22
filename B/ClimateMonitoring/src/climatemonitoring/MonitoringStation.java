@@ -4,6 +4,8 @@
  */
 package climatemonitoring;
 
+import java.util.List;
+
 /**
  * Classe che rappresenta una stazione di monitoraggio.
  * @author Ficara Paolo
@@ -13,7 +15,7 @@ package climatemonitoring;
 public class MonitoringStation {
     private String name;
     private String address;
-    private String[] interestingAreas;
+    private List<String> interestingAreas;
 
     /**
      * Crea una nuova istanza di MonitoringStation con il nome, l'indirizzo e le aree di interesse specificate.
@@ -22,7 +24,7 @@ public class MonitoringStation {
      * @param address l'indirizzo della stazione di monitoraggio
      * @param interestingAreas le aree di interesse della stazione di monitoraggio
      */
-    public MonitoringStation(String name, String address, String[] interestingAreas) {
+    public MonitoringStation(String name, String address, List<String> interestingAreas) {
         this.name = name;
         this.address = address;
         this.interestingAreas = interestingAreas;
@@ -69,7 +71,7 @@ public class MonitoringStation {
      *
      * @return le aree di interesse della stazione di monitoraggio
      */
-    public String[] getInterestingAreas() {
+    public List<String> getInterestingAreas() {
         return interestingAreas;
     }
 
@@ -78,7 +80,7 @@ public class MonitoringStation {
      *
      * @param interestingAreas le aree di interesse da impostare
      */
-    public void setInterestingAreas(String[] interestingAreas) {
+    public void setInterestingAreas(List<String> interestingAreas) {
         this.interestingAreas = interestingAreas;
     }
 }

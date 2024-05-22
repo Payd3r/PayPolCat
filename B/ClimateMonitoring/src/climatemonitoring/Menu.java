@@ -26,8 +26,8 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Crea una nuova istanza della classe Menu.
      *
-     * @throws IOException se si verifica un errore di input/output.
-     * @throws ParseException se si verifica un errore durante il parsing.
+     * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
+     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
      */
     public Menu() throws ClassNotFoundException, SQLException {
         initComponents();
