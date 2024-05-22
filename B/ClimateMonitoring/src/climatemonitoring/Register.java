@@ -5,8 +5,6 @@
 package climatemonitoring;
 
 import engine.Engine;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import engine.Person;
@@ -349,11 +347,7 @@ public class Register extends javax.swing.JFrame {
                 } else {
                     s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
                     CreateMonitoringStation window = null;
-                    try {
-                        window = new CreateMonitoringStation(s);
-                    } catch (ParseException ex) {
-                        Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    window = new CreateMonitoringStation(s);
                     window.setVisible(rootPaneCheckingEnabled);
                     this.dispose();
                     //new Menu().setVisible(true);

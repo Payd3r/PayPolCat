@@ -82,8 +82,8 @@ public class DBManager {
         PreparedStatement stmt = conn.prepareStatement("select * "
                 + "from centromonitoraggio as cm "
                 + "join lavora as l on cm.id = l.id_centro "
-                + "join operatoriregistrati as or on l.id_operatore = or.id "
-                + "join parametriclimatici as pc on or.id = pc.id_operatore"
+                + "join operatoriregistrati as opr on l.id_operatore = opr.id "
+                + "join parametriclimatici as pc on opr.id = pc.id_operatore "
                 + "join ");
         ResultSet rs = stmt.executeQuery();
 //        while(rs.next()) {
