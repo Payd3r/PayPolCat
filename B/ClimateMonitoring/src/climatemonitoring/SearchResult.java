@@ -7,6 +7,7 @@ package climatemonitoring;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,14 +53,14 @@ public class SearchResult extends javax.swing.JFrame {
      * @throws IOException se si verifica un errore di input/output
      * @throws ParseException se si verifica un errore durante il parsing
      */
-    public SearchResult(String areaName, Menu me) throws IOException, ParseException {
+    public SearchResult(String areaName, Menu me) throws ClassNotFoundException, SQLException {
         initComponents();
         grafica();
         refreshTable(areaName);
         m = me;
     }
 
-    private void refreshTable(String areaName) throws IOException, ParseException {
+    private void refreshTable(String areaName) throws ClassNotFoundException, SQLException  {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
         List<Forecast> temp = DatiCondivisi.getInstance().getForecasts(areaName);

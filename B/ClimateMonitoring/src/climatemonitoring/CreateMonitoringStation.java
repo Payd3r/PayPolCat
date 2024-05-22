@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- * Classe che descrive la finestra dove viene creata una nuova stazione di
- * monitoraggio
+ * Classe che descrive la finestra dove viene creata una nuova stazione di monitoraggio
  *
  * @author Ficara Paolo
  * @author Mauri Andrea
@@ -29,12 +29,12 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
 
     //costruttori
     /**
-     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
-     * stazione di monitoraggio e inizializza tutti i tuoi componenti.
+     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio e inizializza tutti i tuoi componenti.
      *
-     * @throws ParseException Errore nella scrittura della data o dell'ora
+     * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
+     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
      */
-    public CreateMonitoringStation() throws IOException, ParseException {
+    public CreateMonitoringStation() throws ClassNotFoundException, SQLException {
         initComponents();
         grafica();
         List<InterestingAreas> monitoringStations = new ArrayList<>();
@@ -45,15 +45,13 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
     }
 
     /**
-     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
-     * stazione di monitoraggio e inizializza tutti i tuoi componenti.
+     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio e inizializza tutti i tuoi componenti.
      *
      * @param s credenziali dell'operatore che si sta registrando
-     * @throws ParseException Errore nella scrittura della data o dell'ora
-     * @throws IOException Errore in lettuera o scrittura nel file delle
-     * stazioni di monitoraggio
+     * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
+     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
      */
-    public CreateMonitoringStation(String s) throws ParseException, IOException {
+    public CreateMonitoringStation(String s) throws ClassNotFoundException, SQLException {
         initComponents();
         grafica();
         List<InterestingAreas> monitoringStations = new ArrayList<>();
@@ -201,35 +199,35 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
             }
             String s = name.getText() + ";" + address.getText() + ";" + a + "\n";
             try {
-                DBManager.write(s, Paths.get("../Data/CentroMonitoraggio.txt"));
-                DBManager.write(partialInfo, Paths.get("../Data/OperatoriRegistrati.txt"));
-            } catch (IOException ex) {
-                Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-//        MenuOperatore m = new MenuOperatore();
-//        m.setVisible(rootPaneCheckingEnabled);
-            String[] info = partialInfo.split(";");
-            this.dispose();
-            try {
+                DBManager.write(s, DatiCondivisi.getInstance().getConn());
+                DBManager.write(partialInfo, DatiCondivisi.getInstance().getConn());
+
+              //MenuOperatore m = new MenuOperatore();
+              //m.setVisible(rootPaneCheckingEnabled);
+                String[] info = partialInfo.split(";");
+                this.dispose();
                 DatiCondivisi.getInstance().setOperatore(new User(info[0], info[1], info[2], info[3], info[4], info[5], name.getText()));
                 DatiCondivisi.getInstance().refresh();
                 new Menu().setVisible(true);
-            } catch (IOException ex) {
+            } catch (ClassNotFoundException ex) {
                 Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
+            } catch (SQLException ex) {
                 Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
     }//GEN-LAST:event_buttonAddActionPerformed
 
     private void buttonAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAdd1ActionPerformed
+        
         try {
             new Menu().setVisible(true);
-        } catch (IOException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_buttonAdd1ActionPerformed
 
     private void btnAggiungiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggiungiActionPerformed

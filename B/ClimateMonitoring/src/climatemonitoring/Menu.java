@@ -7,6 +7,7 @@ package climatemonitoring;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +29,7 @@ public class Menu extends javax.swing.JFrame {
      * @throws IOException se si verifica un errore di input/output.
      * @throws ParseException se si verifica un errore durante il parsing.
      */
-    public Menu() throws IOException, ParseException {
+    public Menu() throws ClassNotFoundException, SQLException {
         initComponents();
         grafica();
         jList1.setVisible(false);
@@ -220,6 +221,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         try {
             DatiCondivisi.getInstance().sortAreas();
             if (jTextField1.getText().length() <= 0) {
@@ -235,14 +237,16 @@ public class Menu extends javax.swing.JFrame {
                 }
 
             }
-        } catch (IOException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+
         try {
             String name = jList1.getSelectedValue();
             if (DatiCondivisi.getInstance().existForecast(name)) {
@@ -252,9 +256,9 @@ public class Menu extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Non ci sono previsioni per l'area selezionata");
             }
-        } catch (IOException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jList1MouseClicked
@@ -266,18 +270,20 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-        //logout
         try {
+            //logout
+            
             DatiCondivisi.getInstance().setOperatore(null);
             jButton4.setVisible(false);
             jButton5.setVisible(false);
             jButton2.setVisible(true);
             jButton3.setVisible(true);
-        } catch (IOException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
@@ -324,9 +330,9 @@ public class Menu extends javax.swing.JFrame {
             public void run() {
                 try {
                     new Menu().setVisible(true);
-                } catch (IOException ex) {
+                } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParseException ex) {
+                } catch (SQLException ex) {
                     Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

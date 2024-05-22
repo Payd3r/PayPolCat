@@ -19,7 +19,7 @@ public class User {
     private String mail;
     private String nick;
     private String password;
-    private int station;
+    private String station;
 
     /**
      * Costruisce un oggetto User con le informazioni personali specificate.
@@ -32,7 +32,7 @@ public class User {
      * @param password la password dell'utente
      * @param station la stazione dell'utente
      */
-    public User(String name, String surname, String cf, String mail, String nick, String password, int station) {
+    public User(String name, String surname, String cf, String mail, String nick, String password, String station) {
         this.name = name;
         this.surname = surname;
         this.cf = cf;
@@ -101,7 +101,7 @@ public class User {
      *
      * @return la stazione dell'utente
      */
-    public int getStation() {
+    public String getStation() {
         return station;
     }
 
@@ -164,7 +164,7 @@ public class User {
      *
      * @param station la stazione dell'utente da impostare
      */
-    public void setStation(int station) {
+    public void setStation(String station) {
         this.station = station;
     }
 
@@ -177,6 +177,6 @@ public class User {
      */
     public static User formCSV(String info) {
         String[] splittedInfo = info.split(";");
-        return new User(splittedInfo[0], splittedInfo[1], splittedInfo[2], splittedInfo[3], splittedInfo[4], splittedInfo[5], Integer.parseInt(splittedInfo[6]));
+        return new User(splittedInfo[0], splittedInfo[1], splittedInfo[2], splittedInfo[3], splittedInfo[4], splittedInfo[5], splittedInfo[6]);
     }
 }

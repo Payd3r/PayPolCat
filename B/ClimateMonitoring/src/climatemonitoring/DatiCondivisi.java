@@ -29,6 +29,10 @@ public class DatiCondivisi {
     private List<Forecast> forecasts;
     private User operatore;
     private Connection conn;
+
+    public Connection getConn() {
+        return conn;
+    }
     private final String JDBC_DRIVER = "org.postgresql.Driver";
 
     // Costruttore

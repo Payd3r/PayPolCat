@@ -4,11 +4,13 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import jdk.jfr.Timestamp;
 
 /**
  * Classe che descrive la finestra dove viene aggiunta una nota alla rilevazione
@@ -71,7 +73,7 @@ public class AddNotes extends javax.swing.JFrame {
         String[] precipitazioni = {"Precipitazioni", Integer.toString(rainfall), ""};
         String[] altitudine = {"Altitudine", Integer.toString(glacierAltitude), ""};
         String[] massa = {"Massa", Integer.toString(massGlaciers), ""};
-        temp = new Forecast(idCitta, nomeStazione, new SimpleDateFormat("dd/MM/yyyy").parse(date), new SimpleDateFormat("hh:mm:ss").parse(time), vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
+        temp = new Forecast(idCitta, nomeStazione, new SimpleDateFormat("dd/MM/yyyy").parse(date), (Timestamp) new SimpleDateFormat("hh:mm:ss").parse(time), vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
 
     }
 
@@ -291,11 +293,15 @@ public class AddNotes extends javax.swing.JFrame {
         t[2] = txtMass.getText();
         temp.setMassa(t);
 
+
         try {
-            DBManager.write(temp.toCSV(), Paths.get("../Data/ParametriClimatici.txt"));
-        } catch (IOException ex) {
+            DBManager.write(temp.toCSV(), DatiCondivisi.getInstance().getConn());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         MenuOperatore m = new MenuOperatore();
         m.setVisible(rootPaneCheckingEnabled);
         this.dispose();

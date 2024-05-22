@@ -7,6 +7,7 @@ package climatemonitoring;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,10 +32,10 @@ public class Login extends javax.swing.JFrame {
     /**
      * Crea una nuova istanza di Login.
      *
-     * @throws IOException se si verifica un errore di input/output
-     * @throws ParseException se si verifica un errore di parsing
+     * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
+     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
      */
-    public Login() throws IOException, ParseException {
+    public Login() throws ClassNotFoundException, SQLException {
         initComponents();
         grafica();        
         users = DatiCondivisi.getInstance().getUsers();
@@ -162,9 +163,9 @@ public class Login extends javax.swing.JFrame {
             } else {
                 try {
                     DatiCondivisi.getInstance().setOperatore(u);
-                } catch (IOException ex) {
+                } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParseException ex) {
+                } catch (SQLException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);
@@ -176,13 +177,14 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
         try {
             Menu m = new Menu();
             m.setVisible(rootPaneCheckingEnabled);
             this.dispose();
-        } catch (IOException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed

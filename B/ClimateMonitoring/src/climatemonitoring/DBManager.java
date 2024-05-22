@@ -26,7 +26,9 @@ public class DBManager {
      */
     public static List<User> readUser(Connection conn) throws SQLException {
         List<User> list = new ArrayList<>();
-        PreparedStatement stmt = conn.prepareStatement("select * from operatoriregistrati");
+        PreparedStatement stmt = conn.prepareStatement("select * from operatoriregistrati as opr"
+                                                        + " join lavora as l on opr.id = l.id_operatore"
+                                                        + " join centromonitoraggio as cm on l.id_centro = cm.id");
         ResultSet rs = stmt.executeQuery();
         while(rs.next()) {
             list.add(new User(
@@ -36,7 +38,7 @@ public class DBManager {
                     rs.getString("mail"),
                     rs.getString("nick"),
                     rs.getString("password"),
-                    rs.getInt("id_stazione")
+                    rs.getString("nome_centro")
             ));
         }
         rs.close();
@@ -86,7 +88,7 @@ public class DBManager {
         ResultSet rs = stmt.executeQuery();
 //        while(rs.next()) {
 //            list.add(new MonitoringStation(
-//                    rs.getString("nome"),
+//                    rs.getString("nome_centro"),
 //                    rs.getString("indirizzo"),
 //                    
 //            ));
@@ -133,7 +135,7 @@ public class DBManager {
      * @param query la insert da eseguire sul database
      * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
-    public static void write(Connection conn, String query) throws SQLException {
+    public static void write(String query, Connection conn) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement(query);
         ResultSet rs = stmt.executeQuery();
         rs.close();
