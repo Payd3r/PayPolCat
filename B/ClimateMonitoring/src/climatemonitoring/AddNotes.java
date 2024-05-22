@@ -7,10 +7,12 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import jdk.jfr.Timestamp;
+import java.sql.Timestamp;
 
 /**
  * Classe che descrive la finestra dove viene aggiunta una nota alla rilevazione
@@ -73,7 +75,7 @@ public class AddNotes extends javax.swing.JFrame {
         String[] precipitazioni = {"Precipitazioni", Integer.toString(rainfall), ""};
         String[] altitudine = {"Altitudine", Integer.toString(glacierAltitude), ""};
         String[] massa = {"Massa", Integer.toString(massGlaciers), ""};
-        temp = new Forecast(idCitta, nomeStazione, new SimpleDateFormat("dd/MM/yyyy").parse(date), (Timestamp) new SimpleDateFormat("hh:mm:ss").parse(time), vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
+        temp = new Forecast(idCitta, nomeStazione, new Date(), new Timestamp(new Date().getTime()), vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
 
     }
 

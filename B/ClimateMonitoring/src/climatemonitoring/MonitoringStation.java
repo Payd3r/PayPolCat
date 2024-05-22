@@ -8,23 +8,29 @@ import java.util.List;
 
 /**
  * Classe che rappresenta una stazione di monitoraggio.
+ *
  * @author Ficara Paolo
- * @author Mauri Andrea 
+ * @author Mauri Andrea
  * @author Luca Cattaneo
  */
 public class MonitoringStation {
+
+    private int id;
     private String name;
     private String address;
-    private List<String> interestingAreas;
+    private List<InterestingAreas> interestingAreas;
 
     /**
-     * Crea una nuova istanza di MonitoringStation con il nome, l'indirizzo e le aree di interesse specificate.
+     * Crea una nuova istanza di MonitoringStation con il nome, l'indirizzo e le
+     * aree di interesse specificate.
      *
      * @param name il nome della stazione di monitoraggio
      * @param address l'indirizzo della stazione di monitoraggio
-     * @param interestingAreas le aree di interesse della stazione di monitoraggio
+     * @param interestingAreas le aree di interesse della stazione di
+     * monitoraggio
      */
-    public MonitoringStation(String name, String address, List<String> interestingAreas) {
+    public MonitoringStation(int id, String name, String address, List<InterestingAreas> interestingAreas) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.interestingAreas = interestingAreas;
@@ -71,7 +77,7 @@ public class MonitoringStation {
      *
      * @return le aree di interesse della stazione di monitoraggio
      */
-    public List<String> getInterestingAreas() {
+    public List<InterestingAreas> getInterestingAreas() {
         return interestingAreas;
     }
 
@@ -80,7 +86,16 @@ public class MonitoringStation {
      *
      * @param interestingAreas le aree di interesse da impostare
      */
-    public void setInterestingAreas(List<String> interestingAreas) {
+    public void setInterestingAreas(List<InterestingAreas> interestingAreas) {
         this.interestingAreas = interestingAreas;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

@@ -6,7 +6,7 @@ package climatemonitoring;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import jdk.jfr.Timestamp;
+import java.sql.Timestamp;
 
 /**
  * Classe che rappresenta una previsione meteorologica.
