@@ -1,15 +1,18 @@
 package climatemonitoring;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.text.ParseException;
+import java.rmi.AlreadyBoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.sql.*;
-import java.util.concurrent.ExecutionException;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe singleton che legge e memorizza le informazioni necessarie per
@@ -20,7 +23,7 @@ import java.util.concurrent.ExecutionException;
  * @author Luca Cattaneo
  *
  */
-public class DatiCondivisi {
+public class DatiCondivisi extends UnicastRemoteObject {
 
     //attributi
     private static DatiCondivisi instance = null;
@@ -30,6 +33,7 @@ public class DatiCondivisi {
     private List<Forecast> forecasts;
     private User operatore;
     private Connection conn;
+    private DBManager dBManager;
 
     public Connection getConn() {
         return conn;
@@ -37,16 +41,18 @@ public class DatiCondivisi {
     private final String JDBC_DRIVER = "org.postgresql.Driver";
 
     // Costruttore
-    private DatiCondivisi() throws ClassNotFoundException, SQLException {
+    private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteException {
+        super();
+        dBManager = new DBManager();
         Class.forName(JDBC_DRIVER);
         conn = DriverManager.getConnection(
                 "jdbc:postgresql://bq9iczb24otntqwrcwhg-postgresql.services.clever-cloud.com:50013/bq9iczb24otntqwrcwhg",
                 "uagv2imu2fqlk18hpwus",
                 "zf5BpoQqzEnEFvcJm1Fox8X1KcX6IR");
-        users = DBManager.readUser(conn);
-        areas = DBManager.readAreas(conn, 0, 10000);
-        forecasts = DBManager.readForecast(conn);
-        monitoringStations = DBManager.readStation(conn);
+        users = dBManager.readUser(conn);
+        areas = dBManager.readAreas(conn, 0, 10000);
+        forecasts = dBManager.readForecast(conn);
+        monitoringStations = dBManager.readStation(conn);
 //        monitoringStations = DBManager.readStation(Paths.get("Data/CentroMonitoraggio.txt"));
 //        users = DBManager.readUser(Paths.get("Data/OperatoriRegistrati.txt"));
 //        areas = DBManager.readAreas(Paths.get("Data/CoordinateMonitoraggio.csv"));
@@ -66,7 +72,11 @@ public class DatiCondivisi {
     public static DatiCondivisi getInstance() throws ClassNotFoundException, SQLException {
         // Crea l'oggetto solo se NON esiste:
         if (instance == null) {
-            instance = new DatiCondivisi();
+            try {
+                instance = new DatiCondivisi();
+            } catch (RemoteException ex) {
+                Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return instance;
     }
@@ -78,10 +88,10 @@ public class DatiCondivisi {
      */
     public void refresh() throws SQLException {
         // Ricrea l'oggetto:       
-        users = DBManager.readUser(conn);
-        areas = DBManager.readAreas(conn, 0, 10000);
-        forecasts = DBManager.readForecast(conn);
-        monitoringStations = DBManager.readStation(conn);
+        users = dBManager.readUser(conn);
+        areas = dBManager.readAreas(conn, 0, 10000);
+        forecasts = dBManager.readForecast(conn);
+        monitoringStations = dBManager.readStation(conn);
         sortAreas();
     }
 
@@ -249,6 +259,17 @@ public class DatiCondivisi {
                 return lhs.getName().compareTo(rhs.getName()) > 0 ? 1 : (lhs.getName().compareTo(rhs.getName())) < 0 ? -1 : 0;
             }
         });
+    }
+    
+    public static void main(String[] args) {
+        Registry r;
+        try {
+            r = LocateRegistry.createRegistry(1234);
+            r.bind("DatiCondivisi", DatiCondivisi.instance);
+        } catch (RemoteException | AlreadyBoundException ex) {
+            Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Server ready");
     }
 
 }

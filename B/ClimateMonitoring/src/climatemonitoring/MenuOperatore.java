@@ -6,8 +6,6 @@ package climatemonitoring;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +33,7 @@ public class MenuOperatore extends javax.swing.JFrame {
      * Creates new form MenuOperatore
      */
     private List<Forecast> f;
+    private DBManager dBManager;
 
     /**
      * Costruttore che crea l'oggetto della finestra dove si andrà ad aggiungere
@@ -54,6 +53,7 @@ public class MenuOperatore extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
+        dBManager = new DBManager();
     }
 
     private void grafica() {
@@ -75,7 +75,7 @@ public class MenuOperatore extends javax.swing.JFrame {
         model.setRowCount(0);
         List<Forecast> temp = new ArrayList<>();
         try {
-            temp = DBManager.readForecast(DatiCondivisi.getInstance().getConn());
+            temp = dBManager.readForecast(DatiCondivisi.getInstance().getConn());
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

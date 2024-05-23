@@ -2,10 +2,7 @@ package climatemonitoring;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,6 +23,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
     //attributi
     private String partialInfo;
     private List<String> areas;
+    private DBManager dBManager;
 
     //costruttori
     /**
@@ -199,8 +197,8 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
             }
             String s = name.getText() + ";" + address.getText() + ";" + a + "\n";
             try {
-                DBManager.write(s, DatiCondivisi.getInstance().getConn());
-                DBManager.write(partialInfo, DatiCondivisi.getInstance().getConn());
+                dBManager.write(s, DatiCondivisi.getInstance().getConn());
+                dBManager.write(partialInfo, DatiCondivisi.getInstance().getConn());
 
               //MenuOperatore m = new MenuOperatore();
               //m.setVisible(rootPaneCheckingEnabled);

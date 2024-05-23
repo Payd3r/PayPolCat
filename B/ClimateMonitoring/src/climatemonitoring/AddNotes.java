@@ -2,12 +2,8 @@ package climatemonitoring;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +23,7 @@ public class AddNotes extends javax.swing.JFrame {
 
     //attributi
     private Forecast temp;
+    private DBManager dBManager;
 
     //costruttori
     /**
@@ -297,10 +294,8 @@ public class AddNotes extends javax.swing.JFrame {
 
 
         try {
-            DBManager.write(temp.toCSV(), DatiCondivisi.getInstance().getConn());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            dBManager.write(temp.toCSV(), DatiCondivisi.getInstance().getConn());
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
         }
 

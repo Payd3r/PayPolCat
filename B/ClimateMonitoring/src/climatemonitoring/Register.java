@@ -27,6 +27,8 @@ import javax.swing.JOptionPane;
  * @author Luca Cattaneo
  */
 public class Register extends javax.swing.JFrame {
+    
+    private DBManager dBManager;
 
     /**
      * Crea una nuova istanza della classe Register.
@@ -38,6 +40,7 @@ public class Register extends javax.swing.JFrame {
         initComponents();
         grafica();
         createComboMonitoringStation(DatiCondivisi.getInstance().getMonitoringStations());
+        dBManager = new DBManager();
     }
 
     private void grafica() {
@@ -337,7 +340,7 @@ public class Register extends javax.swing.JFrame {
                 if (comboMonitoringStation.getSelectedIndex() != 0) {
                     s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());
                     //JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
-                    DBManager.write("\n" + s, DatiCondivisi.getInstance().getConn());
+                    dBManager.write("\n" + s, DatiCondivisi.getInstance().getConn());
                     JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
                     Menu r = new Menu();
                     r.setVisible(rootPaneCheckingEnabled);
