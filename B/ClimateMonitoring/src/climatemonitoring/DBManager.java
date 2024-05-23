@@ -7,6 +7,10 @@ package climatemonitoring;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Classe che fornisce metodi per la lettura del database
@@ -18,13 +22,11 @@ import java.util.List;
 public class DBManager {
 
     /**
-     * Legge il database nella tabella "operatoriregistrati" e restituisce una
-     * lista di oggetti User.
+     * Legge il database nella tabella "operatoriregistrati" e restituisce una lista di oggetti User.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti User letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
     public static List<User> readUser(Connection conn) throws SQLException {
         List<User> list = new ArrayList<>();
@@ -48,40 +50,87 @@ public class DBManager {
     }
 
     /**
-     * Legge il database dalla tabella "coordinatemonitoraggio" e restituisce
-     * una lista di oggetti InterestingAreas.
+     * Legge il database dalla tabella "coordinatemonitoraggio" e restituisce una lista di oggetti InterestingAreas.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti InterestingAreas letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
-    public static List<InterestingAreas> readAreas(Connection conn) throws SQLException {
+    public static List<InterestingAreas> readAreas(Connection conn, int offset, int pageSize) throws SQLException {
         List<InterestingAreas> list = new ArrayList<>();
-        PreparedStatement stmt = conn.prepareStatement("select * from coordinatemonitoraggio");
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            list.add(new InterestingAreas(
-                    rs.getInt("id"),
-                    rs.getString("nome"),
-                    rs.getString("sigla_stato"),
-                    rs.getString("stato"),
-                    rs.getString("latitudine"),
-                    rs.getString("longitudine")
-            ));
+        String sql = "SELECT * FROM get_interesting_areas_with_pagination(?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, offset);
+            stmt.setInt(2, pageSize);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                list.add(new InterestingAreas(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("sigla_stato"),
+                        rs.getString("stato"),
+                        rs.getString("latitudine"),
+                        rs.getString("longitudine")
+                ));
+            }
+            rs.close();
         }
-        rs.close();
         return list;
     }
+//    public static List<InterestingAreas> readAreas(Connection conn) throws SQLException, InterruptedException, ExecutionException {
+//        int totalRecords = 140868; // Numero totale di record
+//        int batchSize = 10000; // Dimensione del batch
+//        int totalBatches = (totalRecords + batchSize - 1) / batchSize;
+//
+//        ExecutorService executor = Executors.newFixedThreadPool(10); // Pool di thread per parallelizzare
+//        List<Future<List<InterestingAreas>>> futures = new ArrayList<>(); //lista che raccoglie mediante oggetto future i risultati delle query in parallelo
+//
+//        for (int i = 0; i < totalBatches; i++) {
+//            final int batchStart = i * batchSize;
+//            final int batchEnd = Math.min(batchStart + batchSize, totalRecords);
+//
+//            futures.add(executor.submit(() -> fetchBatch(conn, batchStart, batchEnd))); // query in parallelo
+//        }
+//
+//        List<InterestingAreas> allAreas = new ArrayList<>();
+//        for (Future<List<InterestingAreas>> future : futures) {
+//            allAreas.addAll(future.get());
+//        }
+//
+//        executor.shutdown();
+//        return allAreas;
+//    }
+//
+//    //metodo che esegue la query attuale
+//    private static List<InterestingAreas> fetchBatch(Connection conn, int start, int end) throws SQLException {
+//        List<InterestingAreas> list = new ArrayList<>();
+//        String query = "SELECT id, nome, sigla_stato, stato, latitudine, longitudine FROM coordinatemonitoraggio WHERE id BETWEEN ? AND ?";
+//        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+//            stmt.setInt(1, start);
+//            stmt.setInt(2, end);
+//
+//            try (ResultSet rs = stmt.executeQuery()) {
+//                while (rs.next()) {
+//                    list.add(new InterestingAreas(
+//                            rs.getInt("id"),
+//                            rs.getString("nome"),
+//                            rs.getString("sigla_stato"),
+//                            rs.getString("stato"),
+//                            rs.getString("latitudine"),
+//                            rs.getString("longitudine")
+//                    ));
+//                }
+//            }
+//        }
+//        return list;
+//    }
 
     /**
-     * Legge il database nella tabella "centromonitoraggio" e restituisce una
-     * lista di oggetti MonitoringStation.
+     * Legge il database nella tabella "centromonitoraggio" e restituisce una lista di oggetti MonitoringStation.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti MonitoringStation letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
     public static List<MonitoringStation> readStation(Connection conn) throws SQLException {
         List<MonitoringStation> list = new ArrayList<>();
@@ -106,13 +155,11 @@ public class DBManager {
     }
 
     /**
-     * Legge il databse nella tabella "parametriclimatici" e restituisce una
-     * lista di oggetti Forecast.
+     * Legge il databse nella tabella "parametriclimatici" e restituisce una lista di oggetti Forecast.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti Forecast letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
     public static List<Forecast> readForecast(Connection conn) throws SQLException {
         List<Forecast> list = new ArrayList<>();
@@ -143,8 +190,7 @@ public class DBManager {
      *
      * @param conn la connessione al database
      * @param query la insert da eseguire sul database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
     public static void write(String query, Connection conn) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement(query);

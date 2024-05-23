@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.sql.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Classe singleton che legge e memorizza le informazioni necessarie per
@@ -43,7 +44,7 @@ public class DatiCondivisi {
                 "uagv2imu2fqlk18hpwus",
                 "zf5BpoQqzEnEFvcJm1Fox8X1KcX6IR");
         users = DBManager.readUser(conn);
-        areas = DBManager.readAreas(conn);
+        areas = DBManager.readAreas(conn, 0, 10000);
         forecasts = DBManager.readForecast(conn);
         monitoringStations = DBManager.readStation(conn);
 //        monitoringStations = DBManager.readStation(Paths.get("Data/CentroMonitoraggio.txt"));
@@ -78,7 +79,7 @@ public class DatiCondivisi {
     public void refresh() throws SQLException {
         // Ricrea l'oggetto:       
         users = DBManager.readUser(conn);
-        areas = DBManager.readAreas(conn);
+        areas = DBManager.readAreas(conn, 0, 10000);
         forecasts = DBManager.readForecast(conn);
         monitoringStations = DBManager.readStation(conn);
         sortAreas();
