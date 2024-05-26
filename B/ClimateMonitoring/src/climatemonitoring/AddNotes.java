@@ -2,6 +2,7 @@ package climatemonitoring;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
@@ -263,45 +264,49 @@ public class AddNotes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String[] t = new String[3];
-        t = temp.getVento();
-        t[2] = txtVento.getText();
-        temp.setVento(t);
-
-        t = temp.getUmidita();
-        t[2] = txtUmidita.getText();
-        temp.setUmidita(t);
-
-        t = temp.getPressione();
-        t[2] = txtPress.getText();
-        temp.setPressione(t);
-
-        t = temp.getTemperatura();
-        t[2] = txtTemp.getText();
-        temp.setTemperatura(t);
-
-        t = temp.getPrecipitazioni();
-        t[2] = txtPrec.getText();
-        temp.setPrecipitazioni(t);
-
-        t = temp.getAltitudine();
-        t[2] = txtAlt.getText();
-        temp.setAltitudine(t);
-
-        t = temp.getMassa();
-        t[2] = txtMass.getText();
-        temp.setMassa(t);
-
-
-        try {
-            dBManager.write(temp.toCSV(), DatiCondivisi.getInstance().getConn());
-        } catch (ClassNotFoundException | SQLException ex) {
+        try {                                         
+            String[] t = new String[3];
+            t = temp.getVento();
+            t[2] = txtVento.getText();
+            temp.setVento(t);
+            
+            t = temp.getUmidita();
+            t[2] = txtUmidita.getText();
+            temp.setUmidita(t);
+            
+            t = temp.getPressione();
+            t[2] = txtPress.getText();
+            temp.setPressione(t);
+            
+            t = temp.getTemperatura();
+            t[2] = txtTemp.getText();
+            temp.setTemperatura(t);
+            
+            t = temp.getPrecipitazioni();
+            t[2] = txtPrec.getText();
+            temp.setPrecipitazioni(t);
+            
+            t = temp.getAltitudine();
+            t[2] = txtAlt.getText();
+            temp.setAltitudine(t);
+            
+            t = temp.getMassa();
+            t[2] = txtMass.getText();
+            temp.setMassa(t);
+            
+            
+            try {
+                dBManager.write(temp.toCSV(), DatiCondivisi.getInstance().getConn());
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            MenuOperatore m = new MenuOperatore();
+            m.setVisible(rootPaneCheckingEnabled);
+            this.dispose();
+        } catch (RemoteException ex) {
             Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        MenuOperatore m = new MenuOperatore();
-        m.setVisible(rootPaneCheckingEnabled);
-        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtVentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVentoKeyPressed

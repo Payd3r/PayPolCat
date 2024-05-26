@@ -1,14 +1,11 @@
 package climatemonitoring;
 
-import java.rmi.AlreadyBoundException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.sql.*;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
@@ -27,14 +24,14 @@ public class DatiCondivisi extends UnicastRemoteObject {
 
     //attributi
     private static DatiCondivisi instance = null;
-    private List<MonitoringStation> monitoringStations;
-    private List<User> users;
-    private List<InterestingAreas> areas;
-    private List<Forecast> forecasts;
+    private ArrayList<MonitoringStation> monitoringStations;
+    private ArrayList<User> users;
+    private ArrayList<InterestingAreas> areas;
+    private ArrayList<Forecast> forecasts;
     private User operatore;
     private Connection conn;
     private DBManager dBManager;
-
+    
     public Connection getConn() {
         return conn;
     }
@@ -53,10 +50,6 @@ public class DatiCondivisi extends UnicastRemoteObject {
         areas = dBManager.readAreas(conn, 0, 10000);
         forecasts = dBManager.readForecast(conn);
         monitoringStations = dBManager.readStation(conn);
-//        monitoringStations = DBManager.readStation(Paths.get("Data/CentroMonitoraggio.txt"));
-//        users = DBManager.readUser(Paths.get("Data/OperatoriRegistrati.txt"));
-//        areas = DBManager.readAreas(Paths.get("Data/CoordinateMonitoraggio.csv"));
-//        forecasts = DBManager.readForecast(Paths.get("Data/ParametriClimatici.txt"));
         operatore = null;
         sortAreas();
     }
@@ -67,7 +60,8 @@ public class DatiCondivisi extends UnicastRemoteObject {
      *
      * @return l'istanza della classe
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
-     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws SQLException Errore nella connessione al database o
+     * nell'esecuzione della query
      */
     public static DatiCondivisi getInstance() throws ClassNotFoundException, SQLException {
         // Crea l'oggetto solo se NON esiste:
@@ -84,9 +78,10 @@ public class DatiCondivisi extends UnicastRemoteObject {
     /**
      * Metodo che ricrea l'unica instanza della classe
      *
-     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws SQLException Errore nella connessione al database o
+     * nell'esecuzione della query
      */
-    public void refresh() throws SQLException {
+    public void refresh() throws SQLException, ClassNotFoundException {
         // Ricrea l'oggetto:       
         users = dBManager.readUser(conn);
         areas = dBManager.readAreas(conn, 0, 10000);
@@ -100,7 +95,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      *
      * @return una <strong>List</strong> di MonitoringStation
      */
-    public List<MonitoringStation> getMonitoringStations() {
+    public ArrayList<MonitoringStation> getMonitoringStations() {
         return monitoringStations;
     }
 
@@ -109,7 +104,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      *
      * @return una <strong>List</strong> di <strong>User</strong>
      */
-    public List<User> getUsers() {
+    public ArrayList<User> getUsers() {
         return users;
     }
 
@@ -118,7 +113,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      *
      * @return una <strong>List</strong> di <strong>InterestingAreas</strong>
      */
-    public List<InterestingAreas> getAreas() {
+    public ArrayList<InterestingAreas> getAreas() {
         return areas;
     }
 
@@ -127,10 +122,14 @@ public class DatiCondivisi extends UnicastRemoteObject {
      *
      * @return una <strong>List</strong> di <strong>Forecast</strong>
      */
-    public List<Forecast> getForecasts() {
+    public ArrayList<Forecast> getForecasts() {
         return forecasts;
     }
-
+    
+    public void insert(String s) throws SQLException {
+        dBManager.write(s, conn);
+    }
+    
     private static double calcDist(double lat1, double lon1, double lat2, double lon2) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
@@ -150,7 +149,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * memorizza le città nell'area d'interesse
      */
     public String[] cercaAreaGeografica(String s) {
-        List<String> intAreas = new ArrayList<String>();
+        ArrayList<String> intAreas = new ArrayList<String>();
         if (Character.isDigit(s.charAt(0))) {
             //controllo con lat lon           
             double lat1 = Double.parseDouble(s.split(" ")[0]);
@@ -158,7 +157,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
             intAreas = cercaLimitrofo(lat1, lon1);
         } else {
             //controllo con nome città
-            List<InterestingAreas> l = areas.parallelStream().filter(elemento -> elemento.contains(s)).collect(Collectors.toList());
+            ArrayList<InterestingAreas> l = (ArrayList<InterestingAreas>) areas.parallelStream().filter(elemento -> elemento.contains(s)).collect(Collectors.toList());
             if (l.size() == 1) {
                 intAreas.add(l.get(0).getName());
                 double lat1 = Double.parseDouble(l.get(0).getLat());
@@ -182,8 +181,8 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @return una <strong>List</strong> di <strong>String</strong> contenente
      * le aree di interesse vicine
      */
-    public List<String> cercaLimitrofo(double lat1, double lon1) {
-        List<String> intAreas = new ArrayList<String>();
+    public ArrayList<String> cercaLimitrofo(double lat1, double lon1) {
+        ArrayList<String> intAreas = new ArrayList<String>();
         double lat2, lon2;
         for (int i = 0; i < areas.size(); i++) {
             lat2 = Double.parseDouble(areas.get(i).getLat());
@@ -221,8 +220,8 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @param name nome città
      * @return una <strong>List</strong> di <strong>Forecast</strong>
      */
-    public List<Forecast> getForecasts(String name) {
-        List<Forecast> temp = new ArrayList<Forecast>();
+    public ArrayList<Forecast> getForecasts(String name) {
+        ArrayList<Forecast> temp = new ArrayList<Forecast>();
         for (int i = 0; i < forecasts.size(); i++) {
             if (forecasts.get(i).getIdCittà().equalsIgnoreCase(name)) {
                 temp.add(forecasts.get(i));
@@ -261,15 +260,4 @@ public class DatiCondivisi extends UnicastRemoteObject {
         });
     }
     
-    public static void main(String[] args) {
-        Registry r;
-        try {
-            r = LocateRegistry.createRegistry(1234);
-            r.bind("DatiCondivisi", DatiCondivisi.instance);
-        } catch (RemoteException | AlreadyBoundException ex) {
-            Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("Server ready");
-    }
-
 }

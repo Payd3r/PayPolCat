@@ -12,8 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 /**
  * Classe che rappresenta il menu principale dell'applicazione.
@@ -28,13 +26,14 @@ public class Menu extends javax.swing.JFrame {
      * Crea una nuova istanza della classe Menu.
      *
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
-     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws SQLException Errore nella connessione al database o
+     * nell'esecuzione della query
      */
-    public Menu() throws ClassNotFoundException, SQLException {
+    public Menu() throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
         grafica();
         jList1.setVisible(false);
-        if (DatiCondivisi.getInstance().getOperatore() != null) {            
+        if (ClientHandler.getInstance().getStub().readUser() != null) {
             jButton2.setVisible(false);
             jButton3.setVisible(false);
             jButton4.setVisible(true);
@@ -44,13 +43,14 @@ public class Menu extends javax.swing.JFrame {
             jButton5.setVisible(false);
         }
     }
-    
+
     private void grafica() {
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -203,22 +203,17 @@ public class Menu extends javax.swing.JFrame {
             Login l = new Login();
             l.setVisible(rootPaneCheckingEnabled);
             this.dispose();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | RemoteException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
         try {
             Register r = new Register();
             r.setVisible(rootPaneCheckingEnabled);
             this.dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException | RemoteException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -226,11 +221,11 @@ public class Menu extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         try {
-            DatiCondivisi.getInstance().sortAreas();
+            ClientHandler.getInstance().getStub().sortAreas();
             if (jTextField1.getText().length() <= 0) {
                 JOptionPane.showMessageDialog(null, "Inserire almeno un carattere");
             } else {
-                String[] a = DatiCondivisi.getInstance().cercaAreaGeografica(jTextField1.getText());
+                String[] a = ClientHandler.getInstance().getStub().cercaAreaGeografica(jTextField1.getText());
                 if (a.length != 0) {
                     jList1.setVisible(true);
                     jList1.setListData(a);
@@ -238,11 +233,8 @@ public class Menu extends javax.swing.JFrame {
                     jList1.setVisible(false);
                     JOptionPane.showMessageDialog(null, "Non esiste questa zona");
                 }
-
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -252,41 +244,38 @@ public class Menu extends javax.swing.JFrame {
 
         try {
             String name = jList1.getSelectedValue();
-            if (DatiCondivisi.getInstance().existForecast(name)) {
+            if (ClientHandler.getInstance().getStub().existForecast(name)) {
                 SearchResult r = new SearchResult(name, this);
                 r.setVisible(rootPaneCheckingEnabled);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Non ci sono previsioni per l'area selezionata");
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | RemoteException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
-        MenuOperatore r = new MenuOperatore();
-        r.setVisible(rootPaneCheckingEnabled);
-        this.dispose();
+        try {
+            MenuOperatore r = new MenuOperatore();
+            r.setVisible(rootPaneCheckingEnabled);
+            this.dispose();
+        } catch (RemoteException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         try {
-            //logout
-            
-            DatiCondivisi.getInstance().setOperatore(null);
+            ClientHandler.getInstance().getStub().setOperatore(null);
             jButton4.setVisible(false);
             jButton5.setVisible(false);
             jButton2.setVisible(true);
             jButton3.setVisible(true);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
@@ -298,19 +287,11 @@ public class Menu extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        try {
-            Registry registry = LocateRegistry.getRegistry(1234);
-            
-        } catch (RemoteException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        }
         java.awt.EventQueue.invokeLater(() -> {
             try {
                 new Menu().setVisible(true);
-            } catch (ClassNotFoundException ex) {
+            } catch (ClassNotFoundException | RemoteException | SQLException ex) {
                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
     }

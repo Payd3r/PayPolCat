@@ -8,16 +8,22 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
  * @author paolo
  */
 public interface Stub extends Remote {
-    List<User> readUser(Connection conn) throws SQLException, RemoteException;
-    List<InterestingAreas> readAreas(Connection conn, int offset, int pageSize) throws SQLException, RemoteException;
-    List<MonitoringStation> readStation(Connection conn) throws SQLException, RemoteException;
-    List<Forecast> readForecast(Connection conn) throws SQLException, RemoteException;
-    void write(String query, Connection conn) throws SQLException, RemoteException;
+    ArrayList<User> readUser() throws SQLException, RemoteException;
+    ArrayList<InterestingAreas> readAreas() throws SQLException, RemoteException;
+    ArrayList<MonitoringStation> readStation() throws SQLException, RemoteException;
+    ArrayList<Forecast> readForecast() throws SQLException, RemoteException;
+    void write(String query) throws SQLException, RemoteException;
+    void sortAreas() throws RemoteException;
+    String[] cercaAreaGeografica(String a) throws RemoteException;
+    boolean existForecast(String a) throws RemoteException;
+    void setOperatore(User a) throws RemoteException;
+    User getOperatore() throws RemoteException;
+    void refresh() throws RemoteException;
 }

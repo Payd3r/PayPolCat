@@ -2,6 +2,7 @@ package climatemonitoring;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- * Classe che descrive la finestra dove viene creata una nuova stazione di monitoraggio
+ * Classe che descrive la finestra dove viene creata una nuova stazione di
+ * monitoraggio
  *
  * @author Ficara Paolo
  * @author Mauri Andrea
@@ -27,33 +29,37 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
 
     //costruttori
     /**
-     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio e inizializza tutti i tuoi componenti.
+     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
+     * stazione di monitoraggio e inizializza tutti i tuoi componenti.
      *
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
-     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws SQLException Errore nella connessione al database o
+     * nell'esecuzione della query
      */
-    public CreateMonitoringStation() throws ClassNotFoundException, SQLException {
+    public CreateMonitoringStation() throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
         grafica();
         List<InterestingAreas> monitoringStations = new ArrayList<>();
-        monitoringStations = DatiCondivisi.getInstance().getAreas();
+        monitoringStations = ClientHandler.getInstance().getStub().readAreas();
         createComboMonitoringStation(monitoringStations);
         partialInfo = "";
         areas = new ArrayList<>();
     }
 
     /**
-     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio e inizializza tutti i tuoi componenti.
+     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
+     * stazione di monitoraggio e inizializza tutti i tuoi componenti.
      *
      * @param s credenziali dell'operatore che si sta registrando
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
-     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws SQLException Errore nella connessione al database o
+     * nell'esecuzione della query
      */
-    public CreateMonitoringStation(String s) throws ClassNotFoundException, SQLException {
+    public CreateMonitoringStation(String s) throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
         grafica();
         List<InterestingAreas> monitoringStations = new ArrayList<>();
-        monitoringStations = DatiCondivisi.getInstance().getAreas();
+        monitoringStations = ClientHandler.getInstance().getStub().readAreas();
         createComboMonitoringStation(monitoringStations);
         partialInfo = s;
         areas = new ArrayList<>();
@@ -200,32 +206,25 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
                 dBManager.write(s, DatiCondivisi.getInstance().getConn());
                 dBManager.write(partialInfo, DatiCondivisi.getInstance().getConn());
 
-              //MenuOperatore m = new MenuOperatore();
-              //m.setVisible(rootPaneCheckingEnabled);
+                //MenuOperatore m = new MenuOperatore();
+                //m.setVisible(rootPaneCheckingEnabled);
                 String[] info = partialInfo.split(";");
                 this.dispose();
-                DatiCondivisi.getInstance().setOperatore(new User(info[0], info[1], info[2], info[3], info[4], info[5], name.getText()));
-                DatiCondivisi.getInstance().refresh();
+                ClientHandler.getInstance().getStub().setOperatore(new User(info[0], info[1], info[2], info[3], info[4], info[5], name.getText()));
+                ClientHandler.getInstance().getStub().refresh();
                 new Menu().setVisible(true);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
+            } catch (ClassNotFoundException | SQLException | RemoteException ex) {
                 Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }//GEN-LAST:event_buttonAddActionPerformed
 
     private void buttonAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAdd1ActionPerformed
-        
         try {
             new Menu().setVisible(true);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | RemoteException ex) {
             Logger.getLogger(CreateMonitoringStation.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_buttonAdd1ActionPerformed
 
     private void btnAggiungiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggiungiActionPerformed

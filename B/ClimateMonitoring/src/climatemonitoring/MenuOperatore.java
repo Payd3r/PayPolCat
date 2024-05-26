@@ -6,6 +6,7 @@ package climatemonitoring;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,16 +42,14 @@ public class MenuOperatore extends javax.swing.JFrame {
      * tabella con i dati salvati in precedenza
      *
      */
-    public MenuOperatore() {
+    public MenuOperatore() throws RemoteException {
         initComponents();
         grafica();
         try {
-            lblWelcome.setText("Benvenuto: " + DatiCondivisi.getInstance().getOperatore().getNick());
+            lblWelcome.setText("Benvenuto: " + ClientHandler.getInstance().getStub().getOperatore().getNick());
             createComboMonitoringStation();
-            refreshTable(cmbAreas.getSelectedItem().toString(), DatiCondivisi.getInstance().getOperatore().getStation());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            refreshTable(cmbAreas.getSelectedItem().toString(), ClientHandler.getInstance().getStub().getOperatore().getStation());
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
         dBManager = new DBManager();
@@ -62,23 +61,14 @@ public class MenuOperatore extends javax.swing.JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
-//    public MenuOperatore(User u) throws IOException, ParseException {
-//        initComponents();
-//        DatiCondivisi.getInstance().setOperatore(u);
-//        lblWelcome.setText("Benvenuto: " + DatiCondivisi.getInstance().getOperatore().getNick());
-//        createComboMonitoringStation();
-//        refreshTable(cmbAreas.getSelectedItem().toString(), DatiCondivisi.getInstance().getOperatore().getStation());
-//    }
 
     private void refreshTable(String area, String stazione) {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
         List<Forecast> temp = new ArrayList<>();
         try {
-            temp = dBManager.readForecast(DatiCondivisi.getInstance().getConn());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            temp = ClientHandler.getInstance().getStub().readForecast();
+        } catch (SQLException | RemoteException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
         f = new ArrayList<Forecast>();
@@ -90,10 +80,10 @@ public class MenuOperatore extends javax.swing.JFrame {
         }
     }
 
-    private void createComboMonitoringStation() throws ClassNotFoundException, SQLException {
-        List<MonitoringStation> monitoringStations = DatiCondivisi.getInstance().getMonitoringStations();
+    private void createComboMonitoringStation() throws ClassNotFoundException, SQLException, RemoteException {
+        List<MonitoringStation> monitoringStations = ClientHandler.getInstance().getStub().readStation();
         List<InterestingAreas> areas = null;
-        String maurifrocio = DatiCondivisi.getInstance().getOperatore().getStation();
+        String maurifrocio = ClientHandler.getInstance().getStub().getOperatore().getStation();
         for (int i = 0; i < monitoringStations.size(); i++) {
             if (maurifrocio.equals(monitoringStations.get(i).getName())) {
                 areas = monitoringStations.get(i).getInterestingAreas();
@@ -459,10 +449,8 @@ public class MenuOperatore extends javax.swing.JFrame {
 
     private void cmbAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreasActionPerformed
         try {
-            refreshTable(cmbAreas.getSelectedItem().toString(), DatiCondivisi.getInstance().getOperatore().getStation());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            refreshTable(cmbAreas.getSelectedItem().toString(), ClientHandler.getInstance().getStub().getOperatore().getStation());
+        } catch (RemoteException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cmbAreasActionPerformed
@@ -483,12 +471,8 @@ public class MenuOperatore extends javax.swing.JFrame {
         //model.addRow(new Object[]{date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers});
         AddNotes a = null;
         try {
-            a = new AddNotes(cmbAreas.getSelectedItem().toString(), DatiCondivisi.getInstance().getOperatore().getStation(), date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
+            a = new AddNotes(cmbAreas.getSelectedItem().toString(), ClientHandler.getInstance().getStub().getOperatore().getStation(), date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers);
+        } catch (ParseException | RemoteException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
         a.setVisible(rootPaneCheckingEnabled);
@@ -496,15 +480,11 @@ public class MenuOperatore extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
         try {
-
-            DatiCondivisi.getInstance().refresh();
+            ClientHandler.getInstance().getStub().refresh();
             dispose();
             new Menu().setVisible(true);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | RemoteException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -571,17 +551,13 @@ public class MenuOperatore extends javax.swing.JFrame {
     }//GEN-LAST:event_tblRilevazioniMouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-
         try {
-            DatiCondivisi.getInstance().setOperatore(null);
+            ClientHandler.getInstance().getStub().setOperatore(null);
             dispose();
             new Menu().setVisible(true);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | RemoteException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_jButton5MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

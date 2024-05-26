@@ -7,6 +7,7 @@ package climatemonitoring;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
@@ -35,10 +36,10 @@ public class Login extends javax.swing.JFrame {
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
      * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
      */
-    public Login() throws ClassNotFoundException, SQLException {
+    public Login() throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
         grafica();        
-        users = DatiCondivisi.getInstance().getUsers();
+        users = ClientHandler.getInstance().getStub().readUser();
     }
     
     private void grafica() {
@@ -160,18 +161,20 @@ public class Login extends javax.swing.JFrame {
             }
             if (!found) {
                 JOptionPane.showMessageDialog(null, "Utente non trovato", "Errore", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                try {
-                    DatiCondivisi.getInstance().setOperatore(u);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
+            } else {               
+                try {               
+                    try {
+                        ClientHandler.getInstance().getStub().setOperatore(u);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);
+                    MenuOperatore r = new MenuOperatore();
+                    r.setVisible(rootPaneCheckingEnabled);
+                    this.dispose();
+                } catch (RemoteException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                JOptionPane.showMessageDialog(null, "Accesso effettuato con successo", "Accesso eseguito", JOptionPane.INFORMATION_MESSAGE);
-                MenuOperatore r = new MenuOperatore();
-                r.setVisible(rootPaneCheckingEnabled);
-                this.dispose();
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -182,9 +185,7 @@ public class Login extends javax.swing.JFrame {
             Menu m = new Menu();
             m.setVisible(rootPaneCheckingEnabled);
             this.dispose();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | RemoteException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed

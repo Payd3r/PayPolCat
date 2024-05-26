@@ -15,7 +15,7 @@ import java.util.List;
  * @author Mauri Andrea
  * @author Luca Cattaneo
  */
-public class DBManager implements Stub {
+public class DBManager {
 
     /**
      * Legge il database nella tabella "operatoriregistrati" e restituisce una lista di oggetti User.
@@ -24,9 +24,9 @@ public class DBManager implements Stub {
      * @return una lista di oggetti User letti dal database
      * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
-    @Override
-    public List<User> readUser(Connection conn) throws SQLException {
-        List<User> list = new ArrayList<>();
+    
+    public ArrayList<User> readUser(Connection conn) throws SQLException, ClassNotFoundException {
+        ArrayList<User> list = new ArrayList<>();
         PreparedStatement stmt = conn.prepareStatement("select * from operatoriregistrati as opr"
                 + " join lavora as l on opr.id = l.id_operatore"
                 + " join centromonitoraggio as cm on l.id_centro = cm.id");
@@ -54,10 +54,9 @@ public class DBManager implements Stub {
      * @param pageSize
      * @return una lista di oggetti InterestingAreas letti dal database
      * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
-     */
-    @Override
-    public List<InterestingAreas> readAreas(Connection conn, int offset, int pageSize) throws SQLException {
-        List<InterestingAreas> list = new ArrayList<>();
+     */    
+    public ArrayList<InterestingAreas> readAreas(Connection conn, int offset, int pageSize) throws SQLException {
+        ArrayList<InterestingAreas> list = new ArrayList<>();
         String sql = "SELECT * FROM get_interesting_areas_with_pagination(?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, offset);
@@ -85,9 +84,9 @@ public class DBManager implements Stub {
      * @return una lista di oggetti MonitoringStation letti dal database
      * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
-    @Override
-    public List<MonitoringStation> readStation(Connection conn) throws SQLException {
-        List<MonitoringStation> list = new ArrayList<>();
+    
+    public ArrayList<MonitoringStation> readStation(Connection conn) throws SQLException {
+        ArrayList<MonitoringStation> list = new ArrayList<>();
         PreparedStatement stmt = conn.prepareStatement("select * from centromonitoraggio");
         ResultSet rs = stmt.executeQuery();
         List<InterestingAreas> areeInteresse = new ArrayList<>();
@@ -115,9 +114,9 @@ public class DBManager implements Stub {
      * @return una lista di oggetti Forecast letti dal database
      * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
-    @Override
-    public List<Forecast> readForecast(Connection conn) throws SQLException {
-        List<Forecast> list = new ArrayList<>();
+    
+    public ArrayList<Forecast> readForecast(Connection conn) throws SQLException {
+        ArrayList<Forecast> list = new ArrayList<>();
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM parametriclimatici as pc "
                 + "JOIN operatoriregistrati AS opr ON pc.id_operatore = opr.id");
         ResultSet rs = stmt.executeQuery();
@@ -147,7 +146,7 @@ public class DBManager implements Stub {
      * @param query la insert da eseguire sul database
      * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
-    @Override
+   
     public void write(String query, Connection conn) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement(query);
         ResultSet rs = stmt.executeQuery();
