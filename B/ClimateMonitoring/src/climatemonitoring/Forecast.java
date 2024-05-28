@@ -36,8 +36,9 @@ public class Forecast {
     private String nota_altitudine;
     private int massa;
     private String nota_massa;
+    private int id_Stazione;
 
-    public Forecast(int id_Coordinate, int id_Operatore, String nomeStazione, Date data, Timestamp ora, int vento, String nota_vento, int umidita, String nota_umidita, int pressione, String nota_pressione, int temperatura, String nota_temperatura, int precipitazioni, String nota_precipitazioni, int altitudine, String nota_altitudine, int massa, String nota_massa) {
+    public Forecast(int id_Coordinate, int id_Operatore, String nomeStazione, Date data, Timestamp ora, int vento, String nota_vento, int umidita, String nota_umidita, int pressione, String nota_pressione, int temperatura, String nota_temperatura, int precipitazioni, String nota_precipitazioni, int altitudine, String nota_altitudine, int massa, String nota_massa, int id_Stazione) {
         this.id_Coordinate = id_Coordinate;
         this.id_Operatore = id_Operatore;
         this.nomeStazione = nomeStazione;
@@ -57,9 +58,10 @@ public class Forecast {
         this.nota_altitudine = nota_altitudine;
         this.massa = massa;
         this.nota_massa = nota_massa;
+        this.id_Stazione = id_Stazione;
     }
 
-    public int getId_Coordinate() {
+    public int getId_Coordinata() {
         return id_Coordinate;
     }
 
@@ -211,17 +213,24 @@ public class Forecast {
         this.nota_massa = nota_massa;
     }
 
-    
+    public int getId_Stazione() {
+        return id_Stazione;
+    }
+
+    public void setId_Stazione(int id_Stazione) {
+        this.id_Stazione = id_Stazione;
+    }
+
     /**
      * Restituisce una rappresentazione in formato CSV della previsione
      * meteorologica.
      *
-     * @return una stringa nel formato CSV INSERT INTO cars (brand, model, year)
-     * VALUES ('Ford', 'Mustang', 1964);
      */
     public String toCSV() {
-        String query = "  INSERT INTO parametriclimatici(id_coordinate,id_operatore,data,ora,vento,nota_vento,umidita,nota_umidita,pressione,nota_pressione,temperatura,nota_temperatura,precipitazioni,nota_precipitazioni,altitudine,nota_altitudine,massa,nota_massa)"
-                + "     VALUES (";
-        return 1;
+        return "INSERT INTO parametriclimatici(id_coordinate,id_operatore,data,ora,vento,nota_vento,umidita,nota_umidita,pressione,nota_pressione,temperatura,nota_temperatura,precipitazioni,nota_precipitazioni,altitudine,nota_altitudine,massa,nota_massa)" + "     VALUES (" + id_Coordinate + "," + id_Operatore + "," + data + "," + ora + "," + vento + "," + nota_vento + "," + umidita + "," + nota_umidita + "," + pressione + "," + nota_pressione + "," + temperatura + "," + nota_temperatura + "," + precipitazioni + "," + nota_precipitazioni + "," + altitudine + "," + nota_altitudine + "," + massa + "," + nota_massa + ")";
+    }
+
+    public int getIdStazione() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

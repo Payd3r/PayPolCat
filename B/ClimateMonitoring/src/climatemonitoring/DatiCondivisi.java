@@ -200,13 +200,13 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * Metodo che controlla se una determinata area di interesse ha delle
      * rilevazioni
      *
-     * @param area area di interesse
+     * @param id_Coordinata area di interesse
      * @return <strong>true</strong> se l'area ha rilevazioni,
      * <strong>falso</strong> se
      */
-    public boolean existForecast(String area) {
+    public boolean existForecast(int id_Coordinata) {
         for (int i = 0; i < forecasts.size(); i++) {
-            if (forecasts.get(i).getIdCittà().equalsIgnoreCase(area)) {
+            if (forecasts.get(i).getId_Coordinata() == id_Coordinata) {
                 return true;
             }
         }
@@ -216,13 +216,13 @@ public class DatiCondivisi extends UnicastRemoteObject {
     /**
      * Metodo che restituisce le rilevazioni di una determinata città
      *
-     * @param name nome città
+     * @param id_Coordinata nome città
      * @return una <strong>List</strong> di <strong>Forecast</strong>
      */
-    public ArrayList<Forecast> getForecasts(String name) {
+    public ArrayList<Forecast> getForecasts(int id_Coordinata) {
         ArrayList<Forecast> temp = new ArrayList<Forecast>();
         for (int i = 0; i < forecasts.size(); i++) {
-            if (forecasts.get(i).getIdCittà().equalsIgnoreCase(name)) {
+            if (forecasts.get(i).getId_Coordinata() == id_Coordinata) {
                 temp.add(forecasts.get(i));
             }
         }
@@ -249,7 +249,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
             String s = "  INSERT INTO operatoriregistrati(nome,cognome,cf,mail,nick,passowrd)"
                     + " VALUES (" + operatore.getName() + "," + operatore.getSurname() + "," + operatore.getCf() + "," + operatore.getMail() + "," + operatore.getNick() + "," + operatore.getPassword() + ")";
             dBManager.write(s, conn);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
         }

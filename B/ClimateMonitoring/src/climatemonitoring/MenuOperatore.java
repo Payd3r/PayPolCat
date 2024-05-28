@@ -62,7 +62,7 @@ public class MenuOperatore extends javax.swing.JFrame {
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
 
-    private void refreshTable(String area, String stazione) {
+    private void refreshTable(int area, int stazione) {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
         List<Forecast> temp = new ArrayList<>();
@@ -73,7 +73,7 @@ public class MenuOperatore extends javax.swing.JFrame {
         }
         f = new ArrayList<Forecast>();
         for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getIdCittà().equals(area) && temp.get(i).getNomeStazione().equals(stazione)) {
+            if (temp.get(i).getId_Coordinata() == area && temp.get(i).getIdStazione() == stazione) {
                 model.addRow(new Object[]{new SimpleDateFormat("dd/MM/yyyy").format(temp.get(i).getData()), new SimpleDateFormat("hh:mm:ss").format(temp.get(i).getOra()), temp.get(i).getVento()[1], temp.get(i).getUmidita()[1], temp.get(i).getPressione()[1], temp.get(i).getTemperatura()[1], temp.get(i).getPrecipitazioni()[1], temp.get(i).getAltitudine()[1], temp.get(i).getMassa()[1]});
                 f.add(temp.get(i));
             }

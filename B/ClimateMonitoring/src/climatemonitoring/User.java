@@ -20,7 +20,7 @@ public class User {
     private String mail;
     private String nick;
     private String password;
-    private String station;
+    private int station;
 
     /**
      * Costruisce un oggetto User con le informazioni personali specificate.
@@ -33,7 +33,7 @@ public class User {
      * @param password la password dell'utente
      * @param station la stazione dell'utente
      */
-    public User(int id, String name, String surname, String cf, String mail, String nick, String password, String station) {
+    public User(int id, String name, String surname, String cf, String mail, String nick, String password, int station) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -111,7 +111,7 @@ public class User {
      *
      * @return la stazione dell'utente
      */
-    public String getStation() {
+    public int getStation() {
         return station;
     }
 
@@ -174,7 +174,7 @@ public class User {
      *
      * @param station la stazione dell'utente da impostare
      */
-    public void setStation(String station) {
+    public void setStation(int station) {
         this.station = station;
     }
 }

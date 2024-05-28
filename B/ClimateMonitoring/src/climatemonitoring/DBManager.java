@@ -18,28 +18,28 @@ import java.util.List;
 public class DBManager {
 
     /**
-     * Legge il database nella tabella "operatoriregistrati" e restituisce una lista di oggetti User.
+     * Legge il database nella tabella "operatoriregistrati" e restituisce una
+     * lista di oggetti User.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti User letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database
+     * durante la query richiesta
      */
-    
     public ArrayList<User> readUser(Connection conn) throws SQLException, ClassNotFoundException {
         ArrayList<User> list = new ArrayList<>();
-        PreparedStatement stmt = conn.prepareStatement("select * from operatoriregistrati as opr"
-                + " join lavora as l on opr.id = l.id_operatore"
-                + " join centromonitoraggio as cm on l.id_centro = cm.id");
+        PreparedStatement stmt = conn.prepareStatement("select * from operatoriregistrati as opr join lavora as l on opr.id = l.id_operatore join centromonitoraggio as cm on l.id_centro = cm.id");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             list.add(new User(
+                    rs.getInt("id_operatore"),
                     rs.getString("nome"),
                     rs.getString("cognome"),
                     rs.getString("cf"),
                     rs.getString("mail"),
                     rs.getString("nick"),
                     rs.getString("password"),
-                    rs.getString("nome_centro")
+                    rs.getInt("id_centro")
             ));
         }
         rs.close();
@@ -47,14 +47,16 @@ public class DBManager {
     }
 
     /**
-     * Legge il database dalla tabella "coordinatemonitoraggio" e restituisce una lista di oggetti InterestingAreas.
+     * Legge il database dalla tabella "coordinatemonitoraggio" e restituisce
+     * una lista di oggetti InterestingAreas.
      *
      * @param conn la connessione al database
      * @param offset
      * @param pageSize
      * @return una lista di oggetti InterestingAreas letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
-     */    
+     * @throws SQLException se si verifica un errore di connessione al database
+     * durante la query richiesta
+     */
     public ArrayList<InterestingAreas> readAreas(Connection conn, int offset, int pageSize) throws SQLException {
         ArrayList<InterestingAreas> list = new ArrayList<>();
         String sql = "SELECT * FROM get_interesting_areas_with_pagination(?, ?)";
@@ -78,13 +80,14 @@ public class DBManager {
     }
 
     /**
-     * Legge il database nella tabella "centromonitoraggio" e restituisce una lista di oggetti MonitoringStation.
+     * Legge il database nella tabella "centromonitoraggio" e restituisce una
+     * lista di oggetti MonitoringStation.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti MonitoringStation letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database
+     * durante la query richiesta
      */
-    
     public ArrayList<MonitoringStation> readStation(Connection conn) throws SQLException {
         ArrayList<MonitoringStation> list = new ArrayList<>();
         PreparedStatement stmt = conn.prepareStatement("select * from centromonitoraggio");
@@ -108,22 +111,23 @@ public class DBManager {
     }
 
     /**
-     * Legge il databse nella tabella "parametriclimatici" e restituisce una lista di oggetti Forecast.
+     * Legge il databse nella tabella "parametriclimatici" e restituisce una
+     * lista di oggetti Forecast.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti Forecast letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database
+     * durante la query richiesta
      */
-    
     public ArrayList<Forecast> readForecast(Connection conn) throws SQLException {
         ArrayList<Forecast> list = new ArrayList<>();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM parametriclimatici as pc JOIN operatoriregistrati AS opr ON pc.id_operatore = opr.id");
+        PreparedStatement stmt = conn.prepareStatement("SELECT pc.id_coordinate, pc.id_operatore,pc.data,pc.ora,pc.vento ,pc.nota_vento ,pc.umidita ,pc.nota_umidita ,pc.pressione ,pc.nota_pressione ,pc.temperatura ,pc.nota_temperatura ,pc.altitudine ,pc.nota_altitudine ,pc.precipitazioni ,pc.nota_precipitazioni ,pc.massa ,pc.nota_massa,c.nome_centro as nomeStazione,c.id as idStazione FROM parametriclimatici as pc JOIN operatoriregistrati AS opr ON pc.id_operatore = opr.id join lavora l ON opr.id = l.id_operatore join centromonitoraggio c on l.id_centro = c.id ");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             list.add(new Forecast(
                     rs.getInt("id_coordinate"),
                     rs.getInt("id_operatore"),
-                    "",
+                    rs.getString("nomeStazione"),
                     rs.getDate("data"),
                     rs.getTimestamp("ora"),
                     rs.getInt("vento"),
@@ -139,8 +143,10 @@ public class DBManager {
                     rs.getInt("altitudine"),
                     rs.getString("nota_altitudine"),
                     rs.getInt("massa"),
-                    rs.getString("nota_massa")
+                    rs.getString("nota_massa"),
+                    rs.getInt("idStazione")
             ));
+
         }
         rs.close();
         return list;
@@ -151,9 +157,9 @@ public class DBManager {
      *
      * @param conn la connessione al database
      * @param query la insert da eseguire sul database
-     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database
+     * durante la query richiesta
      */
-   
     public void write(String query, Connection conn) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement(query);
         ResultSet rs = stmt.executeQuery();
