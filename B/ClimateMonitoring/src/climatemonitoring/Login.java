@@ -34,20 +34,22 @@ public class Login extends javax.swing.JFrame {
      * Crea una nuova istanza di Login.
      *
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
-     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws SQLException Errore nella connessione al database o
+     * nell'esecuzione della query
      */
     public Login() throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
-        grafica();        
+        grafica();
         users = ClientHandler.getInstance().getStub().readUser();
     }
-    
+
     private void grafica() {
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -153,16 +155,15 @@ public class Login extends javax.swing.JFrame {
             User u = null;
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getMail().equals(txtEmail.getText()) && users.get(i).getPassword().equals(String.valueOf(txtPassw.getPassword()))) {
-                    //acceduto
-                    u = new User(users.get(i).getName(), users.get(i).getSurname(), users.get(i).getCf(), users.get(i).getMail(), users.get(i).getNick(), users.get(i).getPassword(), users.get(i).getStation());
+                    u = new User(users.get(i).getId(), users.get(i).getName(), users.get(i).getSurname(), users.get(i).getCf(), users.get(i).getMail(), users.get(i).getNick(), users.get(i).getPassword(), users.get(i).getStation());
                     found = true;
                     break;
                 }
             }
             if (!found) {
                 JOptionPane.showMessageDialog(null, "Utente non trovato", "Errore", JOptionPane.INFORMATION_MESSAGE);
-            } else {               
-                try {               
+            } else {
+                try {
                     try {
                         ClientHandler.getInstance().getStub().setOperatore(u);
                     } catch (RemoteException ex) {

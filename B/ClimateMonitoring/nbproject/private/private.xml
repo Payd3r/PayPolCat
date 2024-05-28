@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/L:/PayPolCat/B/ClimateMonitoring/src/climatemonitoring/DBManager.java</file>
             <file>file:/L:/PayPolCat/B/ClimateMonitoring/src/climatemonitoring/CreateMonitoringStation.java</file>
+            <file>file:/L:/PayPolCat/B/ClimateMonitoring/src/climatemonitoring/Login.java</file>
+            <file>file:/L:/PayPolCat/B/ClimateMonitoring/src/climatemonitoring/ServerMain.java</file>
+            <file>file:/L:/PayPolCat/B/ClimateMonitoring/src/climatemonitoring/User.java</file>
+            <file>file:/L:/PayPolCat/B/ClimateMonitoring/src/climatemonitoring/Stub.java</file>
+            <file>file:/L:/PayPolCat/B/ClimateMonitoring/src/climatemonitoring/Register.java</file>
         </group>
     </open-files>
 </project-private>

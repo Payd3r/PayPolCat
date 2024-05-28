@@ -22,7 +22,7 @@ public interface Stub extends Remote {
     void write(String query) throws SQLException, RemoteException;
     void sortAreas() throws RemoteException;
     String[] cercaAreaGeografica(String a) throws RemoteException;
-    boolean existForecast(String a) throws RemoteException;
+    boolean existForecast(int a) throws RemoteException;
     void setOperatore(User a) throws RemoteException;
     User getOperatore() throws RemoteException;
     void refresh() throws RemoteException;
