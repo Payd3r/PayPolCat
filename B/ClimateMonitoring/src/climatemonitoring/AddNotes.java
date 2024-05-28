@@ -63,7 +63,7 @@ public class AddNotes extends javax.swing.JFrame {
      *
      * @throws ParseException Errore nella scrittura della data o dell'ora
      */
-    public AddNotes(String idCitta, String nomeStazione, String date, String time, int wind, int humidity, int pressure, int temperature, int rainfall, int glacierAltitude, int massGlaciers) throws ParseException {
+    public AddNotes(String idCitta, String nomeStazione, int id_operatore, String date, String time, int wind, int humidity, int pressure, int temperature, int rainfall, int glacierAltitude, int massGlaciers) throws ParseException {
         initComponents();
         grafica();
         String[] vento = {"Vento", Integer.toString(wind), ""};
@@ -73,7 +73,7 @@ public class AddNotes extends javax.swing.JFrame {
         String[] precipitazioni = {"Precipitazioni", Integer.toString(rainfall), ""};
         String[] altitudine = {"Altitudine", Integer.toString(glacierAltitude), ""};
         String[] massa = {"Massa", Integer.toString(massGlaciers), ""};
-        temp = new Forecast(idCitta, nomeStazione, new Date(), new Timestamp(new Date().getTime()), vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
+        temp = new Forecast(idCitta, nomeStazione, id_operatore, new Date(), new Timestamp(new Date().getTime()), vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
 
     }
 
@@ -297,6 +297,7 @@ public class AddNotes extends javax.swing.JFrame {
             
             try {
                 dBManager.write(temp.toCSV(), DatiCondivisi.getInstance().getConn());
+                ClientHandler.getInstance().getStub().write("ciao");
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
             }

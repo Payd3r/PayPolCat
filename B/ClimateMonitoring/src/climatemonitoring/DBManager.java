@@ -117,22 +117,29 @@ public class DBManager {
     
     public ArrayList<Forecast> readForecast(Connection conn) throws SQLException {
         ArrayList<Forecast> list = new ArrayList<>();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM parametriclimatici as pc "
-                + "JOIN operatoriregistrati AS opr ON pc.id_operatore = opr.id");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM parametriclimatici as pc JOIN operatoriregistrati AS opr ON pc.id_operatore = opr.id");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             list.add(new Forecast(
-                    rs.getString(""),
-                    rs.getString("nome"),
+                    rs.getInt("id_coordinate"),
+                    rs.getInt("id_operatore"),
+                    "",
                     rs.getDate("data"),
                     rs.getTimestamp("ora"),
-                    rs.getString("nota_vento").split(";"),
-                    rs.getString("nota_umidita").split(";"),
-                    rs.getString("nota_pressione").split(";"),
-                    rs.getString("nota_temperatura").split(";"),
-                    rs.getString("nota_precipitazioni").split(";"),
-                    rs.getString("nota_altitudine").split(";"),
-                    rs.getString("nota_massa").split(";")
+                    rs.getInt("vento"),
+                    rs.getString("nota_vento"),
+                    rs.getInt("umidita"),
+                    rs.getString("nota_umidita"),
+                    rs.getInt("pressione"),
+                    rs.getString("nota_pressione"),
+                    rs.getInt("temperatura"),
+                    rs.getString("nota_temperatura"),
+                    rs.getInt("precipitazioni"),
+                    rs.getString("nota_precipitazioni"),
+                    rs.getInt("altitudine"),
+                    rs.getString("nota_altitudine"),
+                    rs.getInt("massa"),
+                    rs.getString("nota_massa")
             ));
         }
         rs.close();

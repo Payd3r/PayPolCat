@@ -471,7 +471,7 @@ public class MenuOperatore extends javax.swing.JFrame {
         //model.addRow(new Object[]{date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers});
         AddNotes a = null;
         try {
-            a = new AddNotes(cmbAreas.getSelectedItem().toString(), ClientHandler.getInstance().getStub().getOperatore().getStation(), date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers);
+            a = new AddNotes(cmbAreas.getSelectedItem().toString(), ClientHandler.getInstance().getStub().getOperatore().getStation(), ClientHandler.getInstance().getStub().getOperatore().getId(), date, time, wind, humidity, pressure, temperature, rainfall, glacierAltitude, massGlaciers);
         } catch (ParseException | RemoteException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }

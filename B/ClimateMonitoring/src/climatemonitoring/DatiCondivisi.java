@@ -1,6 +1,5 @@
 package climatemonitoring;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,7 +30,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
     private User operatore;
     private Connection conn;
     private DBManager dBManager;
-    
+
     public Connection getConn() {
         return conn;
     }
@@ -125,11 +124,11 @@ public class DatiCondivisi extends UnicastRemoteObject {
     public ArrayList<Forecast> getForecasts() {
         return forecasts;
     }
-    
+
     public void insert(String s) throws SQLException {
         dBManager.write(s, conn);
     }
-    
+
     private static double calcDist(double lat1, double lon1, double lat2, double lon2) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
@@ -245,7 +244,15 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @param operatore nuovo valore operatore
      */
     public void setOperatore(User operatore) {
-        this.operatore = operatore;
+        try {
+            this.operatore = operatore;
+            String s = "  INSERT INTO operatoriregistrati(nome,cognome,cf,mail,nick,passowrd)"
+                    + " VALUES (" + operatore.getName() + "," + operatore.getSurname() + "," + operatore.getCf() + "," + operatore.getMail() + "," + operatore.getNick() + "," + operatore.getPassword() + ")";
+            dBManager.write(s, conn);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -259,5 +266,5 @@ public class DatiCondivisi extends UnicastRemoteObject {
             }
         });
     }
-    
+
 }
