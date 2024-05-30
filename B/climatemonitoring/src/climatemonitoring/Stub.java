@@ -20,6 +20,7 @@ public interface Stub extends Remote {
     ArrayList<MonitoringStation> readStation() throws SQLException, RemoteException;
     ArrayList<Forecast> readForecast() throws SQLException, RemoteException;
     void write(String query) throws SQLException, RemoteException;
+    void writeForecast(Forecast f) throws SQLException, RemoteException;
     void sortAreas() throws RemoteException;
     String[] cercaAreaGeografica(String a) throws RemoteException;
     boolean existForecast(String a) throws RemoteException;

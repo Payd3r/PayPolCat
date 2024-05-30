@@ -5,6 +5,7 @@
 package climatemonitoring;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class DBManager {
      * @throws SQLException se si verifica un errore di connessione al database
      * durante la query richiesta
      */
-    public ArrayList<InterestingAreas> readAreas(Connection conn, int offset, int pageSize) throws SQLException {
+    public ArrayList<InterestingAreas> readAreas(Connection conn, int offset, int pageSize) {
         ArrayList<InterestingAreas> list = new ArrayList<>();
         String sql = "SELECT * FROM get_interesting_areas_with_pagination(?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -74,6 +75,8 @@ public class DBManager {
                 ));
             }
             rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return list;
     }
@@ -91,8 +94,7 @@ public class DBManager {
         ArrayList<MonitoringStation> list = new ArrayList<>();
 
         // Using try-with-resources for PreparedStatement and ResultSet
-        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM centromonitoraggio");
-             ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM centromonitoraggio"); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 list.add(new MonitoringStation(rs.getString("name"), rs.getString("address"), new ArrayList<>()));
@@ -101,10 +103,10 @@ public class DBManager {
 
         for (MonitoringStation station : list) {
             String query = "SELECT c.id, c.name, c.country_code, c.country_name, c.lat, c.lon "
-                         + "FROM coordinatemonitoraggio c "
-                         + "INNER JOIN lavora s ON c.id = s.id_coordinate "
-                         + "INNER JOIN centromonitoraggio cm ON s.nome_centro = cm.name "
-                         + "WHERE cm.name = ?";
+                    + "FROM coordinatemonitoraggio c "
+                    + "INNER JOIN lavora s ON c.id = s.id_coordinate "
+                    + "INNER JOIN centromonitoraggio cm ON s.nome_centro = cm.name "
+                    + "WHERE cm.name = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setString(1, station.getName());
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -112,7 +114,7 @@ public class DBManager {
                     while (rs.next()) {
                         InterestingAreas area = new InterestingAreas(
                                 rs.getInt("id"),
-                                rs.getString("name"),  // Assuming the correct column name is "name"
+                                rs.getString("name"), // Assuming the correct column name is "name"
                                 rs.getString("country_code"),
                                 rs.getString("country_name"),
                                 rs.getString("lat"),
@@ -172,4 +174,22 @@ public class DBManager {
         ResultSet rs = stmt.executeQuery();
         rs.close();
     }
+
+    public void writeForecast(Forecast f, Connection conn) throws SQLException, ClassNotFoundException {
+        String a = DatiCondivisi.getInstance().convertNameToId(f.getIdCittà());
+        PreparedStatement stmt = conn.prepareStatement(f.toQuery());
+        stmt.setInt(1, Integer.parseInt(a));
+        stmt.setString(2, f.getNomeStazione());
+        stmt.setDate(3, new Date(f.getData().getTime()));
+        stmt.setTimestamp(4, new Timestamp(f.getData().getTime() + f.getOra().getTime()));
+        stmt.setString(5, f.getVento()[0] + "," + f.getVento()[1]);
+        stmt.setString(6, f.getUmidita()[0] + "," + f.getUmidita()[1]);
+        stmt.setString(7, f.getPressione()[0] + "," + f.getPressione()[1]);
+        stmt.setString(8, f.getTemperatura()[0] + "," + f.getTemperatura()[1]);
+        stmt.setString(9, f.getPrecipitazioni()[0] + "," + f.getPrecipitazioni()[1]);
+        stmt.setString(10, f.getAltitudine()[0] + "," + f.getAltitudine()[1]);
+        stmt.setString(11, f.getMassa()[0] + "," + f.getMassa()[1]);
+        stmt.executeQuery();
+    }
+
 }

@@ -136,4 +136,13 @@ public class ServerMain extends UnicastRemoteObject implements Stub {
         }
     }
 
+    @Override
+    public void writeForecast(Forecast f) throws SQLException, RemoteException {
+        try {
+            DatiCondivisi.getInstance().writeForecast(f);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

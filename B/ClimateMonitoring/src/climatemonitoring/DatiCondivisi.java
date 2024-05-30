@@ -272,4 +272,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
         });
     }
 
+    public void writeForecast(Forecast f) throws SQLException, ClassNotFoundException {
+        dBManager.writeForecast(f, conn);
+    }
 }

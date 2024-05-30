@@ -11,8 +11,9 @@ import java.sql.Timestamp;
 
 /**
  * Classe che rappresenta una previsione meteorologica.
+ *
  * @author Ficara Paolo
- * @author Mauri Andrea 
+ * @author Mauri Andrea
  * @author Luca Cattaneo
  */
 public class Forecast implements Serializable {
@@ -257,11 +258,12 @@ public class Forecast implements Serializable {
     }
 
     /**
-     * Restituisce una rappresentazione in formato CSV della previsione meteorologica.
+     * Restituisce una rappresentazione in formato CSV della previsione
+     * meteorologica.
      *
      * @return una stringa nel formato CSV
      */
-    public String toCSV() {
-        return idCitta + ";" + NomeStazione + ";" + new SimpleDateFormat("dd/MM/yyyy").format(data) + ";" + new SimpleDateFormat("hh:mm:ss").format(ora) + ";" + vento[0] + "," + vento[1] + "," + vento[2] + ";" + umidita[0] + "," + umidita[1] + "," + umidita[2] + ";" + pressione[0] + "," + pressione[1] + "," + pressione[2] + ";" + temperatura[0] + "," + temperatura[1] + "," + temperatura[2] + ";" + precipitazioni[0] + "," + precipitazioni[1] + "," + precipitazioni[2] + ";" + altitudine[0] + "," + altitudine[1] + "," + altitudine[2] + ";" + massa[0] + "," + massa[1] + "," + massa[2] + "\n";
+    public String toQuery() {
+        return "INSERT INTO parametriclimatici (idCitta, nome_centro, data, ora, vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     }
 }
