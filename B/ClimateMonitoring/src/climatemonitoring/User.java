@@ -8,19 +8,18 @@ package climatemonitoring;
  * La classe User rappresenta un utente con diverse informazioni personali.
  *
  * @author Ficara Paolo
- * @author Mauri Andrea
+ * @author Mauri Andrea 
  * @author Luca Cattaneo
  */
 public class User {
 
-    private int id;
     private String name;
     private String surname;
     private String cf;
     private String mail;
     private String nick;
     private String password;
-    private int station;
+    private String station;
 
     /**
      * Costruisce un oggetto User con le informazioni personali specificate.
@@ -33,8 +32,7 @@ public class User {
      * @param password la password dell'utente
      * @param station la stazione dell'utente
      */
-    public User(int id, String name, String surname, String cf, String mail, String nick, String password, int station) {
-        this.id = id;
+    public User(String name, String surname, String cf, String mail, String nick, String password, String station) {
         this.name = name;
         this.surname = surname;
         this.cf = cf;
@@ -42,14 +40,6 @@ public class User {
         this.nick = nick;
         this.password = password;
         this.station = station;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**
@@ -111,7 +101,7 @@ public class User {
      *
      * @return la stazione dell'utente
      */
-    public int getStation() {
+    public String getStation() {
         return station;
     }
 
@@ -174,7 +164,19 @@ public class User {
      *
      * @param station la stazione dell'utente da impostare
      */
-    public void setStation(int station) {
+    public void setStation(String station) {
         this.station = station;
+    }
+
+    /**
+     * Crea un oggetto User a partire da una stringa CSV contenente le
+     * informazioni.
+     *
+     * @param info la stringa CSV contenente le informazioni dell'utente
+     * @return un nuovo oggetto User con le informazioni specificate
+     */
+    public static User formCSV(String info) {
+        String[] splittedInfo = info.split(";");
+        return new User(splittedInfo[0], splittedInfo[1], splittedInfo[2], splittedInfo[3], splittedInfo[4], splittedInfo[5], splittedInfo[6]);
     }
 }

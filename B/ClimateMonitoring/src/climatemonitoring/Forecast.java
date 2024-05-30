@@ -10,227 +10,257 @@ import java.sql.Timestamp;
 
 /**
  * Classe che rappresenta una previsione meteorologica.
- *
  * @author Ficara Paolo
- * @author Mauri Andrea
+ * @author Mauri Andrea 
  * @author Luca Cattaneo
  */
 public class Forecast {
 
-    private int id_Coordinate;
-    private int id_Operatore;
-    private String nomeStazione;
+    private String idCitta;
+    private String NomeStazione;
     private Date data;
     private Timestamp ora;
-    private int vento;
-    private String nota_vento;
-    private int umidita;
-    private String nota_umidita;
-    private int pressione;
-    private String nota_pressione;
-    private int temperatura;
-    private String nota_temperatura;
-    private int precipitazioni;
-    private String nota_precipitazioni;
-    private int altitudine;
-    private String nota_altitudine;
-    private int massa;
-    private String nota_massa;
-    private int id_Stazione;
+    private String[] vento;
+    private String[] umidita;
+    private String[] pressione;
+    private String[] temperatura;
+    private String[] precipitazioni;
+    private String[] altitudine;
+    private String[] massa;
 
-    public Forecast(int id_Coordinate, int id_Operatore, String nomeStazione, Date data, Timestamp ora, int vento, String nota_vento, int umidita, String nota_umidita, int pressione, String nota_pressione, int temperatura, String nota_temperatura, int precipitazioni, String nota_precipitazioni, int altitudine, String nota_altitudine, int massa, String nota_massa, int id_Stazione) {
-        this.id_Coordinate = id_Coordinate;
-        this.id_Operatore = id_Operatore;
-        this.nomeStazione = nomeStazione;
+    /**
+     * Crea una nuova istanza di Forecast.
+     *
+     * @param idCitta l'ID della città
+     * @param NomeStazione il nome della stazione
+     * @param data la data della previsione
+     * @param ora l'ora della previsione
+     * @param vento i dati relativi al vento
+     * @param umidita i dati relativi all'umidità
+     * @param pressione i dati relativi alla pressione
+     * @param temperatura i dati relativi alla temperatura
+     * @param precipitazioni i dati relativi alle precipitazioni
+     * @param altitudine i dati relativi all'altitudine
+     * @param massa i dati relativi alla massa
+     */
+    public Forecast(String idCitta, String NomeStazione, Date data, Timestamp ora, String[] vento, String[] umidita, String[] pressione, String[] temperatura, String[] precipitazioni, String[] altitudine, String[] massa) {
+        this.idCitta = idCitta;
+        this.NomeStazione = NomeStazione;
         this.data = data;
         this.ora = ora;
         this.vento = vento;
-        this.nota_vento = nota_vento;
         this.umidita = umidita;
-        this.nota_umidita = nota_umidita;
         this.pressione = pressione;
-        this.nota_pressione = nota_pressione;
         this.temperatura = temperatura;
-        this.nota_temperatura = nota_temperatura;
         this.precipitazioni = precipitazioni;
-        this.nota_precipitazioni = nota_precipitazioni;
         this.altitudine = altitudine;
-        this.nota_altitudine = nota_altitudine;
         this.massa = massa;
-        this.nota_massa = nota_massa;
-        this.id_Stazione = id_Stazione;
     }
 
-    public int getId_Coordinata() {
-        return id_Coordinate;
+    /**
+     * Imposta l'ID della città.
+     *
+     * @param idCittà l'ID della città da impostare
+     */
+    public void setIdCittà(String idCittà) {
+        this.idCitta = idCittà;
     }
 
-    public void setId_Coordinate(int id_Coordinate) {
-        this.id_Coordinate = id_Coordinate;
+    /**
+     * Imposta il nome della stazione.
+     *
+     * @param NomeStazione il nome della stazione da impostare
+     */
+    public void setNomeStazione(String NomeStazione) {
+        this.NomeStazione = NomeStazione;
     }
 
-    public int getId_Operatore() {
-        return id_Operatore;
-    }
-
-    public void setId_Operatore(int id_Operatore) {
-        this.id_Operatore = id_Operatore;
-    }
-
-    public String getNomeStazione() {
-        return nomeStazione;
-    }
-
-    public void setNomeStazione(String nomeStazione) {
-        this.nomeStazione = nomeStazione;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
+    /**
+     * Imposta la data della previsione.
+     *
+     * @param data la data della previsione da impostare
+     */
     public void setData(Date data) {
         this.data = data;
     }
 
-    public Timestamp getOra() {
-        return ora;
-    }
-
+    /**
+     * Imposta l'ora della previsione.
+     *
+     * @param ora l'ora della previsione da impostare
+     */
     public void setOra(Timestamp ora) {
         this.ora = ora;
     }
 
-    public int getVento() {
-        return vento;
-    }
-
-    public void setVento(int vento) {
+    /**
+     * Imposta i dati relativi al vento.
+     *
+     * @param vento i dati relativi al vento da impostare
+     */
+    public void setVento(String[] vento) {
         this.vento = vento;
     }
 
-    public String getNota_vento() {
-        return nota_vento;
-    }
-
-    public void setNota_vento(String nota_vento) {
-        this.nota_vento = nota_vento;
-    }
-
-    public int getUmidita() {
-        return umidita;
-    }
-
-    public void setUmidita(int umidita) {
+    /**
+     * Imposta i dati relativi all'umidità.
+     *
+     * @param umidita i dati relativi all'umidità da impostare
+     */
+    public void setUmidita(String[] umidita) {
         this.umidita = umidita;
     }
 
-    public String getNota_umidita() {
-        return nota_umidita;
-    }
-
-    public void setNota_umidita(String nota_umidita) {
-        this.nota_umidita = nota_umidita;
-    }
-
-    public int getPressione() {
-        return pressione;
-    }
-
-    public void setPressione(int pressione) {
+    /**
+     * Imposta i dati relativi alla pressione.
+     *
+     * @param pressione i dati relativi alla pressione da impostare
+     */
+    public void setPressione(String[] pressione) {
         this.pressione = pressione;
     }
 
-    public String getNota_pressione() {
-        return nota_pressione;
-    }
-
-    public void setNota_pressione(String nota_pressione) {
-        this.nota_pressione = nota_pressione;
-    }
-
-    public int getTemperatura() {
-        return temperatura;
-    }
-
-    public void setTemperatura(int temperatura) {
+    /**
+     * Imposta i dati relativi alla temperatura.
+     *
+     * @param temperatura i dati relativi alla temperatura da impostare
+     */
+    public void setTemperatura(String[] temperatura) {
         this.temperatura = temperatura;
     }
 
-    public String getNota_temperatura() {
-        return nota_temperatura;
-    }
-
-    public void setNota_temperatura(String nota_temperatura) {
-        this.nota_temperatura = nota_temperatura;
-    }
-
-    public int getPrecipitazioni() {
-        return precipitazioni;
-    }
-
-    public void setPrecipitazioni(int precipitazioni) {
+    /**
+     * Imposta i dati relativi alle precipitazioni.
+     *
+     * @param precipitazioni i dati relativi alle precipitazioni da impostare
+     */
+    public void setPrecipitazioni(String[] precipitazioni) {
         this.precipitazioni = precipitazioni;
     }
 
-    public String getNota_precipitazioni() {
-        return nota_precipitazioni;
-    }
-
-    public void setNota_precipitazioni(String nota_precipitazioni) {
-        this.nota_precipitazioni = nota_precipitazioni;
-    }
-
-    public int getAltitudine() {
-        return altitudine;
-    }
-
-    public void setAltitudine(int altitudine) {
+    /**
+     * Imposta i dati relativi all'altitudine.
+     *
+     * @param altitudine i dati relativi all'altitudine da impostare
+     */
+    public void setAltitudine(String[] altitudine) {
         this.altitudine = altitudine;
     }
 
-    public String getNota_altitudine() {
-        return nota_altitudine;
-    }
-
-    public void setNota_altitudine(String nota_altitudine) {
-        this.nota_altitudine = nota_altitudine;
-    }
-
-    public int getMassa() {
-        return massa;
-    }
-
-    public void setMassa(int massa) {
+    /**
+     * Imposta i dati relativi alla massa.
+     *
+     * @param massa i dati relativi alla massa da impostare
+     */
+    public void setMassa(String[] massa) {
         this.massa = massa;
     }
 
-    public String getNota_massa() {
-        return nota_massa;
-    }
-
-    public void setNota_massa(String nota_massa) {
-        this.nota_massa = nota_massa;
-    }
-
-    public int getId_Stazione() {
-        return id_Stazione;
-    }
-
-    public void setId_Stazione(int id_Stazione) {
-        this.id_Stazione = id_Stazione;
+    /**
+     * Ottiene l'ID della città.
+     *
+     * @return l'ID della città
+     */
+    public String getIdCittà() {
+        return idCitta;
     }
 
     /**
-     * Restituisce una rappresentazione in formato CSV della previsione
-     * meteorologica.
+     * Ottiene il nome della stazione.
      *
+     * @return il nome della stazione
      */
-    public String toCSV() {
-        return "INSERT INTO parametriclimatici(id_coordinate,id_operatore,data,ora,vento,nota_vento,umidita,nota_umidita,pressione,nota_pressione,temperatura,nota_temperatura,precipitazioni,nota_precipitazioni,altitudine,nota_altitudine,massa,nota_massa)" + "     VALUES (" + id_Coordinate + "," + id_Operatore + "," + data + "," + ora + "," + vento + "," + nota_vento + "," + umidita + "," + nota_umidita + "," + pressione + "," + nota_pressione + "," + temperatura + "," + nota_temperatura + "," + precipitazioni + "," + nota_precipitazioni + "," + altitudine + "," + nota_altitudine + "," + massa + "," + nota_massa + ")";
+    public String getNomeStazione() {
+        return NomeStazione;
     }
 
-    public int getIdStazione() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    /**
+     * Ottiene la data della previsione.
+     *
+     * @return la data della previsione
+     */
+    public Date getData() {
+        return data;
+    }
+
+    /**
+     * Ottiene l'ora della previsione.
+     *
+     * @return l'ora della previsione
+     */
+    public Timestamp getOra() {
+        return ora;
+    }
+
+    /**
+     * Ottiene i dati relativi al vento.
+     *
+     * @return i dati relativi al vento
+     */
+    public String[] getVento() {
+        return vento;
+    }
+
+    /**
+     * Ottiene i dati relativi all'umidità.
+     *
+     * @return i dati relativi all'umidità
+     */
+    public String[] getUmidita() {
+        return umidita;
+    }
+
+    /**
+     * Ottiene i dati relativi alla pressione.
+     *
+     * @return i dati relativi alla pressione
+     */
+    public String[] getPressione() {
+        return pressione;
+    }
+
+    /**
+     * Ottiene i dati relativi alla temperatura.
+     *
+     * @return i dati relativi alla temperatura
+     */
+    public String[] getTemperatura() {
+        return temperatura;
+    }
+
+    /**
+     * Ottiene i dati relativi alle precipitazioni.
+     *
+     * @return i dati relativi alle precipitazioni
+     */
+    public String[] getPrecipitazioni() {
+        return precipitazioni;
+    }
+
+    /**
+     * Ottiene i dati relativi all'altitudine.
+     *
+     * @return i dati relativi all'altitudine
+     */
+    public String[] getAltitudine() {
+        return altitudine;
+    }
+
+    /**
+     * Ottiene i dati relativi alla massa.
+     *
+     * @return i dati relativi alla massa
+     */
+    public String[] getMassa() {
+        return massa;
+    }
+
+    /**
+     * Restituisce una rappresentazione in formato CSV della previsione meteorologica.
+     *
+     * @return una stringa nel formato CSV
+     */
+    public String toCSV() {
+        return idCitta + ";" + NomeStazione + ";" + new SimpleDateFormat("dd/MM/yyyy").format(data) + ";" + new SimpleDateFormat("hh:mm:ss").format(ora) + ";" + vento[0] + "," + vento[1] + "," + vento[2] + ";" + umidita[0] + "," + umidita[1] + "," + umidita[2] + ";" + pressione[0] + "," + pressione[1] + "," + pressione[2] + ";" + temperatura[0] + "," + temperatura[1] + "," + temperatura[2] + ";" + precipitazioni[0] + "," + precipitazioni[1] + "," + precipitazioni[2] + ";" + altitudine[0] + "," + altitudine[1] + "," + altitudine[2] + ";" + massa[0] + "," + massa[1] + "," + massa[2] + "\n";
     }
 }

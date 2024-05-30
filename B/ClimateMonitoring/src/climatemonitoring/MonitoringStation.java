@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class MonitoringStation {
 
-    private int id;
+ 
     private String name;
     private String address;
     private List<InterestingAreas> interestingAreas;
@@ -29,8 +29,8 @@ public class MonitoringStation {
      * @param interestingAreas le aree di interesse della stazione di
      * monitoraggio
      */
-    public MonitoringStation(int id, String name, String address, List<InterestingAreas> interestingAreas) {
-        this.id = id;
+    public MonitoringStation(String name, String address, List<InterestingAreas> interestingAreas) {
+
         this.name = name;
         this.address = address;
         this.interestingAreas = interestingAreas;
@@ -90,12 +90,5 @@ public class MonitoringStation {
         this.interestingAreas = interestingAreas;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
 }

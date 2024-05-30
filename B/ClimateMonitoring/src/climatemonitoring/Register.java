@@ -349,7 +349,7 @@ public class Register extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
                     Menu r = new Menu();
                     r.setVisible(rootPaneCheckingEnabled);
-                    ClientHandler.getInstance().getStub().setOperatore(new User(0, txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
+                    ClientHandler.getInstance().getStub().setOperatore(new User(txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
                     this.dispose();
                     new Menu().setVisible(true);
                 } else {

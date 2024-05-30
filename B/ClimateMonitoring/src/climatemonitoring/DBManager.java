@@ -28,18 +28,17 @@ public class DBManager {
      */
     public ArrayList<User> readUser(Connection conn) throws SQLException, ClassNotFoundException {
         ArrayList<User> list = new ArrayList<>();
-        PreparedStatement stmt = conn.prepareStatement("select * from operatoriregistrati as opr join lavora as l on opr.id = l.id_operatore join centromonitoraggio as cm on l.id_centro = cm.id");
+        PreparedStatement stmt = conn.prepareStatement("select * from operatoreregistrato o join centromonitoraggio c on o.nome_centro = c.name ");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             list.add(new User(
-                    rs.getInt("id_operatore"),
                     rs.getString("nome"),
                     rs.getString("cognome"),
                     rs.getString("cf"),
                     rs.getString("mail"),
                     rs.getString("nick"),
                     rs.getString("password"),
-                    rs.getInt("id_centro")
+                    rs.getString("nome_centro")
             ));
         }
         rs.close();
@@ -67,11 +66,11 @@ public class DBManager {
             while (rs.next()) {
                 list.add(new InterestingAreas(
                         rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("sigla_stato"),
-                        rs.getString("stato"),
-                        rs.getString("latitudine"),
-                        rs.getString("longitudine")
+                        rs.getString("name_ascii"),
+                        rs.getString("country_code"),
+                        rs.getString("country_name"),
+                        rs.getString("lat"),
+                        rs.getString("lon")
                 ));
             }
             rs.close();
@@ -90,23 +89,41 @@ public class DBManager {
      */
     public ArrayList<MonitoringStation> readStation(Connection conn) throws SQLException {
         ArrayList<MonitoringStation> list = new ArrayList<>();
-        PreparedStatement stmt = conn.prepareStatement("select * from centromonitoraggio");
-        ResultSet rs = stmt.executeQuery();
-        List<InterestingAreas> areeInteresse = new ArrayList<>();
-        while (rs.next()) {
-            list.add(new MonitoringStation(rs.getInt("id"), rs.getString("nome_centro"), rs.getString("indirizzo"), new ArrayList<>()));
-        }
-        //select * from coordinatemonitoraggio c inner join stazioni s on c.id = s.id_areainteresse inner join centromonitoraggio cm on s.id_centro = cm.id where cm.id =
-        for (int i = 0; i < list.size(); i++) {
-            stmt = conn.prepareStatement("select * from coordinatemonitoraggio c inner join stazioni s on c.id = s.id_areainteresse inner join centromonitoraggio cm on s.id_centro = cm.id where cm.id =" + list.get(i).getId());
-            rs = stmt.executeQuery();
-            areeInteresse = new ArrayList<>();
+
+        // Using try-with-resources for PreparedStatement and ResultSet
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM centromonitoraggio");
+             ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
-                areeInteresse.add(new InterestingAreas(rs.getInt("id"), rs.getString("nome_ascii"), rs.getString("sigla_stato"), rs.getString("stato"), rs.getString("latitudine"), rs.getString("longitudine")));
+                list.add(new MonitoringStation(rs.getString("name"), rs.getString("address"), new ArrayList<>()));
             }
-            list.get(i).setInterestingAreas(areeInteresse);
         }
-        rs.close();
+
+        for (MonitoringStation station : list) {
+            String query = "SELECT c.id, c.name, c.country_code, c.country_name, c.lat, c.lon "
+                         + "FROM coordinatemonitoraggio c "
+                         + "INNER JOIN lavora s ON c.id = s.id_coordinate "
+                         + "INNER JOIN centromonitoraggio cm ON s.nome_centro = cm.name "
+                         + "WHERE cm.name = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, station.getName());
+                try (ResultSet rs = stmt.executeQuery()) {
+                    List<InterestingAreas> areeInteresse = new ArrayList<>();
+                    while (rs.next()) {
+                        InterestingAreas area = new InterestingAreas(
+                                rs.getInt("id"),
+                                rs.getString("name"),  // Assuming the correct column name is "name"
+                                rs.getString("country_code"),
+                                rs.getString("country_name"),
+                                rs.getString("lat"),
+                                rs.getString("lon")
+                        );
+                        areeInteresse.add(area);
+                    }
+                    station.setInterestingAreas(areeInteresse);
+                }
+            }
+        }
         return list;
     }
 
@@ -121,32 +138,22 @@ public class DBManager {
      */
     public ArrayList<Forecast> readForecast(Connection conn) throws SQLException {
         ArrayList<Forecast> list = new ArrayList<>();
-        PreparedStatement stmt = conn.prepareStatement("SELECT pc.id_coordinate, pc.id_operatore,pc.data,pc.ora,pc.vento ,pc.nota_vento ,pc.umidita ,pc.nota_umidita ,pc.pressione ,pc.nota_pressione ,pc.temperatura ,pc.nota_temperatura ,pc.altitudine ,pc.nota_altitudine ,pc.precipitazioni ,pc.nota_precipitazioni ,pc.massa ,pc.nota_massa,c.nome_centro as nomeStazione,c.id as idStazione FROM parametriclimatici as pc JOIN operatoriregistrati AS opr ON pc.id_operatore = opr.id join lavora l ON opr.id = l.id_operatore join centromonitoraggio c on l.id_centro = c.id ");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM parametriclimatici pc JOIN centromonitoraggio c ON pc.nome_centro = c.name");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             list.add(new Forecast(
-                    rs.getInt("id_coordinate"),
-                    rs.getInt("id_operatore"),
-                    rs.getString("nomeStazione"),
+                    rs.getString("idcitta"),
+                    rs.getString("nome_centro"),
                     rs.getDate("data"),
                     rs.getTimestamp("ora"),
-                    rs.getInt("vento"),
-                    rs.getString("nota_vento"),
-                    rs.getInt("umidita"),
-                    rs.getString("nota_umidita"),
-                    rs.getInt("pressione"),
-                    rs.getString("nota_pressione"),
-                    rs.getInt("temperatura"),
-                    rs.getString("nota_temperatura"),
-                    rs.getInt("precipitazioni"),
-                    rs.getString("nota_precipitazioni"),
-                    rs.getInt("altitudine"),
-                    rs.getString("nota_altitudine"),
-                    rs.getInt("massa"),
-                    rs.getString("nota_massa"),
-                    rs.getInt("idStazione")
+                    rs.getString("vento").split(","),
+                    rs.getString("umidita").split(","),
+                    rs.getString("pressione").split(","),
+                    rs.getString("temperatura").split(","),
+                    rs.getString("precipitazioni").split(","),
+                    rs.getString("altitudine").split(","),
+                    rs.getString("massa").split(",")
             ));
-
         }
         rs.close();
         return list;

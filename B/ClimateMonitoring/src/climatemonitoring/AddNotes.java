@@ -47,8 +47,8 @@ public class AddNotes extends javax.swing.JFrame {
      * Costruttore che crea l'oggetto della finestra dove si andrà ad aggiungere
      * una nota, inizializza i vari componenti di essa.
      *
-     * @param id_Coordinate l'identificativo della città a cui è stata eseguita
-     * la rilevazione
+     * @param idCitta l'identificativo della città a cui è stata eseguita la
+     * rilevazione
      * @param nomeStazione il nome della stazione di monitoraggio a cui è
      * assegnata la rilevazione
      * @param date la data di quando è stata fatta la rilevazione
@@ -63,10 +63,18 @@ public class AddNotes extends javax.swing.JFrame {
      *
      * @throws ParseException Errore nella scrittura della data o dell'ora
      */
-    public AddNotes(int id_Coordinate, String nomeStazione, int id_operatore, String date, String time, int wind, int humidity, int pressure, int temperature, int rainfall, int glacierAltitude, int massGlaciers, int idCentro) throws ParseException {
+    public AddNotes(String idCitta, String nomeStazione, String date, String time, int wind, int humidity, int pressure, int temperature, int rainfall, int glacierAltitude, int massGlaciers) throws ParseException {
         initComponents();
         grafica();
-        temp = new Forecast(id_Coordinate, id_operatore, nomeStazione, new Date(), new Timestamp(new Date().getTime()), wind, "", humidity, "", pressure, "", temperature, "", rainfall, "", glacierAltitude, "", massGlaciers, "", idCentro);
+        String[] vento = {"Vento", Integer.toString(wind), ""};
+        String[] umidita = {"Umidità", Integer.toString(humidity), ""};
+        String[] pressione = {"Pressione", Integer.toString(pressure), ""};
+        String[] temperatura = {"Temperatura", Integer.toString(temperature), ""};
+        String[] precipitazioni = {"Precipitazioni", Integer.toString(rainfall), ""};
+        String[] altitudine = {"Altitudine", Integer.toString(glacierAltitude), ""};
+        String[] massa = {"Massa", Integer.toString(massGlaciers), ""};
+        temp = new Forecast(idCitta, nomeStazione, new Date(), new Timestamp(new Date().getTime()), vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
+
     }
 
     //metodi
@@ -256,21 +264,47 @@ public class AddNotes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            temp.setNota_vento(txtVento.getText());
-            temp.setNota_umidita(txtUmidita.getText());
-            temp.setNota_pressione(txtPress.getText());
-            temp.setNota_temperatura(txtTemp.getText());
-            temp.setNota_precipitazioni(txtPrec.getText());
-            temp.setNota_altitudine(txtAlt.getText());
-            temp.setNota_massa(txtMass.getText());
-
-            ClientHandler.getInstance().getStub().write(temp.toCSV());
-
+        try {                                         
+            String[] t = new String[3];
+            t = temp.getVento();
+            t[2] = txtVento.getText();
+            temp.setVento(t);
+            
+            t = temp.getUmidita();
+            t[2] = txtUmidita.getText();
+            temp.setUmidita(t);
+            
+            t = temp.getPressione();
+            t[2] = txtPress.getText();
+            temp.setPressione(t);
+            
+            t = temp.getTemperatura();
+            t[2] = txtTemp.getText();
+            temp.setTemperatura(t);
+            
+            t = temp.getPrecipitazioni();
+            t[2] = txtPrec.getText();
+            temp.setPrecipitazioni(t);
+            
+            t = temp.getAltitudine();
+            t[2] = txtAlt.getText();
+            temp.setAltitudine(t);
+            
+            t = temp.getMassa();
+            t[2] = txtMass.getText();
+            temp.setMassa(t);
+            
+            
+            try {
+                dBManager.write(temp.toCSV(), DatiCondivisi.getInstance().getConn());
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             MenuOperatore m = new MenuOperatore();
             m.setVisible(rootPaneCheckingEnabled);
             this.dispose();
-        } catch (RemoteException | SQLException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(AddNotes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

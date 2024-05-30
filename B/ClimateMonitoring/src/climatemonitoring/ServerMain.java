@@ -99,7 +99,7 @@ public class ServerMain extends UnicastRemoteObject implements Stub {
     }
 
     @Override
-    public boolean existForecast(int a) throws RemoteException {
+    public boolean existForecast(String a) throws RemoteException {
         try {
             return DatiCondivisi.getInstance().existForecast(a);
         } catch (ClassNotFoundException | SQLException ex) {

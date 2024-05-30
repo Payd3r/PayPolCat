@@ -1,5 +1,6 @@
 package climatemonitoring;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,7 +31,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
     private User operatore;
     private Connection conn;
     private DBManager dBManager;
-
+    
     public Connection getConn() {
         return conn;
     }
@@ -42,11 +43,11 @@ public class DatiCondivisi extends UnicastRemoteObject {
         dBManager = new DBManager();
         Class.forName(JDBC_DRIVER);
         conn = DriverManager.getConnection(
-                "jdbc:postgresql://bq9iczb24otntqwrcwhg-postgresql.services.clever-cloud.com:50013/bq9iczb24otntqwrcwhg",
-                "uagv2imu2fqlk18hpwus",
-                "zf5BpoQqzEnEFvcJm1Fox8X1KcX6IR");
+                "jdbc:postgresql://bvgq1krz8lvxl3imqz0z-postgresql.services.clever-cloud.com:50013/bvgq1krz8lvxl3imqz0z",
+                "uwrddkjoepyde275arvo",
+                "sx9wxithD6BeqC1nCYbaUpETEHlqtJ");
         users = dBManager.readUser(conn);
-        areas = dBManager.readAreas(conn, 0, 10000);
+        areas = dBManager.readAreas(conn, 0, 140867);
         forecasts = dBManager.readForecast(conn);
         monitoringStations = dBManager.readStation(conn);
         operatore = null;
@@ -124,11 +125,11 @@ public class DatiCondivisi extends UnicastRemoteObject {
     public ArrayList<Forecast> getForecasts() {
         return forecasts;
     }
-
+    
     public void insert(String s) throws SQLException {
         dBManager.write(s, conn);
     }
-
+    
     private static double calcDist(double lat1, double lon1, double lat2, double lon2) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
@@ -200,13 +201,13 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * Metodo che controlla se una determinata area di interesse ha delle
      * rilevazioni
      *
-     * @param id_Coordinata area di interesse
+     * @param area area di interesse
      * @return <strong>true</strong> se l'area ha rilevazioni,
      * <strong>falso</strong> se
      */
-    public boolean existForecast(int id_Coordinata) {
+    public boolean existForecast(String area) {
         for (int i = 0; i < forecasts.size(); i++) {
-            if (forecasts.get(i).getId_Coordinata() == id_Coordinata) {
+            if (forecasts.get(i).getIdCittà().equalsIgnoreCase(area)) {
                 return true;
             }
         }
@@ -216,13 +217,13 @@ public class DatiCondivisi extends UnicastRemoteObject {
     /**
      * Metodo che restituisce le rilevazioni di una determinata città
      *
-     * @param id_Coordinata nome città
+     * @param name nome città
      * @return una <strong>List</strong> di <strong>Forecast</strong>
      */
-    public ArrayList<Forecast> getForecasts(int id_Coordinata) {
+    public ArrayList<Forecast> getForecasts(String name) {
         ArrayList<Forecast> temp = new ArrayList<Forecast>();
         for (int i = 0; i < forecasts.size(); i++) {
-            if (forecasts.get(i).getId_Coordinata() == id_Coordinata) {
+            if (forecasts.get(i).getIdCittà().equalsIgnoreCase(name)) {
                 temp.add(forecasts.get(i));
             }
         }
@@ -244,15 +245,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @param operatore nuovo valore operatore
      */
     public void setOperatore(User operatore) {
-        try {
-            this.operatore = operatore;
-            String s = "  INSERT INTO operatoriregistrati(nome,cognome,cf,mail,nick,passowrd)"
-                    + " VALUES (" + operatore.getName() + "," + operatore.getSurname() + "," + operatore.getCf() + "," + operatore.getMail() + "," + operatore.getNick() + "," + operatore.getPassword() + ")";
-            dBManager.write(s, conn);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.operatore = operatore;
     }
 
     /**
@@ -266,5 +259,5 @@ public class DatiCondivisi extends UnicastRemoteObject {
             }
         });
     }
-
+    
 }
