@@ -4,6 +4,7 @@
  */
 package climatemonitoring;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Mauri Andrea
  * @author Luca Cattaneo
  */
-public class MonitoringStation {
+public class MonitoringStation implements Serializable {
 
  
     private String name;

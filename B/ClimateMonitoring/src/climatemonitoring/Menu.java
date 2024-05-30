@@ -33,7 +33,7 @@ public class Menu extends javax.swing.JFrame {
         initComponents();
         grafica();
         jList1.setVisible(false);
-        if (ClientHandler.getInstance().getStub().readUser() != null) {
+        if (ClientHandler.getInstance().getStub().getOperatore() != null) {
             jButton2.setVisible(false);
             jButton3.setVisible(false);
             jButton4.setVisible(true);

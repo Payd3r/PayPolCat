@@ -4,6 +4,8 @@
  */
 package climatemonitoring;
 
+import java.io.Serializable;
+
 
 /**
  * Classe che rappresenta un'area interessante.
@@ -11,7 +13,7 @@ package climatemonitoring;
  * @author Mauri Andrea 
  * @author Luca Cattaneo
  */
-public class InterestingAreas {
+public class InterestingAreas implements Serializable{
 
     private int id;
     private String name;

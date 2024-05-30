@@ -4,6 +4,7 @@
  */
 package climatemonitoring;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.sql.Timestamp;
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
  * @author Mauri Andrea 
  * @author Luca Cattaneo
  */
-public class Forecast {
+public class Forecast implements Serializable {
 
     private String idCitta;
     private String NomeStazione;

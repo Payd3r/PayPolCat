@@ -1,6 +1,5 @@
 package climatemonitoring;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,7 +30,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
     private User operatore;
     private Connection conn;
     private DBManager dBManager;
-    
+
     public Connection getConn() {
         return conn;
     }
@@ -84,7 +83,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
     public void refresh() throws SQLException, ClassNotFoundException {
         // Ricrea l'oggetto:       
         users = dBManager.readUser(conn);
-        areas = dBManager.readAreas(conn, 0, 10000);
+        //areas = dBManager.readAreas(conn, 0, 10000);
         forecasts = dBManager.readForecast(conn);
         monitoringStations = dBManager.readStation(conn);
         sortAreas();
@@ -125,11 +124,11 @@ public class DatiCondivisi extends UnicastRemoteObject {
     public ArrayList<Forecast> getForecasts() {
         return forecasts;
     }
-    
+
     public void insert(String s) throws SQLException {
         dBManager.write(s, conn);
     }
-    
+
     private static double calcDist(double lat1, double lon1, double lat2, double lon2) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
@@ -205,13 +204,25 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @return <strong>true</strong> se l'area ha rilevazioni,
      * <strong>falso</strong> se
      */
-    public boolean existForecast(String area) {
+    public boolean existForecast(String area) throws SQLException {
         for (int i = 0; i < forecasts.size(); i++) {
-            if (forecasts.get(i).getIdCittà().equalsIgnoreCase(area)) {
+            if (forecasts.get(i).getIdCittà().equalsIgnoreCase(convertNameToId(area))) {
                 return true;
             }
         }
         return false;
+    }
+
+    public String convertNameToId(String name) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("select id from coordinatemonitoraggio where name='" + name + "'");
+        ResultSet rs = stmt.executeQuery();
+        String id = null;
+        while (rs.next()) {
+            id = rs.getString("id");
+            break;
+        }
+        rs.close();
+        return id;
     }
 
     /**
@@ -220,8 +231,9 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @param name nome città
      * @return una <strong>List</strong> di <strong>Forecast</strong>
      */
-    public ArrayList<Forecast> getForecasts(String name) {
+    public ArrayList<Forecast> getForecasts(String name) throws SQLException {
         ArrayList<Forecast> temp = new ArrayList<Forecast>();
+        name = convertNameToId(name);
         for (int i = 0; i < forecasts.size(); i++) {
             if (forecasts.get(i).getIdCittà().equalsIgnoreCase(name)) {
                 temp.add(forecasts.get(i));
@@ -259,5 +271,5 @@ public class DatiCondivisi extends UnicastRemoteObject {
             }
         });
     }
-    
+
 }

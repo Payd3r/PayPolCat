@@ -4,6 +4,8 @@
  */
 package climatemonitoring;
 
+import java.io.Serializable;
+
 /**
  * La classe User rappresenta un utente con diverse informazioni personali.
  *
@@ -11,7 +13,7 @@ package climatemonitoring;
  * @author Mauri Andrea 
  * @author Luca Cattaneo
  */
-public class User {
+public class User implements Serializable{
 
     private String name;
     private String surname;
