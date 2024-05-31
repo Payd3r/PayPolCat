@@ -59,7 +59,7 @@ public class DBManager {
      */
     public ArrayList<InterestingAreas> readAreas(Connection conn) {
         ArrayList<InterestingAreas> list = new ArrayList<>();
-        String sql = "SELECT * FROM get_interesting_areas_with_pagination(?, ?)";
+        String sql = "SELECT * FROM get_interesting_areas_with_pagination()";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
