@@ -7,7 +7,6 @@ package climatemonitoring;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -140,6 +139,15 @@ public class ServerMain extends UnicastRemoteObject implements Stub {
     public void writeUser(User u) throws SQLException, RemoteException {
         try {
             DatiCondivisi.getInstance().writeUser(u);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void writeStation(MonitoringStation ms) throws SQLException, RemoteException {
+        try {
+            DatiCondivisi.getInstance().writeStation(ms);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
         }

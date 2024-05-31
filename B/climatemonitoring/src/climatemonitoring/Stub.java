@@ -27,6 +27,8 @@ public interface Stub extends Remote {
     void writeForecast(Forecast f) throws SQLException, RemoteException;
 
     void writeUser(User u) throws SQLException, RemoteException;
+    
+    void writeStation(MonitoringStation ms) throws SQLException, RemoteException;
 
     void sortAreas() throws RemoteException;
 

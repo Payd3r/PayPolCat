@@ -351,9 +351,8 @@ public class Register extends javax.swing.JFrame {
                     this.dispose();
                     new Menu().setVisible(true);
                 } else {
-                    s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
-                    CreateMonitoringStation window = null;
-                    window = new CreateMonitoringStation(s);
+//                    s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";";
+                    CreateMonitoringStation window = new CreateMonitoringStation(new User(txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), ""));
                     window.setVisible(rootPaneCheckingEnabled);
                     this.dispose();
                     //new Menu().setVisible(true);

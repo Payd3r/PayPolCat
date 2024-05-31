@@ -275,4 +275,8 @@ public class DatiCondivisi extends UnicastRemoteObject {
     void writeUser(User u) throws SQLException, RemoteException {
         dBManager.writeUser(u, conn);
     }
+    
+    void writeStation(MonitoringStation ms) throws SQLException, RemoteException {
+        dBManager.writeStation(ms, conn);
+    }
 }

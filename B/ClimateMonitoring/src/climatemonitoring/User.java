@@ -10,10 +10,10 @@ import java.io.Serializable;
  * La classe User rappresenta un utente con diverse informazioni personali.
  *
  * @author Ficara Paolo
- * @author Mauri Andrea 
+ * @author Mauri Andrea
  * @author Luca Cattaneo
  */
-public class User implements Serializable{
+public class User implements Serializable {
 
     private String name;
     private String surname;
@@ -42,6 +42,9 @@ public class User implements Serializable{
         this.nick = nick;
         this.password = password;
         this.station = station;
+    }
+
+    public User() {
     }
 
     /**
@@ -171,8 +174,7 @@ public class User implements Serializable{
     }
 
     /**
-     * Crea un oggetto User a partire da una stringa CSV contenente le
-     * informazioni.
+     * Crea un oggetto User a partire da una stringa CSV contenente le informazioni.
      *
      * @param info la stringa CSV contenente le informazioni dell'utente
      * @return un nuovo oggetto User con le informazioni specificate

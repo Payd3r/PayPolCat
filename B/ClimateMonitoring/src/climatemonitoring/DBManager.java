@@ -188,4 +188,11 @@ public class DBManager {
         stmt.executeUpdate();
     }
 
+    void writeStation(MonitoringStation ms, Connection conn) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO centromonitoraggio (name, address) VALUES (?, ?)");
+        stmt.setString(1, ms.getName());
+        stmt.setString(2, ms.getAddress());
+        stmt.executeUpdate();
+    }
+
 }
