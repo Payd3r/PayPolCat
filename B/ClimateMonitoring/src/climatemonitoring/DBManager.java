@@ -189,7 +189,7 @@ public class DBManager {
         stmt.setString(9, f.getPrecipitazioni()[0] + "," + f.getPrecipitazioni()[1]);
         stmt.setString(10, f.getAltitudine()[0] + "," + f.getAltitudine()[1]);
         stmt.setString(11, f.getMassa()[0] + "," + f.getMassa()[1]);
-        stmt.executeQuery();
+        stmt.executeUpdate();
     }
 
 }
