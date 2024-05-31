@@ -203,8 +203,8 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
             }
             String s = name.getText() + ";" + address.getText() + ";" + a + "\n";
             try {
-                dBManager.write(s, DatiCondivisi.getInstance().getConn());
-                dBManager.write(partialInfo, DatiCondivisi.getInstance().getConn());
+//                dBManager.write(s, DatiCondivisi.getInstance().getConn());
+//                dBManager.write(partialInfo, DatiCondivisi.getInstance().getConn());
 
                 //MenuOperatore m = new MenuOperatore();
                 //m.setVisible(rootPaneCheckingEnabled);

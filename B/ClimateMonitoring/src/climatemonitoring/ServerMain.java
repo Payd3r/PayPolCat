@@ -71,15 +71,6 @@ public class ServerMain extends UnicastRemoteObject implements Stub {
     }
 
     @Override
-    public void write(String query) throws SQLException, RemoteException {
-        try {
-            DatiCondivisi.getInstance().insert(query);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
     public void sortAreas() throws RemoteException {
         try {
             DatiCondivisi.getInstance().sortAreas();
@@ -140,6 +131,15 @@ public class ServerMain extends UnicastRemoteObject implements Stub {
     public void writeForecast(Forecast f) throws SQLException, RemoteException {
         try {
             DatiCondivisi.getInstance().writeForecast(f);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void writeUser(User u) throws SQLException, RemoteException {
+        try {
+            DatiCondivisi.getInstance().writeUser(u);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
         }

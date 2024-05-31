@@ -47,7 +47,6 @@ public class DatiCondivisi extends UnicastRemoteObject {
                 "sx9wxithD6BeqC1nCYbaUpETEHlqtJ");
         users = dBManager.readUser(conn);
         areas = dBManager.readAreas(conn);
-        System.out.println(areas.size());
         forecasts = dBManager.readForecast(conn);
         monitoringStations = dBManager.readStation(conn);
         operatore = null;
@@ -124,10 +123,6 @@ public class DatiCondivisi extends UnicastRemoteObject {
      */
     public ArrayList<Forecast> getForecasts() {
         return forecasts;
-    }
-
-    public void insert(String s) throws SQLException {
-        dBManager.write(s, conn);
     }
 
     private static double calcDist(double lat1, double lon1, double lat2, double lon2) {
@@ -275,5 +270,9 @@ public class DatiCondivisi extends UnicastRemoteObject {
 
     public void writeForecast(Forecast f) throws SQLException, ClassNotFoundException {
         dBManager.writeForecast(f, conn);
+    }
+
+    void writeUser(User u) throws SQLException, RemoteException {
+        dBManager.writeUser(u, conn);
     }
 }

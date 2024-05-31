@@ -343,9 +343,7 @@ public class Register extends javax.swing.JFrame {
 
                 String s = "";
                 if (comboMonitoringStation.getSelectedIndex() != 0) {
-                    s = txtName.getText() + ";" + txtSurn.getText() + ";" + engine.getCode() + ";" + txtEmail.getText() + ";" + txtNick.getText() + ";" + txtPassw.getText() + ";" + comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex());
-                    //JOptionPane.showMessageDialog(null, engine.getCode(), "Errore", JOptionPane.INFORMATION_MESSAGE);
-                    dBManager.write("\n" + s, DatiCondivisi.getInstance().getConn());
+                    ClientHandler.getInstance().getStub().writeUser(new User(txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
                     JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
                     Menu r = new Menu();
                     r.setVisible(rootPaneCheckingEnabled);

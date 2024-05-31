@@ -15,16 +15,28 @@ import java.util.ArrayList;
  * @author paolo
  */
 public interface Stub extends Remote {
+
     ArrayList<User> readUser() throws SQLException, RemoteException;
+
     ArrayList<InterestingAreas> readAreas() throws SQLException, RemoteException;
+
     ArrayList<MonitoringStation> readStation() throws SQLException, RemoteException;
+
     ArrayList<Forecast> readForecast() throws SQLException, RemoteException;
-    void write(String query) throws SQLException, RemoteException;
+
     void writeForecast(Forecast f) throws SQLException, RemoteException;
+
+    void writeUser(User u) throws SQLException, RemoteException;
+
     void sortAreas() throws RemoteException;
+
     String[] cercaAreaGeografica(String a) throws RemoteException;
+
     boolean existForecast(String a) throws RemoteException;
+
     void setOperatore(User a) throws RemoteException;
+
     User getOperatore() throws RemoteException;
+
     void refresh() throws RemoteException;
 }

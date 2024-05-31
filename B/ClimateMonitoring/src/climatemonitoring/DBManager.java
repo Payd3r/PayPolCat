@@ -4,8 +4,8 @@
  */
 package climatemonitoring;
 
+import java.rmi.RemoteException;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class DBManager {
      */
     public ArrayList<InterestingAreas> readAreas(Connection conn) {
         ArrayList<InterestingAreas> list = new ArrayList<>();
-        String sql = "SELECT * FROM get_interesting_areas_with_pagination()";
+        String sql = "SELECT * FROM public.interesting_areas";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -159,20 +159,18 @@ public class DBManager {
         return list;
     }
 
-    /**
-     * Esegue la query di inserimento specificata nel database
-     *
-     * @param conn la connessione al database
-     * @param query la insert da eseguire sul database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
-     */
-    public void write(String query, Connection conn) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery();
-        rs.close();
+    public void writeUser(User u, Connection conn) throws SQLException, RemoteException {
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO operatoreregistrato (nome, cognome, cf, mail, nick, password, nome_centro) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        stmt.setString(1, u.getName());
+        stmt.setString(2, u.getSurname());
+        stmt.setString(3, u.getCf());
+        stmt.setString(4, u.getMail());
+        stmt.setString(5, u.getNick());
+        stmt.setString(6, u.getPassword());
+        stmt.setString(7, u.getStation());
+        stmt.executeUpdate();
     }
-
+    
     public void writeForecast(Forecast f, Connection conn) throws SQLException, ClassNotFoundException {
         String a = DatiCondivisi.getInstance().convertNameToId(f.getIdCittà());
         PreparedStatement stmt = conn.prepareStatement(f.toQuery());
