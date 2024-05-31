@@ -57,12 +57,10 @@ public class DBManager {
      * @throws SQLException se si verifica un errore di connessione al database
      * durante la query richiesta
      */
-    public ArrayList<InterestingAreas> readAreas(Connection conn, int offset, int pageSize) {
+    public ArrayList<InterestingAreas> readAreas(Connection conn) {
         ArrayList<InterestingAreas> list = new ArrayList<>();
         String sql = "SELECT * FROM get_interesting_areas_with_pagination(?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, offset);
-            stmt.setInt(2, pageSize);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 list.add(new InterestingAreas(

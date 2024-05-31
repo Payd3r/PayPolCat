@@ -46,7 +46,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
                 "uwrddkjoepyde275arvo",
                 "sx9wxithD6BeqC1nCYbaUpETEHlqtJ");
         users = dBManager.readUser(conn);
-        areas = dBManager.readAreas(conn, 0, 140867);
+        areas = dBManager.readAreas(conn);
         forecasts = dBManager.readForecast(conn);
         monitoringStations = dBManager.readStation(conn);
         operatore = null;
