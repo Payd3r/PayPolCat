@@ -9,6 +9,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -145,9 +146,9 @@ public class ServerMain extends UnicastRemoteObject implements Stub {
     }
 
     @Override
-    public void writeStation(MonitoringStation ms) throws SQLException, RemoteException {
+    public void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException {
         try {
-            DatiCondivisi.getInstance().writeStation(ms);
+            DatiCondivisi.getInstance().writeStation(ms, areas);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -188,11 +188,22 @@ public class DBManager {
         stmt.executeUpdate();
     }
 
-    void writeStation(MonitoringStation ms, Connection conn) throws SQLException {
+    void writeStation(MonitoringStation ms, Connection conn, List<String> areas) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO centromonitoraggio (name, address) VALUES (?, ?)");
         stmt.setString(1, ms.getName());
         stmt.setString(2, ms.getAddress());
         stmt.executeUpdate();
+        stmt.close();
+        
+        for(String s : areas) {
+            String a = DatiCondivisi.getInstance().convertNameToId(s);
+            stmt = conn.prepareStatement("INSERT INTO lavora (id_coordinate, nome_centro) VALUES (?, ?)");
+            stmt.setInt(1, Integer.parseInt(a));
+            stmt.setString(2, ms.getName());
+            stmt.executeUpdate();
+        }
     }
+    
+    
 
 }

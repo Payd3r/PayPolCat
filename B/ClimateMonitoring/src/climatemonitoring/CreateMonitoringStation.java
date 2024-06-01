@@ -191,8 +191,9 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
             current.setStation(name.getText());
 
             try {
+                ClientHandler.getInstance().getStub().writeStation(new MonitoringStation(name.getText(), address.getText(), null), areas);
                 ClientHandler.getInstance().getStub().writeUser(current);
-
+                
                 this.dispose();
                 ClientHandler.getInstance().getStub().setOperatore(current);
                 ClientHandler.getInstance().getStub().refresh();

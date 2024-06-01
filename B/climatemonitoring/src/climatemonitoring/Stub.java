@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -28,7 +29,7 @@ public interface Stub extends Remote {
 
     void writeUser(User u) throws SQLException, RemoteException;
     
-    void writeStation(MonitoringStation ms) throws SQLException, RemoteException;
+    void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException;
 
     void sortAreas() throws RemoteException;
 

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.sql.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -210,7 +211,9 @@ public class DatiCondivisi extends UnicastRemoteObject {
     }
 
     public String convertNameToId(String name) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("select id from coordinatemonitoraggio where name='" + name + "'");
+        PreparedStatement stmt = conn.prepareStatement("select id from coordinatemonitoraggio where name=? OR name_ascii =?");
+        stmt.setString(1, name);
+        stmt.setString(2, name);
         ResultSet rs = stmt.executeQuery();
         String id = null;
         while (rs.next()) {
@@ -276,7 +279,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
         dBManager.writeUser(u, conn);
     }
     
-    void writeStation(MonitoringStation ms) throws SQLException, RemoteException {
-        dBManager.writeStation(ms, conn);
+    void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException, ClassNotFoundException {
+        dBManager.writeStation(ms, conn, areas);
     }
 }
