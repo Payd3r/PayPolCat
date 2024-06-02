@@ -62,19 +62,20 @@ public class MenuOperatore extends javax.swing.JFrame {
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
 
-    private void refreshTable(String area, String stazione) {
+    private void refreshTable(String area, String stazione) throws SQLException, RemoteException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
         List<Forecast> temp = new ArrayList<>();
         try {
+            ClientHandler.getInstance().getStub().refresh();
             temp = ClientHandler.getInstance().getStub().readForecast();
         } catch (SQLException | RemoteException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
         f = new ArrayList<Forecast>();
         for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getIdCittà().equals(area) && temp.get(i).getNomeStazione().equals(stazione)) {
-                model.addRow(new Object[]{new SimpleDateFormat("dd/MM/yyyy").format(temp.get(i).getData()), new SimpleDateFormat("hh:mm:ss").format(temp.get(i).getOra()), temp.get(i).getVento()[1], temp.get(i).getUmidita()[1], temp.get(i).getPressione()[1], temp.get(i).getTemperatura()[1], temp.get(i).getPrecipitazioni()[1], temp.get(i).getAltitudine()[1], temp.get(i).getMassa()[1]});
+            if (temp.get(i).getIdCittà().equalsIgnoreCase(ClientHandler.getInstance().getStub().convertNameToId(area)) && temp.get(i).getNomeStazione().equalsIgnoreCase(stazione)) {
+                model.addRow(new Object[]{new SimpleDateFormat("dd/MM/yyyy").format(temp.get(i).getData()), new SimpleDateFormat("hh:mm:ss").format(temp.get(i).getOra()), temp.get(i).getVento()[0], temp.get(i).getUmidita()[0], temp.get(i).getPressione()[0], temp.get(i).getTemperatura()[0], temp.get(i).getPrecipitazioni()[0], temp.get(i).getAltitudine()[0], temp.get(i).getMassa()[0]});
                 f.add(temp.get(i));
             }
         }
@@ -450,7 +451,7 @@ public class MenuOperatore extends javax.swing.JFrame {
     private void cmbAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreasActionPerformed
         try {
             refreshTable(cmbAreas.getSelectedItem().toString(), ClientHandler.getInstance().getStub().getOperatore().getStation());
-        } catch (RemoteException ex) {
+        } catch (RemoteException | SQLException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cmbAreasActionPerformed
@@ -500,44 +501,44 @@ public class MenuOperatore extends javax.swing.JFrame {
         switch (column) {
             case 2:
                 temp = f.get(row).getVento();
-                str = "Vento " + temp[1] + "\nNota: ";
-                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                str = "Vento " + temp[0] + "\nNota: ";
+                str += (temp.length > 1) ? temp[1] : "Nessuna nota";
                 vis = true;
                 break;
             case 3:
                 temp = f.get(row).getUmidita();
-                str = "Umidità " + temp[1] + "\nNota: ";
-                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                str = "Umidità " + temp[0] + "\nNota: ";
+                str += (temp.length > 1) ? temp[1] : "Nessuna nota";
                 vis = true;
                 break;
             case 4:
                 temp = f.get(row).getPressione();
-                str = "Pressione " + temp[1] + "\nNota: ";
-                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                str = "Pressione " + temp[0] + "\nNota: ";
+                str += (temp.length > 1) ? temp[1] : "Nessuna nota";
                 vis = true;
                 break;
             case 5:
                 temp = f.get(row).getTemperatura();
-                str = "Temperatura " + temp[1] + "\nNota: ";
-                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                str = "Temperatura " + temp[0] + "\nNota: ";
+                str += (temp.length > 1) ? temp[1] : "Nessuna nota";
                 vis = true;
                 break;
             case 6:
                 temp = f.get(row).getPrecipitazioni();
-                str = "Precipitazioni " + temp[1] + "\nNota: ";
-                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                str = "Precipitazioni " + temp[0] + "\nNota: ";
+                str += (temp.length > 1) ? temp[1] : "Nessuna nota";
                 vis = true;
                 break;
             case 7:
                 temp = f.get(row).getAltitudine();
-                str = "Altitudine " + temp[1] + "\nNota: ";
-                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                str = "Altitudine " + temp[0] + "\nNota: ";
+                str += (temp.length > 1) ? temp[1] : "Nessuna nota";
                 vis = true;
                 break;
             case 8:
                 temp = f.get(row).getMassa();
-                str = "Massa " + temp[1] + "\nNota: ";
-                str += (temp.length > 2) ? temp[2] : "Nessuna nota";
+                str = "Massa " + temp[0] + "\nNota: ";
+                str += (temp.length > 1) ? temp[1] : "Nessuna nota";
                 vis = true;
                 break;
             default:

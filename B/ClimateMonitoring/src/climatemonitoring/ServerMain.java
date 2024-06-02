@@ -154,4 +154,14 @@ public class ServerMain extends UnicastRemoteObject implements Stub {
         }
     }
 
+    @Override
+    public String convertNameToId(String name) throws SQLException, RemoteException {
+        try {
+            return DatiCondivisi.getInstance().convertNameToId(name);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
 }

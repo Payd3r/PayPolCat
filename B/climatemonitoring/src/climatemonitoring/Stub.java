@@ -24,6 +24,8 @@ public interface Stub extends Remote {
     ArrayList<MonitoringStation> readStation() throws SQLException, RemoteException;
 
     ArrayList<Forecast> readForecast() throws SQLException, RemoteException;
+    
+    public String convertNameToId(String name) throws SQLException, RemoteException;
 
     void writeForecast(Forecast f) throws SQLException, RemoteException;
 
