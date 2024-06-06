@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Payd3r
  */
-public class ServerMain extends UnicastRemoteObject implements Stub {
+public class ServerMain extends UnicastRemoteObject implements ServerInterface {
 
     static final int PORT = 1234;
 

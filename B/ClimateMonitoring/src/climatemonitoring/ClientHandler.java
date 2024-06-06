@@ -19,15 +19,15 @@ import java.util.logging.Level;
 public class ClientHandler extends UnicastRemoteObject {
 
     private static int PORT = 1234;
-    private Stub stub;
+    private ServerInterface stub;
 
     private static ClientHandler instance = null;
 
     public ClientHandler() throws RemoteException, NotBoundException, InterruptedException {
-        stub = (Stub) LocateRegistry.getRegistry("127.0.0.1", PORT).lookup("Stub");
+        stub = (ServerInterface) LocateRegistry.getRegistry("127.0.0.1", PORT).lookup("Stub");
     }
 
-    public Stub getStub() {
+    public ServerInterface getStub() {
         return stub;
     }
 

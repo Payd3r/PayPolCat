@@ -258,10 +258,9 @@ public class Forecast implements Serializable {
     }
 
     /**
-     * Restituisce una rappresentazione in formato CSV della previsione
-     * meteorologica.
+     * Restituisce una stringa contentente la query da inviare al db per inserire una nuova previsione
      *
-     * @return una stringa nel formato CSV
+     * @return una stringa contentente la query da inviare al db per inserire una nuova previsione
      */
     public String toQuery() {
         return "INSERT INTO parametriclimatici (idCitta, nome_centro, data, ora, vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
