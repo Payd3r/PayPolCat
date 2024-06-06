@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author paolo
  */
-public interface Stub extends Remote {
+public interface ServerInterface extends Remote {
 
     ArrayList<User> readUser() throws SQLException, RemoteException;
 

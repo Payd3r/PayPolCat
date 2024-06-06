@@ -90,10 +90,7 @@ public class DBManager {
      */
     public ArrayList<MonitoringStation> readStation(Connection conn) throws SQLException {
         ArrayList<MonitoringStation> list = new ArrayList<>();
-
-        // Using try-with-resources for PreparedStatement and ResultSet
         try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM centromonitoraggio"); ResultSet rs = stmt.executeQuery()) {
-
             while (rs.next()) {
                 list.add(new MonitoringStation(rs.getString("name"), rs.getString("address"), new ArrayList<>()));
             }
@@ -203,7 +200,4 @@ public class DBManager {
             stmt.executeUpdate();
         }
     }
-    
-    
-
 }

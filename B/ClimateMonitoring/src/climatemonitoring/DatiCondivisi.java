@@ -155,13 +155,13 @@ public class DatiCondivisi extends UnicastRemoteObject {
             //controllo con nome città
             ArrayList<InterestingAreas> l = (ArrayList<InterestingAreas>) areas.parallelStream().filter(elemento -> elemento.contains(s)).collect(Collectors.toList());
             if (l.size() == 1) {
-                intAreas.add(l.get(0).getName());
+                intAreas.add(l.get(0).getCountryCode() + "-" + l.get(0).getName());
                 double lat1 = Double.parseDouble(l.get(0).getLat());
                 double lon1 = Double.parseDouble(l.get(0).getLon());
                 intAreas = cercaLimitrofo(lat1, lon1);
             } else {
                 for (int i = 0; i < l.size(); i++) {
-                    intAreas.add(l.get(i).getName());
+                    intAreas.add(l.get(i).getCountryCode() + "-" + l.get(i).getName());
                 }
             }
         }
@@ -203,7 +203,8 @@ public class DatiCondivisi extends UnicastRemoteObject {
      */
     public boolean existForecast(String area) throws SQLException {
         for (int i = 0; i < forecasts.size(); i++) {
-            if (forecasts.get(i).getIdCittà().equalsIgnoreCase(convertNameToId(area))) {
+            String s = area.split("-")[1];
+            if (forecasts.get(i).getIdCittà().equalsIgnoreCase(convertNameToId(s))) {
                 return true;
             }
         }
@@ -232,7 +233,8 @@ public class DatiCondivisi extends UnicastRemoteObject {
      */
     public ArrayList<Forecast> getForecasts(String name) throws SQLException {
         ArrayList<Forecast> temp = new ArrayList<Forecast>();
-        name = convertNameToId(name);
+        String s = name.split("-")[1];
+        name = convertNameToId(s);
         for (int i = 0; i < forecasts.size(); i++) {
             if (forecasts.get(i).getIdCittà().equalsIgnoreCase(name)) {
                 temp.add(forecasts.get(i));
@@ -278,7 +280,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
     void writeUser(User u) throws SQLException, RemoteException {
         dBManager.writeUser(u, conn);
     }
-    
+
     void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException, ClassNotFoundException {
         dBManager.writeStation(ms, conn, areas);
     }

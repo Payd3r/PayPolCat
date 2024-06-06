@@ -44,7 +44,18 @@ public class User implements Serializable {
         this.station = station;
     }
 
+    /**
+     * Costruisce un oggetto User vuoto.
+     *
+     */
     public User() {
+        this.name = "";
+        this.surname = "";
+        this.cf = "";
+        this.mail = "";
+        this.nick = "";
+        this.password = "";
+        this.station = "";
     }
 
     /**
@@ -171,16 +182,5 @@ public class User implements Serializable {
      */
     public void setStation(String station) {
         this.station = station;
-    }
-
-    /**
-     * Crea un oggetto User a partire da una stringa CSV contenente le informazioni.
-     *
-     * @param info la stringa CSV contenente le informazioni dell'utente
-     * @return un nuovo oggetto User con le informazioni specificate
-     */
-    public static User formCSV(String info) {
-        String[] splittedInfo = info.split(";");
-        return new User(splittedInfo[0], splittedInfo[1], splittedInfo[2], splittedInfo[3], splittedInfo[4], splittedInfo[5], splittedInfo[6]);
     }
 }
