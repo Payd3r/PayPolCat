@@ -44,4 +44,6 @@ public interface ServerInterface extends Remote {
     User getOperatore() throws RemoteException;
 
     void refresh() throws RemoteException;
+    
+    String normalizeStrings(String s);
 }

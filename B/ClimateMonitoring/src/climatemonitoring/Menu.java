@@ -225,7 +225,7 @@ public class Menu extends javax.swing.JFrame {
             if (jTextField1.getText().length() <= 0) {
                 JOptionPane.showMessageDialog(null, "Inserire almeno un carattere");
             } else {
-                String[] a = ClientHandler.getInstance().getStub().cercaAreaGeografica(jTextField1.getText());
+                String[] a = ClientHandler.getInstance().getStub().cercaAreaGeografica(ClientHandler.getInstance().getStub().normalizeStrings(jTextField1.getText()));
                 if (a.length != 0) {
                     jList1.setVisible(true);
                     jList1.setListData(a);

@@ -8,10 +8,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -31,7 +33,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public ArrayList<User> readUser() throws SQLException, RemoteException {
+    public synchronized ArrayList<User> readUser() throws SQLException, RemoteException {
         try {
             return DatiCondivisi.getInstance().getUsers();
         } catch (ClassNotFoundException ex) {
@@ -41,7 +43,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public ArrayList<InterestingAreas> readAreas() throws SQLException, RemoteException {
+    public synchronized ArrayList<InterestingAreas> readAreas() throws SQLException, RemoteException {
         try {
             return DatiCondivisi.getInstance().getAreas();
         } catch (ClassNotFoundException ex) {
@@ -51,7 +53,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public ArrayList<MonitoringStation> readStation() throws SQLException, RemoteException {
+    public synchronized ArrayList<MonitoringStation> readStation() throws SQLException, RemoteException {
         try {
             return DatiCondivisi.getInstance().getMonitoringStations();
         } catch (ClassNotFoundException ex) {
@@ -61,7 +63,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public ArrayList<Forecast> readForecast() throws SQLException, RemoteException {
+    public synchronized ArrayList<Forecast> readForecast() throws SQLException, RemoteException {
         try {
             return DatiCondivisi.getInstance().getForecasts();
         } catch (ClassNotFoundException ex) {
@@ -71,7 +73,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void sortAreas() throws RemoteException {
+    public synchronized void sortAreas() throws RemoteException {
         try {
             DatiCondivisi.getInstance().sortAreas();
         } catch (ClassNotFoundException | SQLException ex) {
@@ -80,7 +82,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public String[] cercaAreaGeografica(String a) throws RemoteException {
+    public synchronized String[] cercaAreaGeografica(String a) throws RemoteException {
         try {
             return DatiCondivisi.getInstance().cercaAreaGeografica(a);
         } catch (ClassNotFoundException | SQLException ex) {
@@ -90,7 +92,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public boolean existForecast(String a) throws RemoteException {
+    public synchronized boolean existForecast(String a) throws RemoteException {
         try {
             return DatiCondivisi.getInstance().existForecast(a);
         } catch (ClassNotFoundException | SQLException ex) {
@@ -100,7 +102,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void setOperatore(User a) throws RemoteException {
+    public synchronized void setOperatore(User a) throws RemoteException {
         try {
             DatiCondivisi.getInstance().setOperatore(a);
         } catch (ClassNotFoundException | SQLException ex) {
@@ -109,7 +111,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public User getOperatore() throws RemoteException {
+    public synchronized User getOperatore() throws RemoteException {
         try {
             return DatiCondivisi.getInstance().getOperatore();
         } catch (ClassNotFoundException | SQLException ex) {
@@ -119,7 +121,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void refresh() throws RemoteException {
+    public synchronized void refresh() throws RemoteException {
         try {
             DatiCondivisi.getInstance().refresh();
         } catch (ClassNotFoundException | SQLException ex) {
@@ -128,7 +130,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void writeForecast(Forecast f) throws SQLException, RemoteException {
+    public synchronized void writeForecast(Forecast f) throws SQLException, RemoteException {
         try {
             DatiCondivisi.getInstance().writeForecast(f);
         } catch (ClassNotFoundException ex) {
@@ -137,7 +139,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void writeUser(User u) throws SQLException, RemoteException {
+    public synchronized void writeUser(User u) throws SQLException, RemoteException {
         try {
             DatiCondivisi.getInstance().writeUser(u);
         } catch (ClassNotFoundException ex) {
@@ -146,7 +148,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException {
+    public synchronized void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException {
         try {
             DatiCondivisi.getInstance().writeStation(ms, areas);
         } catch (ClassNotFoundException ex) {
@@ -155,13 +157,23 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public String convertNameToId(String name) throws SQLException, RemoteException {
+    public synchronized String convertNameToId(String name) throws SQLException, RemoteException {
         try {
             return DatiCondivisi.getInstance().convertNameToId(name);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
+    }
+
+    @Override
+    public synchronized String normalizeStrings(String s) {
+        if ("ÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝ".indexOf(s.charAt(s.length() - 1)) != -1) {
+            String normalized = Normalizer.normalize(s, Normalizer.Form.NFD);
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            s = pattern.matcher(normalized).replaceAll("") + "'";
+        }
+        return s;
     }
 
 }

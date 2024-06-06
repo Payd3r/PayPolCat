@@ -145,7 +145,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * memorizza le città nell'area d'interesse
      */
     public String[] cercaAreaGeografica(String s) {
-        ArrayList<String> intAreas = new ArrayList<String>();
+        ArrayList<String> intAreas = new ArrayList<>();
         if (Character.isDigit(s.charAt(0))) {
             //controllo con lat lon           
             double lat1 = Double.parseDouble(s.split(" ")[0]);
