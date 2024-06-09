@@ -104,35 +104,35 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @throws RemoteException se si verifica un errore remoto durante l'accesso
      * al database
      */
-private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteException {
-    super();
-    dBManager = new DBManager();
-    Class.forName(JDBC_DRIVER);
-    System.out.println("Connecting to database..."); // Stampa di debug
-    conn = DriverManager.getConnection(
-            "jdbc:postgresql://bvgq1krz8lvxl3imqz0z-postgresql.services.clever-cloud.com:50013/bvgq1krz8lvxl3imqz0z",
-            "uwrddkjoepyde275arvo",
-            "sx9wxithD6BeqC1nCYbaUpETEHlqtJ");
-    System.out.println("Connected to database"); // Stampa di debug
-    conn.setAutoCommit(false); // Assicurati che le transazioni siano gestite correttamente
+    private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteException {
+        super();
+        dBManager = new DBManager();
+        Class.forName(JDBC_DRIVER);
+        System.out.println("Connecting to database..."); // Stampa di debug
+        conn = DriverManager.getConnection(
+                "jdbc:postgresql://bvgq1krz8lvxl3imqz0z-postgresql.services.clever-cloud.com:50013/bvgq1krz8lvxl3imqz0z",
+                "uwrddkjoepyde275arvo",
+                "sx9wxithD6BeqC1nCYbaUpETEHlqtJ");
+        System.out.println("Connected to database"); // Stampa di debug
+        conn.setAutoCommit(false); // Assicurati che le transazioni siano gestite correttamente
 
-    try {
-        users = dBManager.readUser(conn);
-        areas = dBManager.readAreas(conn);
-        forecasts = dBManager.readForecast(conn);
-        monitoringStations = dBManager.readStation(conn);
-        conn.commit(); // Commit delle transazioni
-    } catch (SQLException e) {
-        conn.rollback(); // Rollback in caso di errore
-        e.printStackTrace(); // Stampa di debug per gli errori
-        throw new RuntimeException(e);
-    } finally {
-        conn.setAutoCommit(true); // Ripristina il comportamento di autocommit
+        try {
+            users = dBManager.readUser(conn);
+            areas = dBManager.readAreas(conn);
+            forecasts = dBManager.readForecast(conn);
+            monitoringStations = dBManager.readStation(conn);
+            conn.commit(); // Commit delle transazioni
+        } catch (SQLException e) {
+            conn.rollback(); // Rollback in caso di errore
+            e.printStackTrace(); // Stampa di debug per gli errori
+            throw new RuntimeException(e);
+        } finally {
+            conn.setAutoCommit(true); // Ripristina il comportamento di autocommit
+        }
+
+        operatore = null;
+        sortAreas();
     }
-
-    operatore = null;
-    sortAreas();
-}
 
     /**
      * Restituisce l'oggetto di connessione al database.
@@ -252,7 +252,7 @@ private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteExcep
      */
     public String[] cercaAreaGeografica(String s) {
         ArrayList<String> intAreas = new ArrayList<>();
-        if (Character.isDigit(s.charAt(0))) {
+        if (Character.isDigit(s.charAt(0)) || s.charAt(0) == '-') {
             //controllo con lat lon           
             double lat1 = Double.parseDouble(s.split(" ")[0]);
             double lon1 = Double.parseDouble(s.split(" ")[1]);
@@ -292,7 +292,7 @@ private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteExcep
             double dist = calcDist(lat1, lon1, lat2, lon2);
             if (dist < 5.0) {
                 if (!intAreas.contains(areas.get(i).getName())) {
-                    intAreas.add(areas.get(i).getName());
+                    intAreas.add(areas.get(i).getCountryCode() + "-" + areas.get(i).getName());
                 }
             }
         }
@@ -332,8 +332,9 @@ private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteExcep
      * della query
      */
     public String convertNameToId(String name) throws SQLException {
-        if(name.charAt(0) == ' ')
+        if (name.charAt(0) == ' ') {
             name = name.substring(1);
+        }
         PreparedStatement stmt = conn.prepareStatement("select id from coordinatemonitoraggio where name=? OR name_ascii=?");
         stmt.setString(1, name);
         stmt.setString(2, name);
@@ -389,15 +390,15 @@ private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteExcep
     public void sortAreas() {
         try {
             Collections.sort(areas, new Comparator<InterestingAreas>() {
-            @Override
-            public int compare(InterestingAreas lhs, InterestingAreas rhs) {
-                return lhs.getName().compareTo(rhs.getName()) > 0 ? 1 : (lhs.getName().compareTo(rhs.getName())) < 0 ? -1 : 0;
-            }
-        });
-        } catch(NullPointerException e) {
+                @Override
+                public int compare(InterestingAreas lhs, InterestingAreas rhs) {
+                    return lhs.getName().compareTo(rhs.getName()) > 0 ? 1 : (lhs.getName().compareTo(rhs.getName())) < 0 ? -1 : 0;
+                }
+            });
+        } catch (NullPointerException e) {
             System.out.println("");
         }
-        
+
     }
 
     /**
