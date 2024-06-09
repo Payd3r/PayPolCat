@@ -229,7 +229,7 @@ public class DBManager {
      * della query
      * @throws ClassNotFoundException se la classe specificata non è trovata
      */
-    void writeStation(MonitoringStation ms, Connection conn, List<String> areas) throws SQLException, ClassNotFoundException {
+    public void writeStation(MonitoringStation ms, Connection conn, List<String> areas) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO centromonitoraggio (name, address) VALUES (?, ?)");
         stmt.setString(1, ms.getName());
         stmt.setString(2, ms.getAddress());

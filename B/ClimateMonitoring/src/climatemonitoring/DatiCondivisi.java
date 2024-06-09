@@ -408,7 +408,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @throws RemoteException se si verifica un errore remoto durante
      * l'esecuzione della query
      */
-    void writeUser(User u) throws SQLException, RemoteException {
+    public void writeUser(User u) throws SQLException, RemoteException {
         dBManager.writeUser(u, conn);
     }
 
@@ -429,7 +429,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * l'esecuzione della query
      * @throws ClassNotFoundException se la classe specificata non è trovata
      */
-    void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException, ClassNotFoundException {
+    public void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException, ClassNotFoundException {
         dBManager.writeStation(ms, conn, areas);
     }
 }
