@@ -318,7 +318,9 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * della query
      */
     public String convertNameToId(String name) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("select id from coordinatemonitoraggio where name=? OR name_ascii =?");
+        if(name.charAt(0) == ' ')
+            name = name.substring(1);
+        PreparedStatement stmt = conn.prepareStatement("select id from coordinatemonitoraggio where name=? OR name_ascii=?");
         stmt.setString(1, name);
         stmt.setString(2, name);
         ResultSet rs = stmt.executeQuery();

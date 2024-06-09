@@ -42,13 +42,12 @@ public class MenuOperatore extends javax.swing.JFrame {
      * Questo attributo rappresenta il gestore del database utilizzato per
      * accedere e gestire i dati nel database.
      */
-    private DBManager dBManager;
-
     /**
      * Costruttore che crea l'oggetto della finestra dove si andrà ad aggiungere
      * una rilevazione riempie la combobox con i relativi dati e popola la
      * tabella con i dati salvati in precedenza
      *
+     * @throws RemoteException Errore connessione RMI
      */
     public MenuOperatore() throws RemoteException {
         initComponents();
@@ -60,7 +59,6 @@ public class MenuOperatore extends javax.swing.JFrame {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(MenuOperatore.class.getName()).log(Level.SEVERE, null, ex);
         }
-        dBManager = new DBManager();
     }
 
     /**
