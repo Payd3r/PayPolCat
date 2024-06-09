@@ -104,21 +104,35 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @throws RemoteException se si verifica un errore remoto durante l'accesso
      * al database
      */
-    private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteException {
-        super();
-        dBManager = new DBManager();
-        Class.forName(JDBC_DRIVER);
-        conn = DriverManager.getConnection(
-                "jdbc:postgresql://bvgq1krz8lvxl3imqz0z-postgresql.services.clever-cloud.com:50013/bvgq1krz8lvxl3imqz0z",
-                "uwrddkjoepyde275arvo",
-                "sx9wxithD6BeqC1nCYbaUpETEHlqtJ");
+private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteException {
+    super();
+    dBManager = new DBManager();
+    Class.forName(JDBC_DRIVER);
+    System.out.println("Connecting to database..."); // Stampa di debug
+    conn = DriverManager.getConnection(
+            "jdbc:postgresql://bvgq1krz8lvxl3imqz0z-postgresql.services.clever-cloud.com:50013/bvgq1krz8lvxl3imqz0z",
+            "uwrddkjoepyde275arvo",
+            "sx9wxithD6BeqC1nCYbaUpETEHlqtJ");
+    System.out.println("Connected to database"); // Stampa di debug
+    conn.setAutoCommit(false); // Assicurati che le transazioni siano gestite correttamente
+
+    try {
         users = dBManager.readUser(conn);
         areas = dBManager.readAreas(conn);
         forecasts = dBManager.readForecast(conn);
         monitoringStations = dBManager.readStation(conn);
-        operatore = null;
-        sortAreas();
+        conn.commit(); // Commit delle transazioni
+    } catch (SQLException e) {
+        conn.rollback(); // Rollback in caso di errore
+        e.printStackTrace(); // Stampa di debug per gli errori
+        throw new RuntimeException(e);
+    } finally {
+        conn.setAutoCommit(true); // Ripristina il comportamento di autocommit
     }
+
+    operatore = null;
+    sortAreas();
+}
 
     /**
      * Restituisce l'oggetto di connessione al database.
@@ -373,12 +387,17 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * Metodo che ordina in modo crescente le aree di interesse
      */
     public void sortAreas() {
-        Collections.sort(areas, new Comparator<InterestingAreas>() {
+        try {
+            Collections.sort(areas, new Comparator<InterestingAreas>() {
             @Override
             public int compare(InterestingAreas lhs, InterestingAreas rhs) {
                 return lhs.getName().compareTo(rhs.getName()) > 0 ? 1 : (lhs.getName().compareTo(rhs.getName())) < 0 ? -1 : 0;
             }
         });
+        } catch(NullPointerException e) {
+            System.out.println("");
+        }
+        
     }
 
     /**

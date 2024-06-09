@@ -19,13 +19,11 @@ import java.util.List;
 public class DBManager {
 
     /**
-     * Legge il database nella tabella "operatoriregistrati" e restituisce una
-     * lista di oggetti User.
+     * Legge il database nella tabella "operatoriregistrati" e restituisce una lista di oggetti User.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti User letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      * @throws ClassNotFoundException Errore nella risolutazione della classe
      */
     public ArrayList<User> readUser(Connection conn) throws SQLException, ClassNotFoundException {
@@ -48,8 +46,7 @@ public class DBManager {
     }
 
     /**
-     * Legge il database dalla tabella "coordinatemonitoraggio" e restituisce
-     * una lista di oggetti InterestingAreas.
+     * Legge il database dalla tabella "coordinatemonitoraggio" e restituisce una lista di oggetti InterestingAreas.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti InterestingAreas letti dal database
@@ -75,13 +72,11 @@ public class DBManager {
     }
 
     /**
-     * Legge il database nella tabella "centromonitoraggio" e restituisce una
-     * lista di oggetti MonitoringStation.
+     * Legge il database nella tabella "centromonitoraggio" e restituisce una lista di oggetti MonitoringStation.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti MonitoringStation letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
     public ArrayList<MonitoringStation> readStation(Connection conn) throws SQLException {
         ArrayList<MonitoringStation> list = new ArrayList<>();
@@ -120,13 +115,11 @@ public class DBManager {
     }
 
     /**
-     * Legge il databse nella tabella "parametriclimatici" e restituisce una
-     * lista di oggetti Forecast.
+     * Legge il databse nella tabella "parametriclimatici" e restituisce una lista di oggetti Forecast.
      *
      * @param conn la connessione al database
      * @return una lista di oggetti Forecast letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
+     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
      */
     public ArrayList<Forecast> readForecast(Connection conn) throws SQLException {
         ArrayList<Forecast> list = new ArrayList<>();
@@ -154,16 +147,12 @@ public class DBManager {
     /**
      * Scrive un nuovo utente nel database.
      * <p>
-     * Questo metodo inserisce un nuovo record nella tabella
-     * "operatoreregistrato" del database, utilizzando i dati dell'oggetto
-     * <code>User</code> specificato.
+     * Questo metodo inserisce un nuovo record nella tabella "operatoreregistrato" del database, utilizzando i dati dell'oggetto <code>User</code> specificato.
      *
      * @param u l'utente da scrivere nel database
      * @param conn la connessione al database
-     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
-     * della query
-     * @throws RemoteException se si verifica un errore remoto durante
-     * l'esecuzione della query
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione della query
+     * @throws RemoteException se si verifica un errore remoto durante l'esecuzione della query
      */
     public void writeUser(User u, Connection conn) throws SQLException, RemoteException {
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO operatoreregistrato (nome, cognome, cf, mail, nick, password, nome_centro) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -180,14 +169,11 @@ public class DBManager {
     /**
      * Scrive una nuova previsione nel database.
      * <p>
-     * Questo metodo inserisce un nuovo record nella tabella corrispondente nel
-     * database, utilizzando i dati dell'oggetto <code>Forecast</code>
-     * specificato.
+     * Questo metodo inserisce un nuovo record nella tabella corrispondente nel database, utilizzando i dati dell'oggetto <code>Forecast</code> specificato.
      *
      * @param f la previsione da scrivere nel database
      * @param conn la connessione al database
-     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
-     * della query
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione della query
      * @throws ClassNotFoundException se la classe specificata non è trovata
      */
     public void writeForecast(Forecast f, Connection conn) throws SQLException, ClassNotFoundException {
@@ -210,18 +196,12 @@ public class DBManager {
     /**
      * Scrive una nuova stazione di monitoraggio nel database.
      * <p>
-     * Questo metodo inserisce un nuovo record nella tabella
-     * "centromonitoraggio" del database, utilizzando i dati dell'oggetto
-     * <code>MonitoringStation</code> specificato per il nome e l'indirizzo
-     * della stazione. Successivamente, associa la stazione di monitoraggio alle
-     * aree specificate nella lista <code>areas</code>.
+     * Questo metodo inserisce un nuovo record nella tabella "centromonitoraggio" del database, utilizzando i dati dell'oggetto <code>MonitoringStation</code> specificato per il nome e l'indirizzo della stazione. Successivamente, associa la stazione di monitoraggio alle aree specificate nella lista <code>areas</code>.
      *
      * @param ms la stazione di monitoraggio da scrivere nel database
      * @param conn la connessione al database
-     * @param areas la lista delle aree a cui la stazione di monitoraggio è
-     * associata
-     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
-     * della query
+     * @param areas la lista delle aree a cui la stazione di monitoraggio è associata
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione della query
      * @throws ClassNotFoundException se la classe specificata non è trovata
      */
     public void writeStation(MonitoringStation ms, Connection conn, List<String> areas) throws SQLException, ClassNotFoundException {
