@@ -34,20 +34,30 @@ public class Login extends javax.swing.JFrame {
      * Crea una nuova istanza di Login.
      *
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
-     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws SQLException Errore nella connessione al database o
+     * nell'esecuzione della query
      */
     public Login() throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
-        grafica();        
+        grafica();
         users = ClientHandler.getInstance().getStub().readUser();
     }
-    
+
+    /**
+     * Imposta l'icona della finestra e la posizione centrale sulla schermata.
+     * <p>
+     * Questo metodo carica un'icona dall'immagine specificata e la imposta come
+     * icona della finestra. Successivamente, calcola la posizione centrale
+     * della finestra sulla schermata e la imposta di conseguenza. È importante
+     * notare che questa operazione è specifica per l'interfaccia grafica.
+     */
     private void grafica() {
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -161,8 +171,8 @@ public class Login extends javax.swing.JFrame {
             }
             if (!found) {
                 JOptionPane.showMessageDialog(null, "Utente non trovato", "Errore", JOptionPane.INFORMATION_MESSAGE);
-            } else {               
-                try {               
+            } else {
+                try {
                     try {
                         ClientHandler.getInstance().getStub().setOperatore(u);
                     } catch (RemoteException ex) {

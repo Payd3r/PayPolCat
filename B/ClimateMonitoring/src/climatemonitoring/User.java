@@ -15,12 +15,33 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
+    /**
+     * Nome dell'utente.
+     */
     private String name;
+    /**
+     * Cognome dell'utente.
+     */
     private String surname;
+    /**
+     * Codice fiscale dell'utente.
+     */
     private String cf;
+    /**
+     * Indirizzo email dell'utente.
+     */
     private String mail;
+    /**
+     * Nickname dell'utente.
+     */
     private String nick;
+    /**
+     * Password dell'utente.
+     */
     private String password;
+    /**
+     * Nome della stazione monitorata dall'utente.
+     */
     private String station;
 
     /**

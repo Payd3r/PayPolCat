@@ -16,9 +16,25 @@ import java.util.List;
  */
 public class MonitoringStation implements Serializable {
 
- 
+    /**
+     * Nome della stazione di monitoraggio.
+     * <p>
+     * Questo attributo contiene il nome della stazione di monitoraggio.
+     */
     private String name;
+    /**
+     * Indirizzo della stazione di monitoraggio.
+     * <p>
+     * Questo attributo contiene l'indirizzo della stazione di monitoraggio.
+     */
     private String address;
+
+    /**
+     * Elenco delle aree di interesse associate alla stazione di monitoraggio.
+     * <p>
+     * Questo attributo rappresenta l'elenco delle aree di interesse associate
+     * alla stazione di monitoraggio.
+     */
     private List<InterestingAreas> interestingAreas;
 
     /**
@@ -90,6 +106,5 @@ public class MonitoringStation implements Serializable {
     public void setInterestingAreas(List<InterestingAreas> interestingAreas) {
         this.interestingAreas = interestingAreas;
     }
-
 
 }

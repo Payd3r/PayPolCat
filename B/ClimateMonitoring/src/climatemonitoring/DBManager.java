@@ -156,6 +156,20 @@ public class DBManager {
         return list;
     }
 
+    /**
+     * Scrive un nuovo utente nel database.
+     * <p>
+     * Questo metodo inserisce un nuovo record nella tabella
+     * "operatoreregistrato" del database, utilizzando i dati dell'oggetto
+     * <code>User</code> specificato.
+     *
+     * @param u l'utente da scrivere nel database
+     * @param conn la connessione al database
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
+     * della query
+     * @throws RemoteException se si verifica un errore remoto durante
+     * l'esecuzione della query
+     */
     public void writeUser(User u, Connection conn) throws SQLException, RemoteException {
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO operatoreregistrato (nome, cognome, cf, mail, nick, password, nome_centro) VALUES (?, ?, ?, ?, ?, ?, ?)");
         stmt.setString(1, u.getName());
@@ -167,7 +181,20 @@ public class DBManager {
         stmt.setString(7, u.getStation());
         stmt.executeUpdate();
     }
-    
+
+    /**
+     * Scrive una nuova previsione nel database.
+     * <p>
+     * Questo metodo inserisce un nuovo record nella tabella corrispondente nel
+     * database, utilizzando i dati dell'oggetto <code>Forecast</code>
+     * specificato.
+     *
+     * @param f la previsione da scrivere nel database
+     * @param conn la connessione al database
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
+     * della query
+     * @throws ClassNotFoundException se la classe specificata non è trovata
+     */
     public void writeForecast(Forecast f, Connection conn) throws SQLException, ClassNotFoundException {
         String a = DatiCondivisi.getInstance().convertNameToId(f.getIdCittà());
         PreparedStatement stmt = conn.prepareStatement(f.toQuery());
@@ -185,14 +212,31 @@ public class DBManager {
         stmt.executeUpdate();
     }
 
+    /**
+     * Scrive una nuova stazione di monitoraggio nel database.
+     * <p>
+     * Questo metodo inserisce un nuovo record nella tabella
+     * "centromonitoraggio" del database, utilizzando i dati dell'oggetto
+     * <code>MonitoringStation</code> specificato per il nome e l'indirizzo
+     * della stazione. Successivamente, associa la stazione di monitoraggio alle
+     * aree specificate nella lista <code>areas</code>.
+     *
+     * @param ms la stazione di monitoraggio da scrivere nel database
+     * @param conn la connessione al database
+     * @param areas la lista delle aree a cui la stazione di monitoraggio è
+     * associata
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
+     * della query
+     * @throws ClassNotFoundException se la classe specificata non è trovata
+     */
     void writeStation(MonitoringStation ms, Connection conn, List<String> areas) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO centromonitoraggio (name, address) VALUES (?, ?)");
         stmt.setString(1, ms.getName());
         stmt.setString(2, ms.getAddress());
         stmt.executeUpdate();
         stmt.close();
-        
-        for(String s : areas) {
+
+        for (String s : areas) {
             String a = DatiCondivisi.getInstance().convertNameToId(s);
             stmt = conn.prepareStatement("INSERT INTO lavora (id_coordinate, nome_centro) VALUES (?, ?)");
             stmt.setInt(1, Integer.parseInt(a));

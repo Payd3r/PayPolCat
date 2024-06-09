@@ -22,11 +22,26 @@ import java.sql.Timestamp;
  */
 public class AddNotes extends javax.swing.JFrame {
 
-    //attributi
+    /**
+     * Oggetto <code> temp </code> che contiene i dati della previsione
+     * meteorologica.
+     * <p>
+     * Questo oggetto è utilizzato per memorizzare e gestire i dati relativi
+     * alla previsione meteorologica come vento, umidità, pressione,
+     * temperatura, precipitazioni, altitudine e massa.
+     */
     private Forecast temp;
+
+    /**
+     * Gestore del database (<code>dbManager</code>) utilizzato per interagire
+     * con il database.
+     * <p>
+     * Questo oggetto gestisce le operazioni di accesso al database, come
+     * connessioni, query e aggiornamenti. Viene utilizzato per memorizzare e
+     * recuperare i dati delle previsioni meteorologiche.
+     */
     private DBManager dBManager;
 
-    //costruttori
     /**
      * Costruttore che crea l'oggetto della finestra dove si andrà ad aggiungere
      * una nota e inizializza i vari componenti di essa.
@@ -36,6 +51,19 @@ public class AddNotes extends javax.swing.JFrame {
         initComponents();
     }
 
+    /**
+     * Imposta l'icona dell'applicazione e posiziona la finestra al centro dello
+     * schermo.
+     * <p>
+     * Questo metodo esegue le seguenti operazioni:
+     * <ul>
+     * <li>Carica un'immagine da un percorso relativo e la imposta come icona
+     * dell'applicazione.</li>
+     * <li>Calcola la dimensione dello schermo.</li>
+     * <li>Posiziona la finestra corrente al centro dello schermo, basandosi
+     * sulle dimensioni attuali della finestra.</li>
+     * </ul>
+     */
     private void grafica() {
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
@@ -77,7 +105,6 @@ public class AddNotes extends javax.swing.JFrame {
 
     }
 
-    //metodi
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -27,23 +27,51 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SearchResult extends javax.swing.JFrame {
 
+    /**
+     * Lista delle previsioni meteorologiche.
+     * <p>
+     * Questo attributo contiene una lista delle previsioni meteorologiche.
+     */
     private List<Forecast> f;
+    /**
+     * Menu dell'applicazione.
+     * <p>
+     * Questo attributo rappresenta il menu dell'applicazione.
+     */
     private Menu m;
 
     /**
      * Crea una nuova istanza di SearchResult.
+     * <p>
+     * Questo costruttore inizializza una nuova istanza di SearchResult,
+     * inizializzando i componenti grafici e configurando l'aspetto grafico
+     * della finestra.
      */
     public SearchResult() {
         initComponents();
         grafica();
     }
-    
+
+    /**
+     * Imposta l'icona dell'applicazione e posiziona la finestra al centro dello
+     * schermo.
+     * <p>
+     * Questo metodo esegue le seguenti operazioni:
+     * <ul>
+     * <li>Carica un'immagine da un percorso relativo e la imposta come icona
+     * dell'applicazione.</li>
+     * <li>Calcola la dimensione dello schermo.</li>
+     * <li>Posiziona la finestra corrente al centro dello schermo, basandosi
+     * sulle dimensioni attuali della finestra.</li>
+     * </ul>
+     */
     private void grafica() {
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
+
     /**
      * Crea una nuova istanza di SearchResult con il nome dell'area di ricerca e
      * il menu associato.
@@ -60,7 +88,24 @@ public class SearchResult extends javax.swing.JFrame {
         m = me;
     }
 
-    private void refreshTable(String areaName) throws ClassNotFoundException, SQLException  {
+    /**
+     * Aggiorna la tabella delle rilevazioni per un'area specifica.
+     * <p>
+     * Questo metodo aggiorna la tabella delle rilevazioni utilizzando i dati
+     * relativi all'area specificata. Prima di aggiornare la tabella, il metodo
+     * recupera le previsioni meteorologiche relative all'area specificata
+     * utilizzando il singleton
+     * DatiCondivisi.getInstance().getForecasts(areaName). Successivamente,
+     * popola la tabella con le informazioni sulle previsioni meteorologiche
+     * ottenute.
+     *
+     * @param areaName il nome dell'area per la quale visualizzare le
+     * rilevazioni
+     * @throws ClassNotFoundException se la classe specificata non è trovata
+     * @throws SQLException se si verifica un errore SQL durante l'interazione
+     * con il database
+     */
+    private void refreshTable(String areaName) throws ClassNotFoundException, SQLException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
         List<Forecast> temp = DatiCondivisi.getInstance().getForecasts(areaName);

@@ -6,25 +6,55 @@ package climatemonitoring;
 
 import java.io.Serializable;
 
-
 /**
  * Classe che rappresenta un'area interessante.
+ *
  * @author Ficara Paolo
- * @author Mauri Andrea 
+ * @author Mauri Andrea
  * @author Luca Cattaneo
  */
-public class InterestingAreas implements Serializable{
+public class InterestingAreas implements Serializable {
 
+    /**
+     * Identificatore della località.
+     * <p>
+     * Questo attributo contiene l'identificatore univoco della località.
+     */
     private int id;
+    /**
+     * Nome della località.
+     * <p>
+     * Questo attributo contiene il nome della località.
+     */
     private String name;
+    /**
+     * Codice del paese associato alla località.
+     * <p>
+     * Questo attributo contiene il codice del paese associato alla località.
+     */
     private String countryCode;
+    /**
+     * Nome del paese associato alla località.
+     * <p>
+     * Questo attributo contiene il nome del paese associato alla località.
+     */
     private String countryName;
+    /**
+     * Latitudine della località.
+     * <p>
+     * Questo attributo contiene la latitudine della località.
+     */
     private String lat;
+    /**
+     * Longitudine della località.
+     * <p>
+     * Questo attributo contiene la longitudine della località.
+     */
     private String lon;
 
     /**
-     * Costruttore predefinito della classe `InterestingAreas`.
-     * Inizializza gli attributi con valori vuoti.
+     * Costruttore predefinito della classe `InterestingAreas`. Inizializza gli
+     * attributi con valori vuoti.
      */
     public InterestingAreas() {
         id = -1;
@@ -38,12 +68,12 @@ public class InterestingAreas implements Serializable{
     /**
      * Costruttore della classe `InterestingAreas`.
      *
-     * @param id           l'ID dell'area
-     * @param name         il nome dell'area
+     * @param id l'ID dell'area
+     * @param name il nome dell'area
      * @param countryCode il codice del paese dell'area
      * @param countryName il nome del paese dell'area
-     * @param lat          la latitudine dell'area
-     * @param lon          la longitudine dell'area
+     * @param lat la latitudine dell'area
+     * @param lon la longitudine dell'area
      */
     public InterestingAreas(int id, String name, String countryCode, String countryName, String lat, String lon) {
         this.id = id;
@@ -166,7 +196,8 @@ public class InterestingAreas implements Serializable{
      * Verifica se il nome dell'area contiene una determinata stringa.
      *
      * @param s la stringa da cercare
-     * @return `true` se il nome dell'area contiene la stringa (ignorando maiuscole/minuscole), altrimenti `false`
+     * @return `true` se il nome dell'area contiene la stringa (ignorando
+     * maiuscole/minuscole), altrimenti `false`
      */
     boolean contains(String s) {
         return this.name.toLowerCase().contains(s.toLowerCase());

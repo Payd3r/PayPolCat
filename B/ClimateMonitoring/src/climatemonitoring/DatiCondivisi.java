@@ -22,22 +22,88 @@ import java.util.logging.Logger;
  */
 public class DatiCondivisi extends UnicastRemoteObject {
 
-    //attributi
+    /**
+     * Istanza singleton della classe <code>DatiCondivisi</code>.
+     * <p>
+     * Questo attributo tiene traccia dell'unica istanza della classe
+     * <code>DatiCondivisi</code>, assicurando che venga utilizzato il pattern
+     * singleton per la gestione dei dati condivisi.
+     */
     private static DatiCondivisi instance = null;
+    /**
+     * Lista delle stazioni di monitoraggio.
+     * <p>
+     * Questo attributo contiene un elenco delle stazioni di monitoraggio
+     * disponibili nel sistema.
+     */
     private ArrayList<MonitoringStation> monitoringStations;
+    /**
+     * Lista degli utenti registrati nel sistema.
+     * <p>
+     * Questo attributo contiene un elenco degli utenti registrati e autorizzati
+     * ad accedere al sistema.
+     */
     private ArrayList<User> users;
+    /**
+     * Lista delle aree di interesse.
+     * <p>
+     * Questo attributo contiene un elenco delle aree di interesse configurate
+     * nel sistema.
+     */
     private ArrayList<InterestingAreas> areas;
+    /**
+     * Lista delle previsioni meteorologiche.
+     * <p>
+     * Questo attributo contiene un elenco delle previsioni meteorologiche
+     * disponibili nel sistema.
+     */
     private ArrayList<Forecast> forecasts;
+    /**
+     * L'operatore attualmente autenticato nel sistema.
+     * <p>
+     * Questo attributo rappresenta l'utente operatore attualmente autenticato e
+     * attivo nel sistema.
+     */
     private User operatore;
+    /**
+     * Connessione al database.
+     * <p>
+     * Questo attributo rappresenta la connessione attiva al database utilizzata
+     * per eseguire le operazioni di accesso e di aggiornamento dei dati.
+     */
     private Connection conn;
+    /**
+     * Gestore del database (<code>DBManager</code>).
+     * <p>
+     * Questo attributo rappresenta l'istanza del <code>DBManager</code>
+     * utilizzata per interagire con il database. Gestisce le operazioni di
+     * accesso al database, come connessioni, query e aggiornamenti.
+     */
     private DBManager dBManager;
-
-    public Connection getConn() {
-        return conn;
-    }
+    /**
+     * Driver JDBC per il database PostgreSQL.
+     * <p>
+     * Questo attributo contiene il nome completo della classe del driver JDBC
+     * utilizzato per stabilire la connessione al database PostgreSQL.
+     */
     private final String JDBC_DRIVER = "org.postgresql.Driver";
 
-    // Costruttore
+    /**
+     * Costruttore privato per la classe <code>DatiCondivisi</code>.
+     * <p>
+     * Questo costruttore inizializza l'istanza della classe
+     * <code>DatiCondivisi</code> gestendo le eccezioni e stabilisce la
+     * connessione al database. Legge quindi gli utenti, le aree, le previsioni
+     * meteorologiche e le stazioni di monitoraggio dal database e ordina le
+     * aree. Infine, imposta l'operatore su <code>null</code>.
+     *
+     * @throws ClassNotFoundException se la classe del driver JDBC non viene
+     * trovata
+     * @throws SQLException se si verifica un errore SQL durante l'accesso al
+     * database
+     * @throws RemoteException se si verifica un errore remoto durante l'accesso
+     * al database
+     */
     private DatiCondivisi() throws ClassNotFoundException, SQLException, RemoteException {
         super();
         dBManager = new DBManager();
@@ -54,7 +120,18 @@ public class DatiCondivisi extends UnicastRemoteObject {
         sortAreas();
     }
 
-    //metodi
+    /**
+     * Restituisce l'oggetto di connessione al database.
+     * <p>
+     * Questo metodo restituisce l'oggetto di connessione attualmente utilizzato
+     * per interagire con il database.
+     *
+     * @return l'oggetto di connessione al database
+     */
+    public Connection getConn() {
+        return conn;
+    }
+
     /**
      * Metodo che crea l'unica instanza della classe
      *
@@ -126,6 +203,21 @@ public class DatiCondivisi extends UnicastRemoteObject {
         return forecasts;
     }
 
+    /**
+     * Calcola la distanza in chilometri tra due punti geografici utilizzando la
+     * formula di Haversine.
+     * <p>
+     * Questo metodo prende in input le coordinate (latitudine e longitudine) di
+     * due punti geografici e restituisce la distanza approssimativa in
+     * chilometri tra di essi utilizzando la formula di Haversine.
+     *
+     * @param lat1 la latitudine del primo punto in gradi
+     * @param lon1 la longitudine del primo punto in gradi
+     * @param lat2 la latitudine del secondo punto in gradi
+     * @param lon2 la longitudine del secondo punto in gradi
+     * @return la distanza approssimativa in chilometri tra i due punti
+     * geografici
+     */
     private static double calcDist(double lat1, double lon1, double lat2, double lon2) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
@@ -211,6 +303,20 @@ public class DatiCondivisi extends UnicastRemoteObject {
         return false;
     }
 
+    /**
+     * Converte il nome di una località nel suo identificatore univoco nel
+     * database.
+     * <p>
+     * Questo metodo prende in input il nome di una località e restituisce il
+     * suo identificatore univoco nel database delle coordinate di monitoraggio.
+     * Se il nome della località è identificato con successo, restituisce il
+     * relativo identificatore; altrimenti, restituisce null.
+     *
+     * @param name il nome della località da convertire in identificatore
+     * @return l'identificatore univoco della località nel database
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
+     * della query
+     */
     public String convertNameToId(String name) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("select id from coordinatemonitoraggio where name=? OR name_ascii =?");
         stmt.setString(1, name);
@@ -273,14 +379,56 @@ public class DatiCondivisi extends UnicastRemoteObject {
         });
     }
 
+    /**
+     * Scrive una nuova previsione nel database.
+     * <p>
+     * Questo metodo delega l'operazione di scrittura di una nuova previsione
+     * nel database al DBManager, utilizzando l'istanza attuale della
+     * connessione al database.
+     *
+     * @param f la previsione da scrivere nel database
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
+     * della query
+     * @throws ClassNotFoundException se la classe specificata non è trovata
+     */
     public void writeForecast(Forecast f) throws SQLException, ClassNotFoundException {
         dBManager.writeForecast(f, conn);
     }
 
+    /**
+     * Scrive un nuovo utente nel database.
+     * <p>
+     * Questo metodo delega l'operazione di scrittura di un nuovo utente nel
+     * database al DBManager, utilizzando l'istanza attuale della connessione al
+     * database.
+     *
+     * @param u l'utente da scrivere nel database
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
+     * della query
+     * @throws RemoteException se si verifica un errore remoto durante
+     * l'esecuzione della query
+     */
     void writeUser(User u) throws SQLException, RemoteException {
         dBManager.writeUser(u, conn);
     }
 
+    /**
+     * Scrive una nuova stazione di monitoraggio nel database.
+     * <p>
+     * Questo metodo delega l'operazione di scrittura di una nuova stazione di
+     * monitoraggio nel database al DBManager, utilizzando l'istanza attuale
+     * della connessione al database e l'elenco delle aree di interesse
+     * specificate.
+     *
+     * @param ms la stazione di monitoraggio da scrivere nel database
+     * @param areas l'elenco delle aree di interesse associate alla stazione di
+     * monitoraggio
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
+     * della query
+     * @throws RemoteException se si verifica un errore remoto durante
+     * l'esecuzione della query
+     * @throws ClassNotFoundException se la classe specificata non è trovata
+     */
     void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException, ClassNotFoundException {
         dBManager.writeStation(ms, conn, areas);
     }

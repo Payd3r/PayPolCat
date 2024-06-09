@@ -44,6 +44,16 @@ public class Menu extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Configura l'aspetto grafico della finestra.
+     * <p>
+     * Questo metodo imposta l'icona della finestra con un'immagine specifica e
+     * posiziona la finestra al centro dello schermo. L'icona della finestra
+     * viene caricata dall'immagine specificata nel percorso relativo
+     * "../Data/icon.jpg". La finestra viene quindi posizionata al centro dello
+     * schermo in base alle dimensioni dello schermo e delle dimensioni della
+     * finestra stessa.
+     */
     private void grafica() {
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());

@@ -18,16 +18,99 @@ import java.sql.Timestamp;
  */
 public class Forecast implements Serializable {
 
+    /**
+     * Identificatore della città associata alla previsione.
+     * <p>
+     * Questo attributo contiene l'identificatore univoco della città a cui la
+     * previsione meteorologica si riferisce. Viene utilizzato per collegare la
+     * previsione alla sua città di riferimento nel database.
+     */
     private String idCitta;
+    /**
+     * Nome della stazione meteorologica.
+     * <p>
+     * Questo attributo rappresenta il nome della stazione meteorologica da cui
+     * proviene la previsione. Identifica la fonte da cui sono stati raccolti i
+     * dati meteorologici per la previsione.
+     */
     private String NomeStazione;
+    /**
+     * Data della previsione.
+     * <p>
+     * Questo attributo indica la data alla quale si riferisce la previsione
+     * meteorologica. Indica il momento in cui è stata effettuata la previsione.
+     */
     private Date data;
+    /**
+     * Ora della previsione.
+     * <p>
+     * Questo attributo rappresenta l'ora esatta in cui è stata effettuata la
+     * previsione meteorologica. Indica il momento temporale al quale si
+     * riferisce la previsione.
+     */
     private Timestamp ora;
+    /**
+     * Array contenente i dati relativi al vento (direzione e velocità).
+     * <p>
+     * Questo attributo è un array che contiene i dati relativi al vento
+     * previsti nella previsione meteorologica. Gli elementi dell'array
+     * rappresentano la direzione e la velocità del vento.
+     */
     private String[] vento;
+    /**
+     * Array contenente i dati relativi all'umidità (percentuale e unità di
+     * misura).
+     * <p>
+     * Questo attributo è un array che contiene i dati relativi all'umidità
+     * previsti nella previsione meteorologica. Gli elementi dell'array
+     * rappresentano la percentuale di umidità e la sua unità di misura.
+     */
     private String[] umidita;
+    /**
+     * Array contenente i dati relativi alla pressione atmosferica (valore e
+     * unità di misura).
+     * <p>
+     * Questo attributo è un array che contiene i dati relativi alla pressione
+     * atmosferica previsti nella previsione meteorologica. Gli elementi
+     * dell'array rappresentano il valore della pressione e la sua unità di
+     * misura.
+     */
     private String[] pressione;
+    /**
+     * Array contenente i dati relativi alla temperatura (valore e unità di
+     * misura).
+     * <p>
+     * Questo attributo è un array che contiene i dati relativi alla temperatura
+     * previsti nella previsione meteorologica. Gli elementi dell'array
+     * rappresentano il valore della temperatura e la sua unità di misura.
+     */
     private String[] temperatura;
+    /**
+     * Array contenente i dati relativi alle precipitazioni (quantità e unità di
+     * misura).
+     * <p>
+     * Questo attributo è un array che contiene i dati relativi alle
+     * precipitazioni previste nella previsione meteorologica. Gli elementi
+     * dell'array rappresentano la quantità di precipitazioni e la sua unità di
+     * misura.
+     */
     private String[] precipitazioni;
+    /**
+     * Array contenente i dati relativi all'altitudine (valore e unità di
+     * misura).
+     * <p>
+     * Questo attributo è un array che contiene i dati relativi all'altitudine
+     * previsti nella previsione meteorologica. Gli elementi dell'array
+     * rappresentano il valore dell'altitudine e la sua unità di misura.
+     */
     private String[] altitudine;
+    /**
+     * Array contenente i dati relativi alla massa (valore e unità di misura).
+     * <p>
+     * Questo attributo è un array che contiene i dati relativi alla massa
+     * previsti nella previsione meteorologica. Gli elementi dell'array
+     * rappresentano il valore della massa e la sua unità di misura.
+     */
     private String[] massa;
 
     /**
@@ -258,9 +341,11 @@ public class Forecast implements Serializable {
     }
 
     /**
-     * Restituisce una stringa contentente la query da inviare al db per inserire una nuova previsione
+     * Restituisce una stringa contentente la query da inviare al db per
+     * inserire una nuova previsione
      *
-     * @return una stringa contentente la query da inviare al db per inserire una nuova previsione
+     * @return una stringa contentente la query da inviare al db per inserire
+     * una nuova previsione
      */
     public String toQuery() {
         return "INSERT INTO parametriclimatici (idCitta, nome_centro, data, ora, vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

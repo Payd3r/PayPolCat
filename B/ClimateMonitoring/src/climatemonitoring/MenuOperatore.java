@@ -31,9 +31,17 @@ import javax.swing.table.DefaultTableModel;
 public class MenuOperatore extends javax.swing.JFrame {
 
     /**
-     * Creates new form MenuOperatore
+     * Lista delle previsioni meteorologiche.
+     * <p>
+     * Questo attributo contiene una lista delle previsioni meteorologiche.
      */
     private List<Forecast> f;
+    /**
+     * Gestore del database.
+     * <p>
+     * Questo attributo rappresenta il gestore del database utilizzato per
+     * accedere e gestire i dati nel database.
+     */
     private DBManager dBManager;
 
     /**
@@ -55,6 +63,16 @@ public class MenuOperatore extends javax.swing.JFrame {
         dBManager = new DBManager();
     }
 
+    /**
+     * Configura l'aspetto grafico della finestra.
+     * <p>
+     * Questo metodo imposta l'icona della finestra utilizzando un'immagine
+     * specifica e posiziona la finestra al centro dello schermo. L'icona della
+     * finestra viene caricata dall'immagine specificata nel percorso relativo
+     * "../Data/icon.jpg". Successivamente, calcola la posizione centrale della
+     * finestra sulla schermata utilizzando la dimensione dello schermo e la
+     * dimensione della finestra stessa.
+     */
     private void grafica() {
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
@@ -62,6 +80,26 @@ public class MenuOperatore extends javax.swing.JFrame {
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
 
+    /**
+     * Aggiorna la tabella delle rilevazioni con i dati relativi all'area e alla
+     * stazione specificate.
+     * <p>
+     * Questo metodo aggiorna la tabella delle rilevazioni utilizzando i dati
+     * relativi all'area e alla stazione specificate. Prima di aggiornare la
+     * tabella, il metodo richiede al server di aggiornare i dati e legge le
+     * previsioni meteorologiche aggiornate. Successivamente, filtra le
+     * previsioni per trovare quelle relative all'area e alla stazione
+     * specificate e aggiorna la tabella con queste informazioni.
+     *
+     * @param area il nome dell'area di interesse per la quale visualizzare le
+     * rilevazioni
+     * @param stazione il nome della stazione meteorologica per la quale
+     * visualizzare le rilevazioni
+     * @throws SQLException se si verifica un errore SQL durante l'interazione
+     * con il database
+     * @throws RemoteException se si verifica un errore remoto durante
+     * l'interazione con il server
+     */
     private void refreshTable(String area, String stazione) throws SQLException, RemoteException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
@@ -81,6 +119,22 @@ public class MenuOperatore extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Crea una lista a discesa delle stazioni di monitoraggio.
+     * <p>
+     * Questo metodo crea una lista a discesa delle stazioni di monitoraggio e
+     * la popola con le aree di interesse associate alla stazione dell'operatore
+     * corrente. Prima di popolare la lista a discesa, il metodo legge le
+     * stazioni di monitoraggio dal server e recupera le aree di interesse per
+     * la stazione dell'operatore corrente. Successivamente, aggiunge le aree di
+     * interesse alla lista a discesa.
+     *
+     * @throws ClassNotFoundException se la classe specificata non è trovata
+     * @throws SQLException se si verifica un errore SQL durante l'interazione
+     * con il database
+     * @throws RemoteException se si verifica un errore remoto durante
+     * l'interazione con il server
+     */
     private void createComboMonitoringStation() throws ClassNotFoundException, SQLException, RemoteException {
         List<MonitoringStation> monitoringStations = ClientHandler.getInstance().getStub().readStation();
         List<InterestingAreas> areas = null;

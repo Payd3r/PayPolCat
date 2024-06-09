@@ -12,7 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- * Classe che descrive la finestra dove viene creata una nuova stazione di monitoraggio
+ * Classe che descrive la finestra dove viene creata una nuova stazione di
+ * monitoraggio
  *
  * @author Ficara Paolo
  * @author Mauri Andrea
@@ -21,18 +22,38 @@ import javax.swing.JOptionPane;
  */
 public class CreateMonitoringStation extends javax.swing.JFrame {
 
-    //attributi
-//    private String partialInfo;
+    /**
+     * L'utente attualmente connesso.
+     * <p>
+     * Questo attributo memorizza l'istanza dell'oggetto <code>current</code>
+     * che rappresenta l'utente attualmente autenticato e attivo nel sistema.
+     */
     private User current;
+    /**
+     * L'elenco delle aree di interesse.
+     * <p>
+     * Questo attributo contiene una lista di stringhe <code>areas</code> che
+     * rappresentano le diverse aree di interesse dell'utente. Viene utilizzato
+     * per gestire e visualizzare le aree su cui l'utente desidera ricevere
+     * informazioni o eseguire operazioni.
+     */
     private List<String> areas;
+    /**
+     * Gestore del database (<code>dBManager</code>).
+     * <p>
+     * Questo attributo rappresenta l'istanza del <code>dBManager</code>
+     * utilizzata per interagire con il database. Gestisce le operazioni di
+     * accesso al database, come connessioni, query e aggiornamenti.
+     */
     private DBManager dBManager;
 
-    //costruttori
     /**
-     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio e inizializza tutti i tuoi componenti.
+     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
+     * stazione di monitoraggio e inizializza tutti i tuoi componenti.
      *
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
-     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws SQLException Errore nella connessione al database o
+     * nell'esecuzione della query
      */
     public CreateMonitoringStation() throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
@@ -45,22 +66,36 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
     }
 
     /**
-     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova stazione di monitoraggio e inizializza tutti i tuoi componenti.
+     * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
+     * stazione di monitoraggio e inizializza tutti i tuoi componenti.
      *
      * @param s credenziali dell'operatore che si sta registrando
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
-     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws SQLException Errore nella connessione al database o
+     * nell'esecuzione della query
      */
     public CreateMonitoringStation(User u) throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
         grafica();
         List<InterestingAreas> monitoringStations = ClientHandler.getInstance().getStub().readAreas();
         createComboMonitoringStation(monitoringStations);
-//        partialInfo = s;
         current = u;
         areas = new ArrayList<>();
     }
 
+    /**
+     * Imposta l'icona dell'applicazione e posiziona la finestra al centro dello
+     * schermo.
+     * <p>
+     * Questo metodo esegue le seguenti operazioni:
+     * <ul>
+     * <li>Carica un'immagine da un percorso relativo e la imposta come icona
+     * dell'applicazione.</li>
+     * <li>Calcola la dimensione dello schermo.</li>
+     * <li>Posiziona la finestra corrente al centro dello schermo, basandosi
+     * sulle dimensioni attuali della finestra.</li>
+     * </ul>
+     */
     private void grafica() {
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
@@ -68,7 +103,6 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
         this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
     }
 
-    //metodi
     private void createComboMonitoringStation(List<InterestingAreas> monitoringStations) {
         for (InterestingAreas x : monitoringStations) {
             InterestingAreas.addItem(x.getName());
@@ -193,7 +227,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
             try {
                 ClientHandler.getInstance().getStub().writeStation(new MonitoringStation(name.getText(), address.getText(), null), areas);
                 ClientHandler.getInstance().getStub().writeUser(current);
-                
+
                 this.dispose();
                 ClientHandler.getInstance().getStub().setOperatore(current);
                 ClientHandler.getInstance().getStub().refresh();
@@ -213,7 +247,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAdd1ActionPerformed
 
     private void btnAggiungiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggiungiActionPerformed
-       
+
         areas.add(InterestingAreas.getItemAt(InterestingAreas.getSelectedIndex()));
         JOptionPane.showMessageDialog(null, "Area aggiunta con successo");
         InterestingAreas.setSelectedIndex(0);

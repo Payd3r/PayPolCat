@@ -12,8 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Interfaccia per la comunicazione remota con il server.
+ * <p>
+ * Questa interfaccia definisce i metodi utilizzati per interagire con il server
+ * remoto per ottenere e modificare i dati.
  *
- * @author paolo
+ * @author Ficara Paolo
+ * @author Mauri Andrea
+ * @author Luca Cattaneo
  */
 public interface ServerInterface extends Remote {
 
@@ -24,13 +30,13 @@ public interface ServerInterface extends Remote {
     ArrayList<MonitoringStation> readStation() throws SQLException, RemoteException;
 
     ArrayList<Forecast> readForecast() throws SQLException, RemoteException;
-    
+
     public String convertNameToId(String name) throws SQLException, RemoteException;
 
     void writeForecast(Forecast f) throws SQLException, RemoteException;
 
     void writeUser(User u) throws SQLException, RemoteException;
-    
+
     void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException;
 
     void sortAreas() throws RemoteException;
@@ -44,6 +50,6 @@ public interface ServerInterface extends Remote {
     User getOperatore() throws RemoteException;
 
     void refresh() throws RemoteException;
-    
+
     String normalizeStrings(String s);
 }
