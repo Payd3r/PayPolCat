@@ -4,17 +4,17 @@
  */
 package climatemonitoring;
 
-import java.lang.System.Logger;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.*;
 import java.util.logging.Level;
 
 /**
  *
- * @author Payd3r
+ * @author Ficara Paolo 755155 CO
+ * @author Mauri Andrea 755140 CO
+ * @author Luca Cattaneo 755083 CO
  */
 public class ClientHandler extends UnicastRemoteObject {
 
@@ -80,11 +80,6 @@ public class ClientHandler extends UnicastRemoteObject {
      * eventuali eccezioni.
      *
      * @return l'unica istanza della classe ClientHandler
-     * @throws RemoteException se si verifica un errore di comunicazione durante
-     * l'accesso al registro RMI
-     * @throws NotBoundException se lo stub remoto con il nome specificato non è
-     * legato nel registro
-     * @throws InterruptedException se l'operazione di lookup viene interrotta
      */
     public static ClientHandler getInstance() {
         if (instance == null) {

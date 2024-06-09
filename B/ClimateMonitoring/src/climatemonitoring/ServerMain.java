@@ -22,9 +22,9 @@ import java.util.regex.Pattern;
  * fornisce l'implementazione dei metodi per interagire con il server e gestire
  * i dati.
  *
- * @author Ficara Paolo
- * @author Mauri Andrea
- * @author Luca Cattaneo
+ * @author Ficara Paolo 755155 CO
+ * @author Mauri Andrea 755140 CO
+ * @author Luca Cattaneo 755083 CO
  */
 public class ServerMain extends UnicastRemoteObject implements ServerInterface {
 

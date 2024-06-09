@@ -15,9 +15,9 @@ import java.sql.Timestamp;
  * Classe che descrive la finestra dove viene aggiunta una nota alla rilevazione
  * selezionata
  *
- * @author Ficara Paolo
- * @author Mauri Andrea
- * @author Luca Cattaneo
+ * @author Ficara Paolo 755155 CO
+ * @author Mauri Andrea 755140 CO
+ * @author Luca Cattaneo 755083 CO
  *
  */
 public class AddNotes extends javax.swing.JFrame {
@@ -31,7 +31,6 @@ public class AddNotes extends javax.swing.JFrame {
      * temperatura, precipitazioni, altitudine e massa.
      */
     private Forecast temp;
-
     /**
      * Gestore del database (<code>dbManager</code>) utilizzato per interagire
      * con il database.
@@ -40,7 +39,6 @@ public class AddNotes extends javax.swing.JFrame {
      * connessioni, query e aggiornamenti. Viene utilizzato per memorizzare e
      * recuperare i dati delle previsioni meteorologiche.
      */
-    private DBManager dBManager;
 
     /**
      * Costruttore che crea l'oggetto della finestra dove si andrà ad aggiungere

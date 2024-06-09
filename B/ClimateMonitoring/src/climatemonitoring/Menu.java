@@ -16,9 +16,9 @@ import javax.swing.JOptionPane;
 /**
  * Classe che rappresenta il menu principale dell'applicazione.
  *
- * @author Ficara Paolo
- * @author Mauri Andrea
- * @author Luca Cattaneo
+ * @author Ficara Paolo 755155 CO
+ * @author Mauri Andrea 755140 CO
+ * @author Luca Cattaneo 755083 CO
  */
 public class Menu extends javax.swing.JFrame {
 
@@ -28,6 +28,7 @@ public class Menu extends javax.swing.JFrame {
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
      * @throws SQLException Errore nella connessione al database o
      * nell'esecuzione della query
+     * @throws RemoteException Errore per via della connessione RMI
      */
     public Menu() throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();

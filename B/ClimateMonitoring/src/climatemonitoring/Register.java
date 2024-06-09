@@ -13,12 +13,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -26,9 +24,9 @@ import javax.swing.JOptionPane;
  * La classe Register rappresenta una finestra di registrazione utente. Permette
  * all'utente di inserire i propri dati personali e effettuare la registrazione.
  *
- * @author Ficara Paolo
- * @author Mauri Andrea
- * @author Luca Cattaneo
+ * @author Ficara Paolo 755155 CO
+ * @author Mauri Andrea 755140 CO
+ * @author Luca Cattaneo 755083 CO
  */
 public class Register extends javax.swing.JFrame {
 

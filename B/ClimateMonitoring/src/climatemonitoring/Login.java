@@ -6,10 +6,8 @@ package climatemonitoring;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +17,9 @@ import javax.swing.JOptionPane;
 /**
  * Classe che rappresenta una finestra di login.
  *
- * @author Ficara Paolo
- * @author Mauri Andrea
- * @author Luca Cattaneo
+ * @author Ficara Paolo 755155 CO
+ * @author Mauri Andrea 755140 CO
+ * @author Luca Cattaneo 755083 CO
  */
 public class Login extends javax.swing.JFrame {
 

@@ -6,7 +6,6 @@ package climatemonitoring;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +16,9 @@ import java.util.List;
  * Questa interfaccia definisce i metodi utilizzati per interagire con il server
  * remoto per ottenere e modificare i dati.
  *
- * @author Ficara Paolo
- * @author Mauri Andrea
- * @author Luca Cattaneo
+ * @author Ficara Paolo 755155 CO
+ * @author Mauri Andrea 755140 CO
+ * @author Luca Cattaneo 755083 CO
  */
 public interface ServerInterface extends Remote {
 
@@ -51,5 +50,5 @@ public interface ServerInterface extends Remote {
 
     void refresh() throws RemoteException;
 
-    String normalizeStrings(String s);
+    String normalizeStrings(String s) throws RemoteException;
 }

@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
  * Classe che descrive la finestra dove viene creata una nuova stazione di
  * monitoraggio
  *
- * @author Ficara Paolo
- * @author Mauri Andrea
- * @author Luca Cattaneo
+ * @author Ficara Paolo 755155 CO
+ * @author Mauri Andrea 755140 CO
+ * @author Luca Cattaneo 755083 CO
  *
  */
 public class CreateMonitoringStation extends javax.swing.JFrame {
@@ -45,8 +45,6 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
      * utilizzata per interagire con il database. Gestisce le operazioni di
      * accesso al database, come connessioni, query e aggiornamenti.
      */
-    private DBManager dBManager;
-
     /**
      * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
      * stazione di monitoraggio e inizializza tutti i tuoi componenti.
@@ -54,6 +52,7 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
      * @throws SQLException Errore nella connessione al database o
      * nell'esecuzione della query
+     * @throws RemoteException Errore nella connessione RMI
      */
     public CreateMonitoringStation() throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
@@ -69,10 +68,11 @@ public class CreateMonitoringStation extends javax.swing.JFrame {
      * Costruttore che crea l'oggetto della finestra dove verrà creata una nuova
      * stazione di monitoraggio e inizializza tutti i tuoi componenti.
      *
-     * @param s credenziali dell'operatore che si sta registrando
+     * @param u credenziali dell'operatore che si sta registrando
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
      * @throws SQLException Errore nella connessione al database o
      * nell'esecuzione della query
+     * @throws RemoteException Errore nella connessione RMI
      */
     public CreateMonitoringStation(User u) throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();

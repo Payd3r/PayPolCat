@@ -12,9 +12,9 @@ import java.util.List;
 /**
  * Classe che fornisce metodi per la lettura del database
  *
- * @author Ficara Paolo
- * @author Mauri Andrea
- * @author Luca Cattaneo
+ * @author Ficara Paolo 755155 CO
+ * @author Mauri Andrea 755140 CO
+ * @author Luca Cattaneo 755083 CO
  */
 public class DBManager {
 
@@ -26,6 +26,7 @@ public class DBManager {
      * @return una lista di oggetti User letti dal database
      * @throws SQLException se si verifica un errore di connessione al database
      * durante la query richiesta
+     * @throws ClassNotFoundException Errore nella risolutazione della classe
      */
     public ArrayList<User> readUser(Connection conn) throws SQLException, ClassNotFoundException {
         ArrayList<User> list = new ArrayList<>();
@@ -51,17 +52,12 @@ public class DBManager {
      * una lista di oggetti InterestingAreas.
      *
      * @param conn la connessione al database
-     * @param offset
-     * @param pageSize
      * @return una lista di oggetti InterestingAreas letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database
-     * durante la query richiesta
      */
     public ArrayList<InterestingAreas> readAreas(Connection conn) {
         ArrayList<InterestingAreas> list = new ArrayList<>();
         String sql = "SELECT * FROM public.interesting_areas";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 list.add(new InterestingAreas(
                         rs.getInt("id"),
@@ -72,9 +68,8 @@ public class DBManager {
                         rs.getString("lon")
                 ));
             }
-            rs.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return list;
     }
@@ -136,23 +131,23 @@ public class DBManager {
     public ArrayList<Forecast> readForecast(Connection conn) throws SQLException {
         ArrayList<Forecast> list = new ArrayList<>();
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM parametriclimatici pc JOIN centromonitoraggio c ON pc.nome_centro = c.name");
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            list.add(new Forecast(
-                    rs.getString("idcitta"),
-                    rs.getString("nome_centro"),
-                    rs.getDate("data"),
-                    rs.getTimestamp("ora"),
-                    rs.getString("vento").split(","),
-                    rs.getString("umidita").split(","),
-                    rs.getString("pressione").split(","),
-                    rs.getString("temperatura").split(","),
-                    rs.getString("precipitazioni").split(","),
-                    rs.getString("altitudine").split(","),
-                    rs.getString("massa").split(",")
-            ));
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                list.add(new Forecast(
+                        rs.getString("idcitta"),
+                        rs.getString("nome_centro"),
+                        rs.getDate("data"),
+                        rs.getTimestamp("ora"),
+                        rs.getString("vento").split(","),
+                        rs.getString("umidita").split(","),
+                        rs.getString("pressione").split(","),
+                        rs.getString("temperatura").split(","),
+                        rs.getString("precipitazioni").split(","),
+                        rs.getString("altitudine").split(","),
+                        rs.getString("massa").split(",")
+                ));
+            }
         }
-        rs.close();
         return list;
     }
 
