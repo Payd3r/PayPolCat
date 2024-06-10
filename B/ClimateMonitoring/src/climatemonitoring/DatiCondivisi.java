@@ -306,6 +306,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @param area area di interesse
      * @return <strong>true</strong> se l'area ha rilevazioni,
      * <strong>falso</strong> se
+     * @throws java.sql.SQLException     
      */
     public boolean existForecast(String area) throws SQLException {
         for (int i = 0; i < forecasts.size(); i++) {
@@ -353,6 +354,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      *
      * @param name nome città
      * @return una <strong>List</strong> di <strong>Forecast</strong>
+     * @throws java.sql.SQLException
      */
     public ArrayList<Forecast> getForecasts(String name) throws SQLException {
         ArrayList<Forecast> temp = new ArrayList<Forecast>();
@@ -388,17 +390,12 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * Metodo che ordina in modo crescente le aree di interesse
      */
     public void sortAreas() {
-        try {
             Collections.sort(areas, new Comparator<InterestingAreas>() {
                 @Override
                 public int compare(InterestingAreas lhs, InterestingAreas rhs) {
                     return lhs.getName().compareTo(rhs.getName()) > 0 ? 1 : (lhs.getName().compareTo(rhs.getName())) < 0 ? -1 : 0;
                 }
             });
-        } catch (NullPointerException e) {
-            System.out.println("");
-        }
-
     }
 
     /**
