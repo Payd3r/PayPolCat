@@ -78,8 +78,8 @@ public class SearchResult extends javax.swing.JFrame {
      *
      * @param areaName il nome dell'area di ricerca
      * @param me il menu associato
-     * @throws IOException se si verifica un errore di input/output
-     * @throws ParseException se si verifica un errore durante il parsing
+     * @throws SQLException se si verifica un errore nella connessione al database
+     * @throws ClassNotFoundException se si verifica un errore di classe non trovata
      */
     public SearchResult(String areaName, Menu me) throws ClassNotFoundException, SQLException {
         initComponents();
