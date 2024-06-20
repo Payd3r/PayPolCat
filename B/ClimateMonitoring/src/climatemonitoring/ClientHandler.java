@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,6 +42,7 @@ public class ClientHandler extends UnicastRemoteObject {
      * ClientHandler, assicurando che venga utilizzato il pattern singleton.
      */
     private static ClientHandler instance = null;
+    private static String IpServer;
 
     /**
      * Costruttore della classe ClientHandler.
@@ -56,7 +58,7 @@ public class ClientHandler extends UnicastRemoteObject {
      * @throws InterruptedException se l'operazione di lookup viene interrotta.
      */
     public ClientHandler() throws RemoteException, NotBoundException, InterruptedException {
-        stub = (ServerInterface) LocateRegistry.getRegistry("127.0.0.1", PORT).lookup("Stub");
+        stub = (ServerInterface) LocateRegistry.getRegistry(IpServer, PORT).lookup("Stub");
     }
 
     /**
@@ -69,6 +71,21 @@ public class ClientHandler extends UnicastRemoteObject {
      */
     public ServerInterface getStub() {
         return stub;
+    }
+
+    public String getIpServer() {
+        return IpServer;
+    }
+
+    public boolean newConnection(String ip) {
+        IpServer = ip;
+        try {
+            instance = new ClientHandler();
+            return true;
+        } catch (RemoteException | NotBoundException | InterruptedException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     /**
@@ -84,6 +101,7 @@ public class ClientHandler extends UnicastRemoteObject {
     public static ClientHandler getInstance() {
         if (instance == null) {
             try {
+                IpServer = "127.0.0.1";
                 instance = new ClientHandler();
             } catch (RemoteException | NotBoundException | InterruptedException ex) {
                 java.util.logging.Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);

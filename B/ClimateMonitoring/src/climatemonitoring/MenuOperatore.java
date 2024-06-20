@@ -136,9 +136,9 @@ public class MenuOperatore extends javax.swing.JFrame {
     private void createComboMonitoringStation() throws ClassNotFoundException, SQLException, RemoteException {
         List<MonitoringStation> monitoringStations = ClientHandler.getInstance().getStub().readStation();
         List<InterestingAreas> areas = null;
-        String maurifrocio = ClientHandler.getInstance().getStub().getOperatore().getStation();
+        String temp = ClientHandler.getInstance().getStub().getOperatore().getStation();
         for (int i = 0; i < monitoringStations.size(); i++) {
-            if (maurifrocio.equals(monitoringStations.get(i).getName())) {
+            if (temp.equals(monitoringStations.get(i).getName())) {
                 areas = monitoringStations.get(i).getInterestingAreas();
                 break;
             }

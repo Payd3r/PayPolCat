@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -34,6 +35,11 @@ public class Menu extends javax.swing.JFrame {
         initComponents();
         grafica();
         jList1.setVisible(false);
+        ButtonGroup g = new ButtonGroup();
+        g.add(jRadioButton1);
+        g.add(jRadioButton2);
+        g.add(jRadioButton3);
+        jRadioButton1.setSelected(true);
         if (ClientHandler.getInstance().getStub().getOperatore() != null) {
             jButton2.setVisible(false);
             jButton3.setVisible(false);
@@ -82,6 +88,10 @@ public class Menu extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,7 +141,7 @@ public class Menu extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jList1);
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton4.setText("Torna al menu Operatore");
+        jButton4.setText("Menu Operatore");
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton4MouseClicked(evt);
@@ -149,25 +159,25 @@ public class Menu extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         jLabel3.setText("Menù");
 
+        jRadioButton1.setText("Città");
+
+        jRadioButton2.setText("Latitidune e Longitudine");
+
+        jRadioButton3.setText("Stato");
+
+        jButton6.setText("Settings");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(231, 231, 231)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(100, 100, 100)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(61, 61, 61)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(227, 227, 227)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,17 +186,44 @@ public class Menu extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel1))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(243, 243, 243)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(112, 112, 112)
+                        .addComponent(jRadioButton1)
+                        .addGap(58, 58, 58)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jRadioButton2)
+                                .addGap(63, 63, 63)
+                                .addComponent(jRadioButton3))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(190, 190, 190)
-                        .addComponent(jButton4)))
+                        .addGap(237, 237, 237)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(231, 231, 231)
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton6))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(35, 35, 35)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(100, 100, 100)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(61, 61, 61)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jButton6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2)
@@ -197,13 +234,18 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jRadioButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         pack();
@@ -237,7 +279,13 @@ public class Menu extends javax.swing.JFrame {
             if (jTextField1.getText().length() <= 0) {
                 JOptionPane.showMessageDialog(null, "Inserire almeno un carattere");
             } else {
-                String[] a = ClientHandler.getInstance().getStub().cercaAreaGeografica(ClientHandler.getInstance().getStub().normalizeStrings(jTextField1.getText()));
+                int tipoRicerca = 0;
+                if (jRadioButton2.isSelected()) {
+                    tipoRicerca = 1;
+                } else if (jRadioButton3.isSelected()) {
+                    tipoRicerca = 2;
+                }
+                String[] a = ClientHandler.getInstance().getStub().cercaAreaGeografica(ClientHandler.getInstance().getStub().normalizeStrings(jTextField1.getText()), tipoRicerca);
                 if (a.length != 0) {
                     jList1.setVisible(true);
                     jList1.setListData(a);
@@ -262,9 +310,11 @@ public class Menu extends javax.swing.JFrame {
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Non ci sono previsioni per l'area selezionata");
+
             }
         } catch (ClassNotFoundException | SQLException | RemoteException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Menu.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jList1MouseClicked
 
@@ -273,8 +323,10 @@ public class Menu extends javax.swing.JFrame {
             MenuOperatore r = new MenuOperatore();
             r.setVisible(rootPaneCheckingEnabled);
             this.dispose();
+
         } catch (RemoteException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Menu.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4MouseClicked
 
@@ -285,8 +337,10 @@ public class Menu extends javax.swing.JFrame {
             jButton5.setVisible(false);
             jButton2.setVisible(true);
             jButton3.setVisible(true);
+
         } catch (RemoteException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Menu.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton5MouseClicked
 
@@ -294,6 +348,12 @@ public class Menu extends javax.swing.JFrame {
         if (evt.getKeyChar() == '\n')
             jButton1ActionPerformed(null);
     }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        Settings m = new Settings();
+        m.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -303,7 +363,8 @@ public class Menu extends javax.swing.JFrame {
             try {
                 new Menu().setVisible(true);
             } catch (ClassNotFoundException | RemoteException | SQLException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Menu.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
@@ -314,9 +375,13 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables

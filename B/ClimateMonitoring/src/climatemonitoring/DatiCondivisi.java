@@ -175,7 +175,6 @@ public class DatiCondivisi extends UnicastRemoteObject {
     public void refresh() throws SQLException, ClassNotFoundException {
         // Ricrea l'oggetto:       
         users = dBManager.readUser(conn);
-        //areas = dBManager.readAreas(conn, 0, 10000);
         forecasts = dBManager.readForecast(conn);
         monitoringStations = dBManager.readStation(conn);
         sortAreas();
@@ -250,14 +249,9 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @return un <strong>array</strong> di <strong>String</strong> che
      * memorizza le città nell'area d'interesse
      */
-    public String[] cercaAreaGeografica(String s) {
+    public String[] cercaAreaGeografica(String s, int a) {
         ArrayList<String> intAreas = new ArrayList<>();
-        if (Character.isDigit(s.charAt(0)) || s.charAt(0) == '-') {
-            //controllo con lat lon           
-            double lat1 = Double.parseDouble(s.split(" ")[0]);
-            double lon1 = Double.parseDouble(s.split(" ")[1]);
-            intAreas = cercaLimitrofo(lat1, lon1);
-        } else {
+        if (a == 0) {
             //controllo con nome città
             ArrayList<InterestingAreas> l = (ArrayList<InterestingAreas>) areas.parallelStream().filter(elemento -> elemento.contains(s)).collect(Collectors.toList());
             if (l.size() == 1) {
@@ -268,6 +262,25 @@ public class DatiCondivisi extends UnicastRemoteObject {
             } else {
                 for (int i = 0; i < l.size(); i++) {
                     intAreas.add(l.get(i).getCountryCode() + "-" + l.get(i).getName());
+                }
+            }
+        } else if (a == 1) {
+            if (Character.isDigit(s.charAt(0)) || s.charAt(0) == '-') {
+                //controllo con lat lon           
+                double lat1 = Double.parseDouble(s.split(" ")[0]);
+                double lon1 = Double.parseDouble(s.split(" ")[1]);
+                intAreas = cercaLimitrofo(lat1, lon1);
+            }
+        } else {
+            for (int i = 0; i < areas.size() - 1; i++) {
+                String countryCode = areas.get(i).getCountryCode();
+                String countryName = areas.get(i).getCountryName();
+                String name = areas.get(i).getName();
+                if ((countryCode != null && countryCode.equalsIgnoreCase(s))
+                        || (countryName != null && countryName.equalsIgnoreCase(s))) {
+                    if (name != null) {
+                        intAreas.add(countryCode + "-" + name);
+                    }
                 }
             }
         }
@@ -306,7 +319,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * @param area area di interesse
      * @return <strong>true</strong> se l'area ha rilevazioni,
      * <strong>falso</strong> se
-     * @throws java.sql.SQLException     
+     * @throws java.sql.SQLException
      */
     public boolean existForecast(String area) throws SQLException {
         for (int i = 0; i < forecasts.size(); i++) {
@@ -390,12 +403,12 @@ public class DatiCondivisi extends UnicastRemoteObject {
      * Metodo che ordina in modo crescente le aree di interesse
      */
     public void sortAreas() {
-            Collections.sort(areas, new Comparator<InterestingAreas>() {
-                @Override
-                public int compare(InterestingAreas lhs, InterestingAreas rhs) {
-                    return lhs.getName().compareTo(rhs.getName()) > 0 ? 1 : (lhs.getName().compareTo(rhs.getName())) < 0 ? -1 : 0;
-                }
-            });
+        Collections.sort(areas, new Comparator<InterestingAreas>() {
+            @Override
+            public int compare(InterestingAreas lhs, InterestingAreas rhs) {
+                return lhs.getName().compareTo(rhs.getName()) > 0 ? 1 : (lhs.getName().compareTo(rhs.getName())) < 0 ? -1 : 0;
+            }
+        });
     }
 
     /**

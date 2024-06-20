@@ -40,7 +40,7 @@ public interface ServerInterface extends Remote {
 
     void sortAreas() throws RemoteException;
 
-    String[] cercaAreaGeografica(String a) throws RemoteException;
+    String[] cercaAreaGeografica(String a, int b) throws RemoteException;
 
     boolean existForecast(String a) throws RemoteException;
 

@@ -191,9 +191,9 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * comunicazione con il server
      */
     @Override
-    public synchronized String[] cercaAreaGeografica(String a) throws RemoteException {
+    public synchronized String[] cercaAreaGeografica(String a, int b) throws RemoteException {
         try {
-            return DatiCondivisi.getInstance().cercaAreaGeografica(a);
+            return DatiCondivisi.getInstance().cercaAreaGeografica(a,b);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
         }
