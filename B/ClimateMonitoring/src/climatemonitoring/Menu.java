@@ -43,6 +43,7 @@ public class Menu extends javax.swing.JFrame {
             jButton4.setVisible(false);
             jButton5.setVisible(false);
         }
+        ClientHandler.getInstance().getStub().refresh();
     }
 
     /**
