@@ -11,6 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
  * @author Ficara Paolo 755155 CO
@@ -26,7 +27,7 @@ public class ClientHandler extends UnicastRemoteObject {
      * Questo valore rappresenta la porta di rete utilizzata per la
      * comunicazione con il server. Il valore predefinito è 1234.
      */
-    private static int PORT = 1234;
+    private static int PORT = 0;
     /**
      * <code> stub </code> per l'interfaccia del server.
      * <p>
@@ -42,7 +43,7 @@ public class ClientHandler extends UnicastRemoteObject {
      * ClientHandler, assicurando che venga utilizzato il pattern singleton.
      */
     private static ClientHandler instance = null;
-    private static String IpServer;
+    private static String IpServer = "";
 
     /**
      * Costruttore della classe ClientHandler.
@@ -58,7 +59,9 @@ public class ClientHandler extends UnicastRemoteObject {
      * @throws InterruptedException se l'operazione di lookup viene interrotta.
      */
     public ClientHandler() throws RemoteException, NotBoundException, InterruptedException {
-        stub = (ServerInterface) LocateRegistry.getRegistry(IpServer, PORT).lookup("Stub");
+        if (PORT != 0 && IpServer != "") {
+            stub = (ServerInterface) LocateRegistry.getRegistry(IpServer, PORT).lookup("Stub");
+        }
     }
 
     /**
@@ -77,8 +80,13 @@ public class ClientHandler extends UnicastRemoteObject {
         return IpServer;
     }
 
-    public boolean newConnection(String ip) {
+    public int getPort() {
+        return PORT ;
+    }
+
+    public boolean newConnection(String ip, String port) {
         IpServer = ip;
+        PORT = Integer.parseInt(port);
         try {
             instance = new ClientHandler();
             return true;
@@ -101,7 +109,6 @@ public class ClientHandler extends UnicastRemoteObject {
     public static ClientHandler getInstance() {
         if (instance == null) {
             try {
-                IpServer = "127.0.0.1";
                 instance = new ClientHandler();
             } catch (RemoteException | NotBoundException | InterruptedException ex) {
                 java.util.logging.Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);

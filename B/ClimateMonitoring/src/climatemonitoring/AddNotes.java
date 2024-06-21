@@ -10,6 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import javax.swing.JOptionPane;
 
 /**
  * Classe che descrive la finestra dove viene aggiunta una nota alla rilevazione
@@ -31,6 +36,7 @@ public class AddNotes extends javax.swing.JFrame {
      * temperatura, precipitazioni, altitudine e massa.
      */
     private Forecast temp;
+
     /**
      * Gestore del database (<code>dbManager</code>) utilizzato per interagire
      * con il database.
@@ -39,7 +45,6 @@ public class AddNotes extends javax.swing.JFrame {
      * connessioni, query e aggiornamenti. Viene utilizzato per memorizzare e
      * recuperare i dati delle previsioni meteorologiche.
      */
-
     /**
      * Costruttore che crea l'oggetto della finestra dove si andrà ad aggiungere
      * una nota e inizializza i vari componenti di essa.
@@ -99,8 +104,17 @@ public class AddNotes extends javax.swing.JFrame {
         String[] precipitazioni = {Integer.toString(rainfall), ""};
         String[] altitudine = {Integer.toString(glacierAltitude), ""};
         String[] massa = {Integer.toString(massGlaciers), ""};
-        temp = new Forecast(idCitta, nomeStazione, new Date(), new Timestamp(new Date().getTime()), vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
-
+        LocalDateTime localDateTime = LocalDateTime.now();
+        // Ottieni il fuso orario del sistema
+        ZoneId zoneId = ZoneId.systemDefault();
+        // Converte LocalDateTime in ZonedDateTime usando il fuso orario del sistema
+        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
+        // Converte ZonedDateTime in un oggetto Instant
+        Instant instant = zonedDateTime.toInstant();
+        // Converte l'oggetto Instant in un oggetto Timestamp
+        Timestamp timestamp = Timestamp.from(instant);
+        JOptionPane.showMessageDialog(null, localDateTime + " " + zoneId + " " + zonedDateTime + " " + instant + " " + timestamp);
+        temp = new Forecast(idCitta, nomeStazione, new Date(), timestamp, vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
     }
 
     @SuppressWarnings("unchecked")
@@ -319,6 +333,16 @@ public class AddNotes extends javax.swing.JFrame {
             t[1] = txtMass.getText();
             temp.setMassa(t);
 
+            LocalDateTime localDateTime = LocalDateTime.now();
+            // Ottieni il fuso orario del sistema
+            ZoneId zoneId = ZoneId.systemDefault();
+            // Converte LocalDateTime in ZonedDateTime usando il fuso orario del sistema
+            ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
+            // Converte ZonedDateTime in un oggetto Instant
+            Instant instant = zonedDateTime.toInstant();
+            // Converte l'oggetto Instant in un oggetto Timestamp
+            Timestamp timestamp = Timestamp.from(instant);
+            JOptionPane.showMessageDialog(null, localDateTime + " " + zoneId + " " + zonedDateTime + " " + instant + " " + timestamp);
             ClientHandler.getInstance().getStub().writeForecast(temp);
 
             MenuOperatore m = new MenuOperatore();

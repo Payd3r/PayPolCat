@@ -7,11 +7,14 @@ package climatemonitoring;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -66,6 +69,11 @@ public class SearchResult extends javax.swing.JFrame {
      * </ul>
      */
     private void grafica() {
+         try {
+            ClientHandler.getInstance().getStub().refresh();
+        } catch (RemoteException ex) {
+            Logger.getLogger(SearchResult.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -87,7 +95,6 @@ public class SearchResult extends javax.swing.JFrame {
         initComponents();
         grafica();
         refreshTable(areaName);
-        m = me;
     }
 
     /**
