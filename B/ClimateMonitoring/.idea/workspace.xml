@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f2685720-e0f7-445c-ac73-d9ec0a07c8f4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sql/create_db.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/sql/db.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClimateMonitoring.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/CopyLibs/org-netbeans-modules-java-j2seproject-copylibstask.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/nblibraries.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/postgresql-42.7.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/manifest.mf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/build-impl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/genfiles.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/config.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/AddNotes.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/AddNotes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/ClientHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/CreateMonitoringStation.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/CreateMonitoringStation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/DBManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/DatiCondivisi.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/Forecast.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/InterestingAreas.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/Login.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/Login.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/Menu.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/Menu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/MenuOperatore.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/MenuOperatore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/MonitoringStation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/Register.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/Register.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/SearchResult.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/SearchResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/ServerInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/ServerMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/Settings.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/Settings.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/climatemonitoring/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ant.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDL.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/geonames-and-coordinates.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/geonames-and-coordinates.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/insert.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/AddNotes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/CreateMonitoringStation$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/CreateMonitoringStation$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/CreateMonitoringStation$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/CreateMonitoringStation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/DBManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/DatiCondivisi$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/DatiCondivisi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Forecast.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/InterestingAreas.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Login$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Login$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Login.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Menu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$11.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$12.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$13.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MenuOperatore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/MonitoringStation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Register$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Register$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Register$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/Register.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/SearchResult$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/SearchResult$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/SearchResult$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/SearchResult.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ClimateMonitoring/climatemonitoring/User.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2iNJnZ8ne8An5sQTFeW6YB4vPUq" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.ServerMain.executor": "Run",
+    "Application.Settings.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.ClimateMonitoring [clean,install,-X].executor": "Run",
+    "Maven.ClimateMonitoring [clean,install].executor": "Run",
+    "Maven.ClimateMonitoring [install:install-file...].executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/paolo/Desktop/PayPolCat/B/ClimateMonitoring",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15429688",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+  }
+}]]></component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean install" />
+      <command value="mvn install:install-file -Dfile=C:\Users\paolo\Desktop\PayPolCat\B\ClimateMonitoring\lib\codice-fiscale-java-master.jarC:\Users\paolo\Desktop\PayPolCat\B\ClimateMonitoring\lib\codice-fiscale-java-master.jar -DgroupId=&lt;group-id&gt; -DartifactId=engine -Dpackaging=jar" />
+      <command value="mvn install:install-file -Dfile=C:\Users\paolo\Desktop\PayPolCat\B\ClimateMonitoring\lib\codice-fiscale-java-master.jar -DgroupId=&lt;group-id&gt; -DartifactId=engine -Dpackaging=jar" />
+      <command value="mvn install:install-file -Dfile=C:\Users\paolo\Desktop\PayPolCat\B\ClimateMonitoring\lib\codice-fiscale-java-master.jar -DgroupId=climatemonitorin -DartifactId=engine -Dversion=1.0.0 -Dpackaging=jar" />
+      <command value="mvn install:install-file -Dfile=lib/codice-fiscale-java-master.jar -DgroupId=climatemonitoring -DartifactId=engine -Dversion=1.0.0 -Dpackaging=jar" />
+      <command value="mvn clean install -X" />
+    </option>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f2685720-e0f7-445c-ac73-d9ec0a07c8f4" name="Changes" comment="" />
+      <created>1719325270305</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719325270305</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
