@@ -23,7 +23,7 @@ public class DBManager {
      *
      * @param conn la connessione al database
      * @return una lista di oggetti User letti dal database
-     * @throws SQLException se si verifica un errore di connessione al database durante la query richiesta
+     * @throws SQLException           se si verifica un errore di connessione al database durante la query richiesta
      * @throws ClassNotFoundException Errore nella risolutazione della classe
      */
     public ArrayList<User> readUser(Connection conn) throws SQLException, ClassNotFoundException {
@@ -56,14 +56,15 @@ public class DBManager {
         String sql = "SELECT * FROM coordinatemonitoraggio";
         try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                list.add(new InterestingAreas(
-                        rs.getInt("id"),
-                        rs.getString("name_ascii"),
-                        rs.getString("country_code"),
-                        rs.getString("country_name"),
-                        rs.getString("lat"),
-                        rs.getString("lon")
-                ));
+                if (rs.getString("name_ascii") != null)
+                    list.add(new InterestingAreas(
+                            rs.getInt("id"),
+                            rs.getString("name_ascii"),
+                            rs.getString("country_code"),
+                            rs.getString("country_name"),
+                            rs.getString("lat"),
+                            rs.getString("lon")
+                    ));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -149,9 +150,9 @@ public class DBManager {
      * <p>
      * Questo metodo inserisce un nuovo record nella tabella "operatoreregistrato" del database, utilizzando i dati dell'oggetto <code>User</code> specificato.
      *
-     * @param u l'utente da scrivere nel database
+     * @param u    l'utente da scrivere nel database
      * @param conn la connessione al database
-     * @throws SQLException se si verifica un errore SQL durante l'esecuzione della query
+     * @throws SQLException    se si verifica un errore SQL durante l'esecuzione della query
      * @throws RemoteException se si verifica un errore remoto durante l'esecuzione della query
      */
     public void writeUser(User u, Connection conn) throws SQLException, RemoteException {
@@ -171,9 +172,9 @@ public class DBManager {
      * <p>
      * Questo metodo inserisce un nuovo record nella tabella corrispondente nel database, utilizzando i dati dell'oggetto <code>Forecast</code> specificato.
      *
-     * @param f la previsione da scrivere nel database
+     * @param f    la previsione da scrivere nel database
      * @param conn la connessione al database
-     * @throws SQLException se si verifica un errore SQL durante l'esecuzione della query
+     * @throws SQLException           se si verifica un errore SQL durante l'esecuzione della query
      * @throws ClassNotFoundException se la classe specificata non è trovata
      */
     public void writeForecast(Forecast f, Connection conn) throws SQLException, ClassNotFoundException {
@@ -198,10 +199,10 @@ public class DBManager {
      * <p>
      * Questo metodo inserisce un nuovo record nella tabella "centromonitoraggio" del database, utilizzando i dati dell'oggetto <code>MonitoringStation</code> specificato per il nome e l'indirizzo della stazione. Successivamente, associa la stazione di monitoraggio alle aree specificate nella lista <code>areas</code>.
      *
-     * @param ms la stazione di monitoraggio da scrivere nel database
-     * @param conn la connessione al database
+     * @param ms    la stazione di monitoraggio da scrivere nel database
+     * @param conn  la connessione al database
      * @param areas la lista delle aree a cui la stazione di monitoraggio è associata
-     * @throws SQLException se si verifica un errore SQL durante l'esecuzione della query
+     * @throws SQLException           se si verifica un errore SQL durante l'esecuzione della query
      * @throws ClassNotFoundException se la classe specificata non è trovata
      */
     public void writeStation(MonitoringStation ms, Connection conn, List<String> areas) throws SQLException, ClassNotFoundException {
