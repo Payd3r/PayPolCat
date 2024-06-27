@@ -4,6 +4,7 @@
  */
 package climatemonitoring;
 
+import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -14,6 +15,18 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
+import org.apache.maven.shared.invoker.DefaultInvocationRequest;
+import org.apache.maven.shared.invoker.DefaultInvoker;
+import org.apache.maven.shared.invoker.InvocationRequest;
+import org.apache.maven.shared.invoker.Invoker;
+import org.apache.maven.shared.invoker.InvocationResult;
+
+import java.util.Collections;
 
 /**
  * Classe principale del server.
@@ -34,20 +47,54 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * Costruttore della classe ServerMain.
      *
      * @throws RemoteException se si verifica un errore remoto durante la
-     * creazione del server
+     *                         creazione del server
      */
     public ServerMain() throws RemoteException {
 
     }
 
     /**
-     * Metodo principale per avviare il server.
+     * Metodo principale per avviare il programma. Controlla la configurazione dell'ambiente
+     * e avvia il server.
      *
-     * @param args gli argomenti della riga di comando
-     * @throws RemoteException se si verifica un errore remoto durante la
-     * creazione del server
+     * @param args argomenti della riga di comando (non utilizzati in questo contesto).
+     * @throws RemoteException se si verifica un errore durante la creazione del registro RMI.
      */
     public static void main(String[] args) throws RemoteException {
+        try {
+            // Check if JAVA_HOME is set correctly
+            String javaHome = System.getenv("JAVA_HOME");
+            if (javaHome == null || javaHome.isEmpty()) {
+                throw new IllegalStateException("JAVA_HOME is not set. Please set JAVA_HOME to a JDK directory.");
+            }
+
+            // Check if Maven is installed
+            if (!isMavenInstalled()) {
+                System.out.println("Maven is not installed. Installing Maven...");
+                installMaven();
+            } else {
+                System.out.println("Maven is already installed.");
+            }
+
+            // Set the environment variable for Maven home
+            String mavenHome = System.getProperty("user.home") + "/maven/apache-maven-3.9.8";
+            System.setProperty("maven.home", mavenHome);
+
+            // Add Maven to the PATH
+            String path = System.getenv("PATH");
+            String newPath = mavenHome + "/bin" + File.pathSeparator + path;
+            System.setProperty("java.library.path", newPath);
+
+            // Execute Maven build
+            String pomFilePath = "pom.xml"; // Update this path
+            if (pomFilePath == null || pomFilePath.isEmpty()) {
+                throw new IllegalArgumentException("The path to pom.xml is null or empty.");
+            }
+            executeMavenBuild(pomFilePath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         LocateRegistry.createRegistry(PORT).rebind("Stub", new ServerMain());
         System.out.println("Server ready");
     }
@@ -63,10 +110,10 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      *
      * @return la lista degli utenti letti dal database, o {@code null} se si
      * verifica un errore
-     * @throws SQLException se si verifica un errore SQL durante l'interazione
-     * con il database
+     * @throws SQLException    se si verifica un errore SQL durante l'interazione
+     *                         con il database
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized ArrayList<User> readUser() throws SQLException, RemoteException {
@@ -89,10 +136,10 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      *
      * @return la lista delle aree di interesse lette dal database, o
      * {@code null} se si verifica un errore
-     * @throws SQLException se si verifica un errore SQL durante l'interazione
-     * con il database
+     * @throws SQLException    se si verifica un errore SQL durante l'interazione
+     *                         con il database
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized ArrayList<InterestingAreas> readAreas() throws SQLException, RemoteException {
@@ -115,10 +162,10 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      *
      * @return la lista delle stazioni di monitoraggio lette dal database, o
      * {@code null} se si verifica un errore
-     * @throws SQLException se si verifica un errore SQL durante l'interazione
-     * con il database
+     * @throws SQLException    se si verifica un errore SQL durante l'interazione
+     *                         con il database
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized ArrayList<MonitoringStation> readStation() throws SQLException, RemoteException {
@@ -141,10 +188,10 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      *
      * @return la lista delle previsioni lette dal database, o {@code null} se
      * si verifica un errore
-     * @throws SQLException se si verifica un errore SQL durante l'interazione
-     * con il database
+     * @throws SQLException    se si verifica un errore SQL durante l'interazione
+     *                         con il database
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized ArrayList<Forecast> readForecast() throws SQLException, RemoteException {
@@ -164,7 +211,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * viene registrato un errore di livello SEVERE.
      *
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized void sortAreas() throws RemoteException {
@@ -188,12 +235,12 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * @return un array di stringhe che contiene informazioni sull'area
      * geografica trovata, o {@code null} se l'area non viene trovata
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized String[] cercaAreaGeografica(String a, int b) throws RemoteException {
         try {
-            return DatiCondivisi.getInstance().cercaAreaGeografica(a,b);
+            return DatiCondivisi.getInstance().cercaAreaGeografica(a, b);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -210,11 +257,11 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * previsione, viene registrato un errore di livello SEVERE.
      *
      * @param a il nome dell'area geografica per cui verificare l'esistenza
-     * della previsione
+     *          della previsione
      * @return {@code true} se esiste una previsione per l'area specificata,
      * altrimenti {@code false}
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized boolean existForecast(String a) throws RemoteException {
@@ -236,7 +283,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      *
      * @param a l'oggetto User che rappresenta l'operatore da impostare
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized void setOperatore(User a) throws RemoteException {
@@ -257,7 +304,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * @return l'oggetto User che rappresenta l'operatore corrente, o
      * {@code null} se si verifica un errore
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized User getOperatore() throws RemoteException {
@@ -277,7 +324,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * di livello SEVERE.
      *
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized void refresh() throws RemoteException {
@@ -299,10 +346,10 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * di livello SEVERE.
      *
      * @param f l'oggetto Forecast che rappresenta la previsione da scrivere
-     * @throws SQLException se si verifica un errore durante l'operazione di
-     * scrittura nel database
+     * @throws SQLException    se si verifica un errore durante l'operazione di
+     *                         scrittura nel database
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized void writeForecast(Forecast f) throws SQLException, RemoteException {
@@ -324,10 +371,10 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * SEVERE.
      *
      * @param u l'oggetto User che rappresenta l'utente da scrivere
-     * @throws SQLException se si verifica un errore durante l'operazione di
-     * scrittura nel database
+     * @throws SQLException    se si verifica un errore durante l'operazione di
+     *                         scrittura nel database
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized void writeUser(User u) throws SQLException, RemoteException {
@@ -349,14 +396,14 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * Se si verifica un'eccezione di tipo ClassNotFoundException, viene
      * registrato un errore di livello SEVERE.
      *
-     * @param ms l'oggetto MonitoringStation che rappresenta la stazione di
-     * monitoraggio da scrivere
+     * @param ms    l'oggetto MonitoringStation che rappresenta la stazione di
+     *              monitoraggio da scrivere
      * @param areas la lista di stringhe che rappresenta le aree di interesse
-     * della stazione
-     * @throws SQLException se si verifica un errore durante l'operazione di
-     * scrittura nel database
+     *              della stazione
+     * @throws SQLException    se si verifica un errore durante l'operazione di
+     *                         scrittura nel database
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException {
@@ -382,10 +429,10 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * @param name il nome dell'area geografica da convertire in identificatore
      * @return una stringa che rappresenta l'identificatore corrispondente
      * all'area geografica
-     * @throws SQLException se si verifica un errore durante l'operazione di
-     * conversione nel database
+     * @throws SQLException    se si verifica un errore durante l'operazione di
+     *                         conversione nel database
      * @throws RemoteException se si verifica un errore remoto durante la
-     * comunicazione con il server
+     *                         comunicazione con il server
      */
     @Override
     public synchronized String convertNameToId(String name) throws SQLException, RemoteException {
@@ -416,6 +463,115 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
             s = pattern.matcher(normalized).replaceAll("") + "'";
         }
         return s;
+    }
+
+    /**
+     * Controlla se Maven è installato eseguendo il comando 'mvn -v'.
+     *
+     * @return true se Maven è installato e può essere eseguito con successo, false altrimenti.
+     * @throws IOException          se si verifica un errore di I/O.
+     * @throws InterruptedException se il thread corrente viene interrotto durante l'attesa della terminazione del processo.
+     */
+    private static boolean isMavenInstalled() throws IOException, InterruptedException {
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder("mvn", "-v");
+            Process process = processBuilder.start();
+
+            int exitCode = process.waitFor();
+            return exitCode == 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Installa Maven scaricando la versione specificata dall'URL fornito.
+     *
+     * @throws IOException se si verifica un errore di I/O durante il download o l'estrazione.
+     */
+    private static void installMaven() throws IOException {
+        // Define Maven version and download URL
+        String mavenVersion = "3.9.8";
+        String downloadUrl = "https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.zip";
+        String installDir = System.getProperty("user.home") + "/maven";
+
+        // Download Maven
+        File installDirFile = new File(installDir);
+        if (!installDirFile.exists()) {
+            installDirFile.mkdirs();
+        }
+
+        // Download Maven
+        File zipFile = new File(installDir + "/apache-maven-" + mavenVersion + "-bin.zip");
+        try (BufferedInputStream in = new BufferedInputStream(new URL(downloadUrl).openStream());
+             FileOutputStream fileOutputStream = new FileOutputStream(zipFile)) {
+            byte[] dataBuffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+                fileOutputStream.write(dataBuffer, 0, bytesRead);
+            }
+        }
+
+        // Extract Maven
+        unzip(zipFile, new File(installDir));
+
+        System.out.println("Maven installed successfully.");
+    }
+
+    /**
+     * Estrae i file da un archivio ZIP nella directory di destinazione specificata.
+     *
+     * @param zipFile il file archivio ZIP da cui estrarre.
+     * @param destDir la directory di destinazione in cui salvare i file estratti.
+     * @throws IOException se si verifica un errore di I/O durante l'estrazione.
+     */
+    private static void unzip(File zipFile, File destDir) throws IOException {
+        try (java.util.zip.ZipInputStream zipIn = new java.util.zip.ZipInputStream(new java.io.FileInputStream(zipFile))) {
+            java.util.zip.ZipEntry entry = zipIn.getNextEntry();
+            while (entry != null) {
+                File filePath = new File(destDir, entry.getName());
+                if (!entry.isDirectory()) {
+                    filePath.getParentFile().mkdirs();
+                    try (java.io.BufferedOutputStream bos = new java.io.BufferedOutputStream(new java.io.FileOutputStream(filePath))) {
+                        byte[] bytesIn = new byte[4096];
+                        int read;
+                        while ((read = zipIn.read(bytesIn)) != -1) {
+                            bos.write(bytesIn, 0, read);
+                        }
+                    }
+                } else {
+                    filePath.mkdirs();
+                }
+                zipIn.closeEntry();
+                entry = zipIn.getNextEntry();
+            }
+        }
+    }
+
+    /**
+     * Esegue la build di Maven utilizzando il file POM specificato.
+     *
+     * @param pomFilePath il percorso del file POM da utilizzare per la build.
+     */
+    private static void executeMavenBuild(String pomFilePath) {
+        InvocationRequest request = new DefaultInvocationRequest();
+        request.setPomFile(new File(pomFilePath));
+        request.setGoals(Collections.singletonList("clean install"));
+
+        Invoker invoker = new DefaultInvoker();
+        invoker.setMavenHome(new File(System.getProperty("user.home") + "/maven/apache-maven-3.9.8"));
+
+        try {
+            InvocationResult result = invoker.execute(request);
+
+            if (result.getExitCode() != 0) {
+                System.err.println("Build failed.");
+            } else {
+                System.out.println("Build successful.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
