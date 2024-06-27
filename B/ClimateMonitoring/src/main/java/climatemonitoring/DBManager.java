@@ -4,6 +4,11 @@
  */
 package climatemonitoring;
 
+import org.postgresql.PGConnection;
+import org.postgresql.copy.CopyManager;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -53,23 +58,92 @@ public class DBManager {
      */
     public ArrayList<InterestingAreas> readAreas(Connection conn) {
         ArrayList<InterestingAreas> list = new ArrayList<>();
-        String sql = "SELECT * FROM coordinatemonitoraggio";
-        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                if (rs.getString("name_ascii") != null)
-                    list.add(new InterestingAreas(
-                            rs.getInt("id"),
-                            rs.getString("name_ascii"),
-                            rs.getString("country_code"),
-                            rs.getString("country_name"),
-                            rs.getString("lat"),
-                            rs.getString("lon")
-                    ));
+        String countQuery = "SELECT COUNT(*) AS count FROM coordinatemonitoraggio";
+        try (PreparedStatement countStmt = conn.prepareStatement(countQuery);
+             ResultSet countRs = countStmt.executeQuery()) {
+
+            countRs.next();
+            int rowCount = countRs.getInt("count");
+
+            if (rowCount == 0) {
+                System.out.println("No records found in coordinatemonitoraggio table. Inserting data from CSV...");
+                insertAreas(conn); // Chiamiamo la funzione per inserire i dati dal CSV
+            }
+
+            String sql = "SELECT * FROM coordinatemonitoraggio";
+            try (PreparedStatement stmt = conn.prepareStatement(sql);
+                 ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    if (rs.getString("name_ascii") != null)
+                        list.add(new InterestingAreas(
+                                rs.getInt("id"),
+                                rs.getString("name_ascii"),
+                                rs.getString("country_code"),
+                                rs.getString("country_name"),
+                                rs.getString("lat"),
+                                rs.getString("lon")
+                        ));
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return list;
+    }
+
+    private void insertAreas(Connection conn) {
+        String csvFile = "Data/geonames-and-coordinates.csv"; // Make sure the path is correct
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                try {
+                    // Skip lines that contain null bytes
+                    if (line.contains("\0")) {
+                        continue;
+                    }
+
+                    // Remove the delimiter ';' at the end of the line, if present
+                    if (line.endsWith(";")) {
+                        line = line.substring(0, line.length() - 1); // Remove the last character (the delimiter)
+                    }
+
+                    // Split the last field into lat and lon
+                    int lastSemicolonIndex = line.lastIndexOf(";");
+                    if (lastSemicolonIndex != -1) {
+                        String lastField = line.substring(lastSemicolonIndex + 1);
+                        String[] latLon = lastField.split(",");
+                        if (latLon.length == 2) {
+                            line = line.substring(0, lastSemicolonIndex + 1) + latLon[0] + ";" + latLon[1];
+                        }
+                    }
+
+                    // Split the line into fields
+                    String[] fields = line.split(";");
+
+                    // Prepare the INSERT query
+                    String insertQuery = "INSERT INTO coordinatemonitoraggio (id, name, name_ascii, country_code, country_name, lat, lon) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    PreparedStatement stmt = conn.prepareStatement(insertQuery);
+                    stmt.setInt(1, Integer.parseInt(fields[0]));
+                    stmt.setString(2, fields[1]);
+                    stmt.setString(3, fields[2]);
+                    stmt.setString(4, fields[3]);
+                    stmt.setString(5, fields[4]);
+                    stmt.setString(6, fields[5]);
+                    stmt.setString(7, fields[6]);
+
+                    // Execute the INSERT query
+                    stmt.executeUpdate();
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+
+            System.out.println("Data has been successfully loaded from CSV.");
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to insert data from CSV file: " + e.getMessage(), e);
+        }
     }
 
     /**

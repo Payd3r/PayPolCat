@@ -17,8 +17,6 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
@@ -61,6 +59,8 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
      * @throws RemoteException se si verifica un errore durante la creazione del registro RMI.
      */
     public static void main(String[] args) throws RemoteException {
+        LocateRegistry.createRegistry(PORT).rebind("Stub", new ServerMain());
+        System.out.println("Server ready");
         try {
             // Check if JAVA_HOME is set correctly
             String javaHome = System.getenv("JAVA_HOME");
@@ -95,8 +95,6 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        LocateRegistry.createRegistry(PORT).rebind("Stub", new ServerMain());
-        System.out.println("Server ready");
     }
 
     /**
