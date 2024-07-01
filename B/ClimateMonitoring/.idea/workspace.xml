@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f2685720-e0f7-445c-ac73-d9ec0a07c8f4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/DBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/DBManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/codice-fiscale-java-master.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/DatiCondivisi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/DatiCondivisi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/Register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +66,7 @@
       <command value="mvn install:install-file -Dfile=L:\PayPolCat\B\ClimateMonitoring\lib\codice-fiscale-java-master.jar -DgroupId=climatemonitoring -DartifactId=codice-fiscale-java-master -Dversion=1.0.0 -Dpackaging=jar" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="climatemonitoring.Settings" />
       <module name="ClimateMonitoring" />
@@ -122,7 +120,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/climatemonitoring/Register.java</url>
-          <line>356</line>
+          <line>341</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">

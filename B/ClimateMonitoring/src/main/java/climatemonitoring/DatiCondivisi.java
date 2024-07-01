@@ -87,6 +87,7 @@ public class DatiCondivisi extends UnicastRemoteObject {
      */
     private final String JDBC_DRIVER = "org.postgresql.Driver";
 
+
     /**
      * Costruttore privato per la classe <code>DatiCondivisi</code>.
      * <p>
@@ -127,6 +128,8 @@ public class DatiCondivisi extends UnicastRemoteObject {
         } finally {
             conn.setAutoCommit(true); // Ripristina il comportamento di autocommit
         }
+
+
 
         operatore = null;
         sortAreas();

@@ -318,9 +318,6 @@ public class Register extends javax.swing.JFrame {
         } catch (ParseException ex) {
             s += "Data sbagliata!\n";
         }
-        if (txtProv.getText().length() != 2) {
-            s += "Errore inserimento provincia!\n";
-        }
         if (txtPlace.getText().isEmpty()) {
             s += "Comune di nascita assente!\n";
         }
