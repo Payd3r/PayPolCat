@@ -30,7 +30,7 @@ public interface ServerInterface extends Remote {
 
     ArrayList<Forecast> readForecast() throws SQLException, RemoteException;
 
-    public String convertNameToId(String name) throws SQLException, RemoteException;
+    String convertNameToId(String name) throws SQLException, RemoteException;
 
     void writeForecast(Forecast f) throws SQLException, RemoteException;
 

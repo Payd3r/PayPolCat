@@ -4,21 +4,23 @@
  */
 package climatemonitoring;
 
-import engine.Engine;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import engine.Person;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import it.kamaladafrica.codicefiscale.City;
+import it.kamaladafrica.codicefiscale.CodiceFiscale;
+import it.kamaladafrica.codicefiscale.Person;
+import it.kamaladafrica.codicefiscale.city.CityByName;
+import it.kamaladafrica.codicefiscale.city.CityProvider;
+
+import javax.swing.*;
+import java.awt.*;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * La classe Register rappresenta una finestra di registrazione utente. Permette
@@ -44,8 +46,8 @@ public class Register extends javax.swing.JFrame {
      * Crea una nuova istanza della classe Register.
      *
      * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
-     * @throws SQLException Errore nella connessione al database o
-     * nell'esecuzione della query
+     * @throws SQLException           Errore nella connessione al database o
+     *                                nell'esecuzione della query
      */
     public Register() throws SQLException, ClassNotFoundException, RemoteException {
         initComponents();
@@ -83,7 +85,7 @@ public class Register extends javax.swing.JFrame {
      * fornite come parametro.
      *
      * @param monitoringStations la lista delle stazioni di monitoraggio da
-     * utilizzare per popolare la lista a discesa
+     *                           utilizzare per popolare la lista a discesa
      */
     private void createComboMonitoringStation(List<MonitoringStation> monitoringStations) {
         comboMonitoringStation.addItem("---");
@@ -106,7 +108,6 @@ public class Register extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         txtPlace = new javax.swing.JTextField();
@@ -114,7 +115,6 @@ public class Register extends javax.swing.JFrame {
         txtSurn = new javax.swing.JTextField();
         radioMale = new javax.swing.JRadioButton();
         RadioFemale = new javax.swing.JRadioButton();
-        txtProv = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -140,9 +140,6 @@ public class Register extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Comune Nascita");
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("Provincia");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Sesso");
@@ -220,11 +217,7 @@ public class Register extends javax.swing.JFrame {
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(radioMale)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(RadioFemale)
-                                                .addGap(79, 79, 79)
-                                                .addComponent(jLabel6)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtProv, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(RadioFemale))
                                             .addComponent(txtSurn)
                                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
@@ -273,9 +266,7 @@ public class Register extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(radioMale)
-                            .addComponent(RadioFemale)
-                            .addComponent(jLabel6)
-                            .addComponent(txtProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(RadioFemale))))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -312,10 +303,10 @@ public class Register extends javax.swing.JFrame {
 
     private String controlloCampi() {
         String s = "";
-        if (txtName.getText().length() < 1) {
+        if (txtName.getText().isEmpty()) {
             s += "Nome assente!\n";
         }
-        if (txtSurn.getText().length() < 1) {
+        if (txtSurn.getText().isEmpty()) {
             s += "Cognome assente!\n";
         }
         if (!radioMale.isSelected() && !RadioFemale.isSelected()) {
@@ -330,16 +321,16 @@ public class Register extends javax.swing.JFrame {
         if (txtProv.getText().length() != 2) {
             s += "Errore inserimento provincia!\n";
         }
-        if (txtPlace.getText().length() < 1) {
+        if (txtPlace.getText().isEmpty()) {
             s += "Comune di nascita assente!\n";
         }
-        if (txtEmail.getText().length() < 1 && !txtEmail.getText().contains("@")) {
+        if (txtEmail.getText().isEmpty() && !txtEmail.getText().contains("@")) {
             s += "Errore inserimento mail!\n";
         }
-        if (txtNick.getText().length() < 1) {
+        if (txtNick.getText().isEmpty()) {
             s += "Errore inserimento nick!\n";
         }
-        if (txtPassw.getText().length() < 1) {
+        if (txtPassw.getText().isEmpty()) {
             s += "Errore inserimento pass!\n";
         }
         return s;
@@ -351,41 +342,40 @@ public class Register extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, err);
         else {
             try {
-                Person person = new Person();
-                person.setSurname(txtSurn.getText());
-                person.setName(txtName.getText());
-                SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
-                Date date = formatter1.parse(txtDBirth.getText());
-                String[] dateOfBirth = txtDBirth.getText().split("/");
-                person.setDay(dateOfBirth[0]);
-                person.setMonth(dateOfBirth[1]);
-                person.setYear(dateOfBirth[2]);
-                String luogo = txtPlace.getText().toUpperCase();
-
-                person.setBornCity(ClientHandler.getInstance().getStub().normalizeStrings(luogo));
+                String nome = txtName.getText();
+                String cognome = txtSurn.getText();
+                String data = txtDBirth.getText();
+                String[] dataNascita = data.split("/");
+                LocalDate dateOfBirth = LocalDate.of(Integer.parseInt(dataNascita[2]), Integer.parseInt(dataNascita[1]), Integer.parseInt(dataNascita[0]));
+                String comuneNascita = txtPlace.getText();
+                String sesso = "";
                 if (radioMale.isSelected()) {
-                    person.setSex("M");
+                    sesso = "M";
                 } else {
-                    person.setSex("F");
-                }
-                Engine engine = null;
-                try {
-                    engine = new Engine(person);
-                } catch (Exception ex) {
-                    Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+                    sesso = "F";
                 }
 
+                CityByName cities = CityProvider.ofDefault();
+                City city = cities.findByName(comuneNascita);
+
+                Person person = Person.builder()
+                        .firstname(nome)
+                        .lastname(cognome)
+                        .birthDate(dateOfBirth)
+                        .city(city)
+                        .isFemale(sesso.equals("F")).build();
+                CodiceFiscale codiceFiscale = CodiceFiscale.of(person);
                 String s = "";
                 if (comboMonitoringStation.getSelectedIndex() != 0) {
-                    ClientHandler.getInstance().getStub().writeUser(new User(txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
+                    ClientHandler.getInstance().getStub().writeUser(new User(txtName.getText(), txtSurn.getText(), codiceFiscale.getValue(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
                     JOptionPane.showMessageDialog(null, "Utente registrato", "Operazione andata a buon fine", JOptionPane.INFORMATION_MESSAGE);
                     Menu r = new Menu();
                     r.setVisible(rootPaneCheckingEnabled);
-                    ClientHandler.getInstance().getStub().setOperatore(new User(txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
+                    ClientHandler.getInstance().getStub().setOperatore(new User(txtName.getText(), txtSurn.getText(), codiceFiscale.getValue(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), comboMonitoringStation.getItemAt(comboMonitoringStation.getSelectedIndex())));
                     this.dispose();
                     new Menu().setVisible(true);
                 } else {
-                    CreateMonitoringStation window = new CreateMonitoringStation(new User(txtName.getText(), txtSurn.getText(), engine.getCode(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), ""));
+                    CreateMonitoringStation window = new CreateMonitoringStation(new User(txtName.getText(), txtSurn.getText(), codiceFiscale.getValue(), txtEmail.getText(), txtNick.getText(), txtPassw.getText(), ""));
                     window.setVisible(rootPaneCheckingEnabled);
                     this.dispose();
                 }
@@ -433,7 +423,6 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -444,7 +433,6 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JTextField txtNick;
     private javax.swing.JPasswordField txtPassw;
     private javax.swing.JTextField txtPlace;
-    private javax.swing.JTextField txtProv;
     private javax.swing.JTextField txtSurn;
     // End of variables declaration//GEN-END:variables
 }

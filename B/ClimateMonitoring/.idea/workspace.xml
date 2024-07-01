@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f2685720-e0f7-445c-ac73-d9ec0a07c8f4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/geonames-and-coordinates.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/geonames-and-coordinates.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/DBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/DBManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,7 +112,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/climatemonitoring/DBManager.java</url>
-          <line>282</line>
+          <line>278</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -120,19 +121,9 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/climatemonitoring/DatiCondivisi.java</url>
-          <line>403</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/climatemonitoring/DatiCondivisi.java</url>
-          <line>130</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/climatemonitoring/DBManager.java</url>
-          <line>95</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/src/main/java/climatemonitoring/Register.java</url>
+          <line>356</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />

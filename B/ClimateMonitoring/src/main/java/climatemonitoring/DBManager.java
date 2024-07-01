@@ -4,11 +4,7 @@
  */
 package climatemonitoring;
 
-import org.postgresql.PGConnection;
-import org.postgresql.copy.CopyManager;
-
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.ArrayList;

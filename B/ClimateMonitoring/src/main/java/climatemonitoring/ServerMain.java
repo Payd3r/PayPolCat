@@ -12,14 +12,12 @@ import java.sql.SQLException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import java.net.URL;
 
-import org.apache.maven.cli.MavenCli;
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
@@ -96,8 +94,6 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
                 throw new IllegalArgumentException("The path to pom.xml is null or empty.");
             }
             executeMavenBuild(pomFilePath);
-            System.out.println("Installing library...");
-            installLib();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -582,50 +578,4 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
             e.printStackTrace();
         }
     }
-
-    private static void installLib() {
-        String mavenHome = System.getProperty("user.home") + "/maven/apache-maven-3.9.8";
-        String mvnCommand = mavenHome + "/bin/mvn"; // Percorso completo al comando mvn
-
-        String[] command = {
-                "cmd.exe", "/c", mvnCommand, "install:install-file",
-                "-Dfile=lib\\codice-fiscale-java-master.jar",
-                "-DgroupId=climatemonitoring",
-                "-DartifactId=codice-fiscale-java-master",
-                "-Dversion=1.0.0",
-                "-Dpackaging=jar"
-        };
-
-        try {
-            // Crea il processo
-            ProcessBuilder processBuilder = new ProcessBuilder(command);
-
-            // Imposta la variabile di ambiente MAVEN_HOME nel processo Maven
-            Map<String, String> env = processBuilder.environment();
-            env.put("MAVEN_HOME", mavenHome);
-
-            processBuilder.redirectErrorStream(true);
-            Process process = processBuilder.start();
-
-            // Leggi l'output del processo
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-
-            // Attendi il completamento del processo
-            int exitCode = process.waitFor();
-            if (exitCode == 0) {
-                System.out.println("Installazione completata con successo.");
-            } else {
-                System.err.println("Errore durante l'installazione. Codice di uscita: " + exitCode);
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
 }
