@@ -12,12 +12,14 @@ import java.sql.SQLException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import java.net.URL;
 
+import org.apache.maven.cli.MavenCli;
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
@@ -52,11 +54,13 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     /**
-     * Metodo principale per avviare il programma. Controlla la configurazione dell'ambiente
-     * e avvia il server.
+     * Metodo principale per avviare il programma. Controlla la configurazione
+     * dell'ambiente e avvia il server.
      *
-     * @param args argomenti della riga di comando (non utilizzati in questo contesto).
-     * @throws RemoteException se si verifica un errore durante la creazione del registro RMI.
+     * @param args argomenti della riga di comando (non utilizzati in questo
+     *             contesto).
+     * @throws RemoteException se si verifica un errore durante la creazione del
+     *                         registro RMI.
      */
     public static void main(String[] args) throws RemoteException {
         LocateRegistry.createRegistry(PORT).rebind("Stub", new ServerMain());
@@ -72,6 +76,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
             if (!isMavenInstalled()) {
                 System.out.println("Maven is not installed. Installing Maven...");
                 installMaven();
+
             } else {
                 System.out.println("Maven is already installed.");
             }
@@ -91,6 +96,8 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
                 throw new IllegalArgumentException("The path to pom.xml is null or empty.");
             }
             executeMavenBuild(pomFilePath);
+            System.out.println("Installing library...");
+            installLib();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -466,9 +473,11 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     /**
      * Controlla se Maven è installato eseguendo il comando 'mvn -v'.
      *
-     * @return true se Maven è installato e può essere eseguito con successo, false altrimenti.
+     * @return true se Maven è installato e può essere eseguito con successo,
+     * false altrimenti.
      * @throws IOException          se si verifica un errore di I/O.
-     * @throws InterruptedException se il thread corrente viene interrotto durante l'attesa della terminazione del processo.
+     * @throws InterruptedException se il thread corrente viene interrotto
+     *                              durante l'attesa della terminazione del processo.
      */
     private static boolean isMavenInstalled() throws IOException, InterruptedException {
         try {
@@ -485,7 +494,8 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     /**
      * Installa Maven scaricando la versione specificata dall'URL fornito.
      *
-     * @throws IOException se si verifica un errore di I/O durante il download o l'estrazione.
+     * @throws IOException se si verifica un errore di I/O durante il download o
+     *                     l'estrazione.
      */
     private static void installMaven() throws IOException {
         // Define Maven version and download URL
@@ -501,8 +511,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
 
         // Download Maven
         File zipFile = new File(installDir + "/apache-maven-" + mavenVersion + "-bin.zip");
-        try (BufferedInputStream in = new BufferedInputStream(new URL(downloadUrl).openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream(zipFile)) {
+        try (BufferedInputStream in = new BufferedInputStream(new URL(downloadUrl).openStream()); FileOutputStream fileOutputStream = new FileOutputStream(zipFile)) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
@@ -517,10 +526,12 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     }
 
     /**
-     * Estrae i file da un archivio ZIP nella directory di destinazione specificata.
+     * Estrae i file da un archivio ZIP nella directory di destinazione
+     * specificata.
      *
      * @param zipFile il file archivio ZIP da cui estrarre.
-     * @param destDir la directory di destinazione in cui salvare i file estratti.
+     * @param destDir la directory di destinazione in cui salvare i file
+     *                estratti.
      * @throws IOException se si verifica un errore di I/O durante l'estrazione.
      */
     private static void unzip(File zipFile, File destDir) throws IOException {
@@ -571,5 +582,50 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
             e.printStackTrace();
         }
     }
+
+    private static void installLib() {
+        String mavenHome = System.getProperty("user.home") + "/maven/apache-maven-3.9.8";
+        String mvnCommand = mavenHome + "/bin/mvn"; // Percorso completo al comando mvn
+
+        String[] command = {
+                "cmd.exe", "/c", mvnCommand, "install:install-file",
+                "-Dfile=lib\\codice-fiscale-java-master.jar",
+                "-DgroupId=climatemonitoring",
+                "-DartifactId=codice-fiscale-java-master",
+                "-Dversion=1.0.0",
+                "-Dpackaging=jar"
+        };
+
+        try {
+            // Crea il processo
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+
+            // Imposta la variabile di ambiente MAVEN_HOME nel processo Maven
+            Map<String, String> env = processBuilder.environment();
+            env.put("MAVEN_HOME", mavenHome);
+
+            processBuilder.redirectErrorStream(true);
+            Process process = processBuilder.start();
+
+            // Leggi l'output del processo
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            // Attendi il completamento del processo
+            int exitCode = process.waitFor();
+            if (exitCode == 0) {
+                System.out.println("Installazione completata con successo.");
+            } else {
+                System.err.println("Errore durante l'installazione. Codice di uscita: " + exitCode);
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
