@@ -84,7 +84,7 @@ public class ClientHandler extends UnicastRemoteObject {
         return PORT ;
     }
 
-    public boolean newConnection(String ip, String port, String user, String pass) {
+    public boolean newConnection(String ip, String port) {
         IpServer = ip;
         PORT = Integer.parseInt(port);
         try {
