@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +41,8 @@ public class SearchResult extends javax.swing.JFrame {
      * Questo attributo rappresenta il menu dell'applicazione.
      */
     private Menu m;
+    private Date dataInizio;
+    private Date dataFine;
 
     /**
      * Crea una nuova istanza di SearchResult.
@@ -51,6 +54,13 @@ public class SearchResult extends javax.swing.JFrame {
     public SearchResult() {
         initComponents();
         grafica();
+    }
+
+    public SearchResult(Date i, Date f) {
+        initComponents();
+        grafica();
+        dataInizio = i;
+        dataFine = f;
     }
 
     /**
@@ -67,7 +77,7 @@ public class SearchResult extends javax.swing.JFrame {
      * </ul>
      */
     private void grafica() {
-         try {
+        try {
             ClientHandler.getInstance().getStub().refresh();
         } catch (RemoteException ex) {
             Logger.getLogger(SearchResult.class.getName()).log(Level.SEVERE, null, ex);
@@ -117,11 +127,16 @@ public class SearchResult extends javax.swing.JFrame {
         model.setRowCount(0);
         List<Forecast> temp = DatiCondivisi.getInstance().getForecasts(areaName);
         f = new ArrayList<Forecast>();
-        jLabel2.setText(new SimpleDateFormat("dd/MM/yyyy").format(temp.get(0).getData()) + " - "+new SimpleDateFormat("dd/MM/yyyy").format(temp.get(temp.size()-1).getData()));
+        if (dataInizio == null && dataFine == null) {
+            dataInizio = temp.get(0).getData();
+            dataFine = temp.get(temp.size() - 1).getData();
+        }
+        jLabel2.setText(dataInizio + " - " + dataFine);
         for (int i = 0; i < temp.size(); i++) {
             model.addRow(new Object[]{new SimpleDateFormat("dd/MM/yyyy").format(temp.get(i).getData()), new SimpleDateFormat("hh:mm:ss").format(temp.get(i).getOra()), temp.get(i).getVento()[0], temp.get(i).getUmidita()[0], temp.get(i).getPressione()[0], temp.get(i).getTemperatura()[0], temp.get(i).getPrecipitazioni()[0], temp.get(i).getAltitudine()[0], temp.get(i).getMassa()[0]});
             f.add(temp.get(i));
         }
+
     }
 
     /**
@@ -366,7 +381,9 @@ public class SearchResult extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton20MouseClicked
 
     private void jButton21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton21MouseClicked
-        // TODO add your handling code here:
+        SelectDateRange l = new SelectDateRange();
+        l.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
     }//GEN-LAST:event_jButton21MouseClicked
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
