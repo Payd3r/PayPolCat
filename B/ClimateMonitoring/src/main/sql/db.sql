@@ -4,7 +4,7 @@
 
 -- DROP TABLE centromonitoraggio;
 
-CREATE TABLE centromonitoraggio (
+CREATE TABLE IF NOT EXISTS centromonitoraggio (
 	"name" varchar(255) NOT NULL,
 	address varchar(255) NULL,
 	CONSTRAINT centromonitoraggio_pk PRIMARY KEY (name)
@@ -17,7 +17,7 @@ CREATE TABLE centromonitoraggio (
 
 -- DROP TABLE coordinatemonitoraggio;
 
-CREATE TABLE coordinatemonitoraggio (
+CREATE TABLE IF NOT EXISTS coordinatemonitoraggio (
 	id int4 NULL,
 	"name" varchar(255) NULL,
 	name_ascii varchar(255) NULL,
@@ -35,7 +35,7 @@ CREATE TABLE coordinatemonitoraggio (
 
 -- DROP TABLE lavora;
 
-CREATE TABLE lavora (
+CREATE TABLE IF NOT EXISTS lavora (
 	id_coordinate int4 NOT NULL,
 	nome_centro varchar(255) NOT NULL,
 	CONSTRAINT lavora_pk PRIMARY KEY (id_coordinate, nome_centro),
@@ -50,7 +50,7 @@ CREATE TABLE lavora (
 
 -- DROP TABLE operatoreregistrato;
 
-CREATE TABLE operatoreregistrato (
+CREATE TABLE IF NOT EXISTS operatoreregistrato (
 	nome varchar(255) NULL,
 	cognome varchar(255) NULL,
 	cf varchar(16) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE operatoreregistrato (
 
 -- DROP TABLE parametriclimatici;
 
-CREATE TABLE parametriclimatici (
+CREATE TABLE IF NOT EXISTS parametriclimatici (
 	idcitta int4 NOT NULL,
 	nome_centro varchar(255) NOT NULL,
 	"data" date NOT NULL,

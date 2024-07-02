@@ -88,6 +88,7 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
             String newPath = mavenHome + "/bin" + File.pathSeparator + path;
             System.setProperty("java.library.path", newPath);
 
+            checkDB();
             // Execute Maven build
             String pomFilePath = "pom.xml"; // Update this path
             if (pomFilePath == null || pomFilePath.isEmpty()) {
@@ -96,6 +97,25 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
             executeMavenBuild(pomFilePath);
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static void checkDB() {
+        String scriptPath = System.getProperty("user.dir") + "/src/main/sql/create_db.bat";
+
+        try {
+            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", scriptPath);
+            Process process = builder.inheritIO().start();
+            int exitCode = process.waitFor();
+
+            if (exitCode == 0) {
+                System.out.println("Lo script batch è stato eseguito con successo.");
+            } else {
+                System.out.println("Lo script batch ha restituito un codice di uscita non 0: " + exitCode);
+            }
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

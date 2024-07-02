@@ -116,7 +116,14 @@
                         <artifactId>postgresql</artifactId>
                         <version>42.7.3</version>
                     </dependency>
+
+                    <dependency>
+                        <groupId>com.toedter</groupId>
+                        <artifactId>jcalendar</artifactId>
+                        <version>1.4</version>
+                    </dependency>
                 </dependencies>
+
 
                 <configuration>
                     <driver>org.postgresql.Driver</driver>
@@ -127,33 +134,6 @@
                 </configuration>
 
                 <executions>
-
-                    <execution>
-                        <id>drop database</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <url>jdbc:postgresql://localhost:5432/</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>drop database if exists dbcm</sqlCommand>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>create database</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <url>jdbc:postgresql://localhost:5432/</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>create database dbcm</sqlCommand>
-                        </configuration>
-                    </execution>
-
                     <execution>
                         <id>create database schemas</id>
                         <phase>compile</phase>
