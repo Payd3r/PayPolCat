@@ -305,7 +305,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             String name = jList1.getSelectedValue();
             if (ClientHandler.getInstance().getStub().existForecast(name)) {
-                SearchResult r = new SearchResult(name, this);
+                SearchResult r = new SearchResult(name, this,null,null);
                 r.setVisible(rootPaneCheckingEnabled);
                 this.dispose();
             } else {

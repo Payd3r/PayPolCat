@@ -41,27 +41,9 @@ public class SearchResult extends javax.swing.JFrame {
      * Questo attributo rappresenta il menu dell'applicazione.
      */
     private Menu m;
+    private String area;
     private Date dataInizio;
     private Date dataFine;
-
-    /**
-     * Crea una nuova istanza di SearchResult.
-     * <p>
-     * Questo costruttore inizializza una nuova istanza di SearchResult,
-     * inizializzando i componenti grafici e configurando l'aspetto grafico
-     * della finestra.
-     */
-    public SearchResult() {
-        initComponents();
-        grafica();
-    }
-
-    public SearchResult(Date i, Date f) {
-        initComponents();
-        grafica();
-        dataInizio = i;
-        dataFine = f;
-    }
 
     /**
      * Imposta l'icona dell'applicazione e posiziona la finestra al centro dello
@@ -99,10 +81,14 @@ public class SearchResult extends javax.swing.JFrame {
      * @throws ClassNotFoundException se si verifica un errore di classe non
      * trovata
      */
-    public SearchResult(String areaName, Menu me) throws ClassNotFoundException, SQLException {
+    public SearchResult(String areaName, Menu me, Date i, Date f) throws ClassNotFoundException, SQLException {
         initComponents();
         grafica();
-        refreshTable(areaName);
+        this.m = me;
+        dataInizio = i;
+        dataFine = f;
+        this.area = areaName;
+        refreshTable();
     }
 
     /**
@@ -122,21 +108,64 @@ public class SearchResult extends javax.swing.JFrame {
      * @throws SQLException se si verifica un errore SQL durante l'interazione
      * con il database
      */
-    private void refreshTable(String areaName) throws ClassNotFoundException, SQLException {
+    private void refreshTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
-        List<Forecast> temp = DatiCondivisi.getInstance().getForecasts(areaName);
+        List<Forecast> temp = DatiCondivisi.getInstance().getForecasts(area);
         f = new ArrayList<Forecast>();
         if (dataInizio == null && dataFine == null) {
             dataInizio = temp.get(0).getData();
             dataFine = temp.get(temp.size() - 1).getData();
         }
-        jLabel2.setText(dataInizio + " - " + dataFine);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        jLabel2.setText(dateFormat.format(dataInizio) + " | " + dateFormat.format(dataFine));
         for (int i = 0; i < temp.size(); i++) {
-            model.addRow(new Object[]{new SimpleDateFormat("dd/MM/yyyy").format(temp.get(i).getData()), new SimpleDateFormat("hh:mm:ss").format(temp.get(i).getOra()), temp.get(i).getVento()[0], temp.get(i).getUmidita()[0], temp.get(i).getPressione()[0], temp.get(i).getTemperatura()[0], temp.get(i).getPrecipitazioni()[0], temp.get(i).getAltitudine()[0], temp.get(i).getMassa()[0]});
-            f.add(temp.get(i));
+            Date dataPrevisione = temp.get(i).getData();
+            if (!dataPrevisione.before(dataInizio) && !dataPrevisione.after(dataFine)) {
+                model.addRow(new Object[]{dateFormat.format(dataPrevisione), new SimpleDateFormat("hh:mm:ss").format(temp.get(i).getOra()), temp.get(i).getVento()[0], temp.get(i).getUmidita()[0], temp.get(i).getPressione()[0], temp.get(i).getTemperatura()[0], temp.get(i).getPrecipitazioni()[0], temp.get(i).getAltitudine()[0], temp.get(i).getMassa()[0]});
+                f.add(temp.get(i));
+            }
         }
 
+        if (f.size() > 0) {
+            jLabel4.setText(media(f, 0) + "");
+            jLabel5.setText(media(f, 1) + "");
+            jLabel6.setText(media(f, 2) + "");
+            jLabel7.setText(media(f, 3) + "");
+            jLabel8.setText(media(f, 4) + "");
+            jLabel9.setText(media(f, 5) + "");
+            jLabel10.setText(media(f, 6) + "");
+        }
+    }
+
+    private double media(List<Forecast> a, int pos) {
+        double somma = 0;
+        for (int i = 0; i < f.size(); i++) {
+            switch (pos) {
+                case 0:
+                    somma += Integer.parseInt(f.get(i).getVento()[0]);
+                    break;
+                case 1:
+                    somma += Integer.parseInt(f.get(i).getUmidita()[0]);
+                    break;
+                case 2:
+                    somma += Integer.parseInt(f.get(i).getPressione()[0]);
+                    break;
+                case 3:
+                    somma += Integer.parseInt(f.get(i).getTemperatura()[0]);
+                    break;
+                case 4:
+                    somma += Integer.parseInt(f.get(i).getPrecipitazioni()[0]);
+                    break;
+                case 5:
+                    somma += Integer.parseInt(f.get(i).getAltitudine()[0]);
+                    break;
+                case 6:
+                    somma += Integer.parseInt(f.get(i).getMassa()[0]);
+                    break;
+            }
+        }
+        return somma / a.size();
     }
 
     /**
@@ -259,7 +288,7 @@ public class SearchResult extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(22, 22, 22)
                                         .addComponent(jLabel2)
-                                        .addGap(93, 93, 93)
+                                        .addGap(83, 83, 83)
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel5)
@@ -273,7 +302,7 @@ public class SearchResult extends javax.swing.JFrame {
                                         .addComponent(jLabel7)
                                         .addGap(102, 102, 102)
                                         .addComponent(jLabel8)
-                                        .addGap(103, 103, 103)
+                                        .addGap(94, 94, 94)
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel10))))
@@ -381,7 +410,7 @@ public class SearchResult extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton20MouseClicked
 
     private void jButton21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton21MouseClicked
-        SelectDateRange l = new SelectDateRange();
+        SelectDateRange l = new SelectDateRange(area, m);
         l.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_jButton21MouseClicked
