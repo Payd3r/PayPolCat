@@ -102,8 +102,6 @@ public class SearchResult extends javax.swing.JFrame {
      * popola la tabella con le informazioni sulle previsioni meteorologiche
      * ottenute.
      *
-     * @param areaName il nome dell'area per la quale visualizzare le
-     * rilevazioni
      * @throws ClassNotFoundException se la classe specificata non è trovata
      * @throws SQLException se si verifica un errore SQL durante l'interazione
      * con il database

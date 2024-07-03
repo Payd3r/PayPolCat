@@ -63,62 +63,62 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
     public static void main(String[] args) throws RemoteException {
         LocateRegistry.createRegistry(PORT).rebind("Stub", new ServerMain());
         System.out.println("Server ready");
-        try {
-            // Check if JAVA_HOME is set correctly
-            String javaHome = System.getenv("JAVA_HOME");
-            if (javaHome == null || javaHome.isEmpty()) {
-                throw new IllegalStateException("JAVA_HOME is not set. Please set JAVA_HOME to a JDK directory.");
-            }
-
-            // Check if Maven is installed
-            if (!isMavenInstalled()) {
-                System.out.println("Maven is not installed. Installing Maven...");
-                installMaven();
-
-            } else {
-                System.out.println("Maven is already installed.");
-            }
-
-            // Set the environment variable for Maven home
-            String mavenHome = System.getProperty("user.home") + "/maven/apache-maven-3.9.8";
-            System.setProperty("maven.home", mavenHome);
-
-            // Add Maven to the PATH
-            String path = System.getenv("PATH");
-            String newPath = mavenHome + "/bin" + File.pathSeparator + path;
-            System.setProperty("java.library.path", newPath);
-
-            checkDB();
-            // Execute Maven build
-            String pomFilePath = "pom.xml"; // Update this path
-            if (pomFilePath == null || pomFilePath.isEmpty()) {
-                throw new IllegalArgumentException("The path to pom.xml is null or empty.");
-            }
-            executeMavenBuild(pomFilePath);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            // Check if JAVA_HOME is set correctly
+//            String javaHome = System.getenv("JAVA_HOME");
+//            if (javaHome == null || javaHome.isEmpty()) {
+//                throw new IllegalStateException("JAVA_HOME is not set. Please set JAVA_HOME to a JDK directory.");
+//            }
+//
+//            // Check if Maven is installed
+//            if (!isMavenInstalled()) {
+//                System.out.println("Maven is not installed. Installing Maven...");
+//                installMaven();
+//
+//            } else {
+//                System.out.println("Maven is already installed.");
+//            }
+//
+//            // Set the environment variable for Maven home
+//            String mavenHome = System.getProperty("user.home") + "/maven/apache-maven-3.9.8";
+//            System.setProperty("maven.home", mavenHome);
+//
+//            // Add Maven to the PATH
+//            String path = System.getenv("PATH");
+//            String newPath = mavenHome + "/bin" + File.pathSeparator + path;
+//            System.setProperty("java.library.path", newPath);
+//
+//            checkDB();
+//            // Execute Maven build
+//            String pomFilePath = "pom.xml"; // Update this path
+//            if (pomFilePath == null || pomFilePath.isEmpty()) {
+//                throw new IllegalArgumentException("The path to pom.xml is null or empty.");
+//            }
+//            executeMavenBuild(pomFilePath);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
-
-    private static void checkDB() {
-        String scriptPath = System.getProperty("user.dir") + "/src/main/sql/create_db.bat";
-
-        try {
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", scriptPath);
-            Process process = builder.inheritIO().start();
-            int exitCode = process.waitFor();
-
-            if (exitCode == 0) {
-                System.out.println("Lo script batch è stato eseguito con successo.");
-            } else {
-                System.out.println("Lo script batch ha restituito un codice di uscita non 0: " + exitCode);
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//
+//    private static void checkDB() {
+//        String scriptPath = System.getProperty("user.dir") + "/src/main/sql/create_db.bat";
+//
+//        try {
+//            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", scriptPath);
+//            Process process = builder.inheritIO().start();
+//            int exitCode = process.waitFor();
+//
+//            if (exitCode == 0) {
+//                System.out.println("Lo script batch è stato eseguito con successo.");
+//            } else {
+//                System.out.println("Lo script batch ha restituito un codice di uscita non 0: " + exitCode);
+//            }
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * Legge gli utenti dal database.
@@ -486,116 +486,116 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
         return s;
     }
 
-    /**
-     * Controlla se Maven è installato eseguendo il comando 'mvn -v'.
-     *
-     * @return true se Maven è installato e può essere eseguito con successo,
-     * false altrimenti.
-     * @throws IOException          se si verifica un errore di I/O.
-     * @throws InterruptedException se il thread corrente viene interrotto
-     *                              durante l'attesa della terminazione del processo.
-     */
-    private static boolean isMavenInstalled() throws IOException, InterruptedException {
-        try {
-            ProcessBuilder processBuilder = new ProcessBuilder("mvn", "-v");
-            Process process = processBuilder.start();
+//    /**
+//     * Controlla se Maven è installato eseguendo il comando 'mvn -v'.
+//     *
+//     * @return true se Maven è installato e può essere eseguito con successo,
+//     * false altrimenti.
+//     * @throws IOException          se si verifica un errore di I/O.
+//     * @throws InterruptedException se il thread corrente viene interrotto
+//     *                              durante l'attesa della terminazione del processo.
+//     */
+//    private static boolean isMavenInstalled() throws IOException, InterruptedException {
+//        try {
+//            ProcessBuilder processBuilder = new ProcessBuilder("mvn", "-v");
+//            Process process = processBuilder.start();
+//
+//            int exitCode = process.waitFor();
+//            return exitCode == 0;
+//        } catch (Exception e) {
+//            return false;
+//        }
+//    }
 
-            int exitCode = process.waitFor();
-            return exitCode == 0;
-        } catch (Exception e) {
-            return false;
-        }
-    }
+//    /**
+//     * Installa Maven scaricando la versione specificata dall'URL fornito.
+//     *
+//     * @throws IOException se si verifica un errore di I/O durante il download o
+//     *                     l'estrazione.
+//     */
+//    private static void installMaven() throws IOException {
+//        // Define Maven version and download URL
+//        String mavenVersion = "3.9.8";
+//        String downloadUrl = "https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.zip";
+//        String installDir = System.getProperty("user.home") + "/maven";
+//
+//        // Download Maven
+//        File installDirFile = new File(installDir);
+//        if (!installDirFile.exists()) {
+//            installDirFile.mkdirs();
+//        }
+//
+//        // Download Maven
+//        File zipFile = new File(installDir + "/apache-maven-" + mavenVersion + "-bin.zip");
+//        try (BufferedInputStream in = new BufferedInputStream(new URL(downloadUrl).openStream()); FileOutputStream fileOutputStream = new FileOutputStream(zipFile)) {
+//            byte[] dataBuffer = new byte[1024];
+//            int bytesRead;
+//            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+//                fileOutputStream.write(dataBuffer, 0, bytesRead);
+//            }
+//        }
+//
+//        // Extract Maven
+//        unzip(zipFile, new File(installDir));
+//
+//        System.out.println("Maven installed successfully.");
+//    }
 
-    /**
-     * Installa Maven scaricando la versione specificata dall'URL fornito.
-     *
-     * @throws IOException se si verifica un errore di I/O durante il download o
-     *                     l'estrazione.
-     */
-    private static void installMaven() throws IOException {
-        // Define Maven version and download URL
-        String mavenVersion = "3.9.8";
-        String downloadUrl = "https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.zip";
-        String installDir = System.getProperty("user.home") + "/maven";
+//    /**
+//     * Estrae i file da un archivio ZIP nella directory di destinazione
+//     * specificata.
+//     *
+//     * @param zipFile il file archivio ZIP da cui estrarre.
+//     * @param destDir la directory di destinazione in cui salvare i file
+//     *                estratti.
+//     * @throws IOException se si verifica un errore di I/O durante l'estrazione.
+//     */
+//    private static void unzip(File zipFile, File destDir) throws IOException {
+//        try (java.util.zip.ZipInputStream zipIn = new java.util.zip.ZipInputStream(new java.io.FileInputStream(zipFile))) {
+//            java.util.zip.ZipEntry entry = zipIn.getNextEntry();
+//            while (entry != null) {
+//                File filePath = new File(destDir, entry.getName());
+//                if (!entry.isDirectory()) {
+//                    filePath.getParentFile().mkdirs();
+//                    try (java.io.BufferedOutputStream bos = new java.io.BufferedOutputStream(new java.io.FileOutputStream(filePath))) {
+//                        byte[] bytesIn = new byte[4096];
+//                        int read;
+//                        while ((read = zipIn.read(bytesIn)) != -1) {
+//                            bos.write(bytesIn, 0, read);
+//                        }
+//                    }
+//                } else {
+//                    filePath.mkdirs();
+//                }
+//                zipIn.closeEntry();
+//                entry = zipIn.getNextEntry();
+//            }
+//        }
+//    }
 
-        // Download Maven
-        File installDirFile = new File(installDir);
-        if (!installDirFile.exists()) {
-            installDirFile.mkdirs();
-        }
-
-        // Download Maven
-        File zipFile = new File(installDir + "/apache-maven-" + mavenVersion + "-bin.zip");
-        try (BufferedInputStream in = new BufferedInputStream(new URL(downloadUrl).openStream()); FileOutputStream fileOutputStream = new FileOutputStream(zipFile)) {
-            byte[] dataBuffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuffer, 0, bytesRead);
-            }
-        }
-
-        // Extract Maven
-        unzip(zipFile, new File(installDir));
-
-        System.out.println("Maven installed successfully.");
-    }
-
-    /**
-     * Estrae i file da un archivio ZIP nella directory di destinazione
-     * specificata.
-     *
-     * @param zipFile il file archivio ZIP da cui estrarre.
-     * @param destDir la directory di destinazione in cui salvare i file
-     *                estratti.
-     * @throws IOException se si verifica un errore di I/O durante l'estrazione.
-     */
-    private static void unzip(File zipFile, File destDir) throws IOException {
-        try (java.util.zip.ZipInputStream zipIn = new java.util.zip.ZipInputStream(new java.io.FileInputStream(zipFile))) {
-            java.util.zip.ZipEntry entry = zipIn.getNextEntry();
-            while (entry != null) {
-                File filePath = new File(destDir, entry.getName());
-                if (!entry.isDirectory()) {
-                    filePath.getParentFile().mkdirs();
-                    try (java.io.BufferedOutputStream bos = new java.io.BufferedOutputStream(new java.io.FileOutputStream(filePath))) {
-                        byte[] bytesIn = new byte[4096];
-                        int read;
-                        while ((read = zipIn.read(bytesIn)) != -1) {
-                            bos.write(bytesIn, 0, read);
-                        }
-                    }
-                } else {
-                    filePath.mkdirs();
-                }
-                zipIn.closeEntry();
-                entry = zipIn.getNextEntry();
-            }
-        }
-    }
-
-    /**
-     * Esegue la build di Maven utilizzando il file POM specificato.
-     *
-     * @param pomFilePath il percorso del file POM da utilizzare per la build.
-     */
-    private static void executeMavenBuild(String pomFilePath) {
-        InvocationRequest request = new DefaultInvocationRequest();
-        request.setPomFile(new File(pomFilePath));
-        request.setGoals(Collections.singletonList("clean install"));
-
-        Invoker invoker = new DefaultInvoker();
-        invoker.setMavenHome(new File(System.getProperty("user.home") + "/maven/apache-maven-3.9.8"));
-
-        try {
-            InvocationResult result = invoker.execute(request);
-
-            if (result.getExitCode() != 0) {
-                System.err.println("Build failed.");
-            } else {
-                System.out.println("Build successful.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * Esegue la build di Maven utilizzando il file POM specificato.
+//     *
+//     * @param pomFilePath il percorso del file POM da utilizzare per la build.
+//     */
+//    private static void executeMavenBuild(String pomFilePath) {
+//        InvocationRequest request = new DefaultInvocationRequest();
+//        request.setPomFile(new File(pomFilePath));
+//        request.setGoals(Collections.singletonList("clean install"));
+//
+//        Invoker invoker = new DefaultInvoker();
+//        invoker.setMavenHome(new File(System.getProperty("user.home") + "/maven/apache-maven-3.9.8"));
+//
+//        try {
+//            InvocationResult result = invoker.execute(request);
+//
+//            if (result.getExitCode() != 0) {
+//                System.err.println("Build failed.");
+//            } else {
+//                System.out.println("Build successful.");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
