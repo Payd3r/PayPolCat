@@ -486,6 +486,24 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
         return s;
     }
 
+    /**
+     * Calcola la media di un parametro climatico
+     * <p>
+     * Questo metodo sincronizzato calcola la media di un parametro climatico
+     *
+     * @param parametro il parametro climatico di cui calcolare la media
+     * @return media dei valori del parametro climatico
+     */
+    @Override
+    public float avg(String parametro) throws SQLException, RemoteException {
+        try {
+            return DatiCondivisi.getInstance().avg(parametro);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 //    /**
 //     * Controlla se Maven è installato eseguendo il comando 'mvn -v'.
 //     *

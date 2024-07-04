@@ -465,4 +465,16 @@ public class DatiCondivisi extends UnicastRemoteObject {
     public void writeStation(MonitoringStation ms, List<String> areas) throws SQLException, RemoteException, ClassNotFoundException {
         dBManager.writeStation(ms, conn, areas);
     }
+
+    /**
+     * Metodo che restituisce la media di un parametro
+     *
+     * @param parametro parametro di cui calcolare la media
+     * @return la media del parametro
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione
+     *                      della query
+     */
+    public float avg(String parametro) throws SQLException {
+        return dBManager.avg(conn, parametro);
+    }
 }

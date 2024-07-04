@@ -4,8 +4,9 @@
  */
 package climatemonitoring;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -14,10 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * Classe che rappresenta la finestra di visualizzazione dei risultati di
@@ -67,7 +64,7 @@ public class SearchResult extends javax.swing.JFrame {
         ImageIcon img = new ImageIcon("../Data/icon.jpg");
         this.setIconImage(img.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((int) (screenSize.width - this.getWidth()) / 2, (int) (screenSize.height - this.getHeight()) / 2);
+        this.setLocation((screenSize.width - this.getWidth()) / 2, (screenSize.height - this.getHeight()) / 2);
     }
 
     /**
@@ -75,11 +72,11 @@ public class SearchResult extends javax.swing.JFrame {
      * il menu associato.
      *
      * @param areaName il nome dell'area di ricerca
-     * @param me il menu associato
-     * @throws SQLException se si verifica un errore nella connessione al
-     * database
+     * @param me       il menu associato
+     * @throws SQLException           se si verifica un errore nella connessione al
+     *                                database
      * @throws ClassNotFoundException se si verifica un errore di classe non
-     * trovata
+     *                                trovata
      */
     public SearchResult(String areaName, Menu me, Date i, Date f) throws ClassNotFoundException, SQLException {
         initComponents();
@@ -103,67 +100,41 @@ public class SearchResult extends javax.swing.JFrame {
      * ottenute.
      *
      * @throws ClassNotFoundException se la classe specificata non è trovata
-     * @throws SQLException se si verifica un errore SQL durante l'interazione
-     * con il database
+     * @throws SQLException           se si verifica un errore SQL durante l'interazione
+     *                                con il database
      */
     private void refreshTable() throws ClassNotFoundException, SQLException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
         List<Forecast> temp = DatiCondivisi.getInstance().getForecasts(area);
-        f = new ArrayList<Forecast>();
+        f = new ArrayList<>();
         if (dataInizio == null && dataFine == null) {
             dataInizio = temp.get(0).getData();
             dataFine = temp.get(temp.size() - 1).getData();
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         jLabel2.setText(dateFormat.format(dataInizio) + " | " + dateFormat.format(dataFine));
-        for (int i = 0; i < temp.size(); i++) {
-            Date dataPrevisione = temp.get(i).getData();
+        for (Forecast forecast : temp) {
+            Date dataPrevisione = forecast.getData();
             if (!dataPrevisione.before(dataInizio) && !dataPrevisione.after(dataFine)) {
-                model.addRow(new Object[]{dateFormat.format(dataPrevisione), new SimpleDateFormat("hh:mm:ss").format(temp.get(i).getOra()), temp.get(i).getVento()[0], temp.get(i).getUmidita()[0], temp.get(i).getPressione()[0], temp.get(i).getTemperatura()[0], temp.get(i).getPrecipitazioni()[0], temp.get(i).getAltitudine()[0], temp.get(i).getMassa()[0]});
-                f.add(temp.get(i));
+                model.addRow(new Object[]{dateFormat.format(dataPrevisione), new SimpleDateFormat("hh:mm:ss").format(forecast.getOra()), forecast.getVento()[0], forecast.getUmidita()[0], forecast.getPressione()[0], forecast.getTemperatura()[0], forecast.getPrecipitazioni()[0], forecast.getAltitudine()[0], forecast.getMassa()[0]});
+                f.add(forecast);
             }
         }
 
-        if (f.size() > 0) {
-            jLabel4.setText(media(f, 0) + "");
-            jLabel5.setText(media(f, 1) + "");
-            jLabel6.setText(media(f, 2) + "");
-            jLabel7.setText(media(f, 3) + "");
-            jLabel8.setText(media(f, 4) + "");
-            jLabel9.setText(media(f, 5) + "");
-            jLabel10.setText(media(f, 6) + "");
-        }
-    }
-
-    private double media(List<Forecast> a, int pos) {
-        double somma = 0;
-        for (int i = 0; i < f.size(); i++) {
-            switch (pos) {
-                case 0:
-                    somma += Integer.parseInt(f.get(i).getVento()[0]);
-                    break;
-                case 1:
-                    somma += Integer.parseInt(f.get(i).getUmidita()[0]);
-                    break;
-                case 2:
-                    somma += Integer.parseInt(f.get(i).getPressione()[0]);
-                    break;
-                case 3:
-                    somma += Integer.parseInt(f.get(i).getTemperatura()[0]);
-                    break;
-                case 4:
-                    somma += Integer.parseInt(f.get(i).getPrecipitazioni()[0]);
-                    break;
-                case 5:
-                    somma += Integer.parseInt(f.get(i).getAltitudine()[0]);
-                    break;
-                case 6:
-                    somma += Integer.parseInt(f.get(i).getMassa()[0]);
-                    break;
+        if (!f.isEmpty()) {
+            try {
+                jLabel4.setText(ClientHandler.getInstance().getStub().avg("vento") + "");
+                jLabel5.setText(ClientHandler.getInstance().getStub().avg("umidita") + "");
+                jLabel6.setText(ClientHandler.getInstance().getStub().avg("pressione") + "");
+                jLabel7.setText(ClientHandler.getInstance().getStub().avg("temperatura") + "");
+                jLabel8.setText(ClientHandler.getInstance().getStub().avg("precipitazioni") + "");
+                jLabel9.setText(ClientHandler.getInstance().getStub().avg("altitudine") + "");
+                jLabel10.setText(ClientHandler.getInstance().getStub().avg("massa") + "");
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
         }
-        return somma / a.size();
     }
 
     /**
@@ -171,7 +142,6 @@ public class SearchResult extends javax.swing.JFrame {
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -193,19 +163,19 @@ public class SearchResult extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tblRilevazioni.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][]{
 
-            },
-            new String [] {
-                "Data", "Ora", "Vento", "Umidita", "Pressione", "Temperatura", "Precipitazioni", "Altitudine dei ghiacciai", "Massa dei ghiacciai"
-            }
+                },
+                new String[]{
+                        "Data", "Ora", "Vento", "Umidita", "Pressione", "Temperatura", "Precipitazioni", "Altitudine dei ghiacciai", "Massa dei ghiacciai"
+                }
         ) {
-            boolean[] canEdit = new boolean [] {
-                true, true, false, false, false, false, false, false, false
+            boolean[] canEdit = new boolean[]{
+                    true, true, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         tblRilevazioni.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -269,74 +239,74 @@ public class SearchResult extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(320, 320, 320)
-                                        .addComponent(jButton21)
-                                        .addGap(18, 18, 18))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(22, 22, 22)
-                                        .addComponent(jLabel2)
-                                        .addGap(83, 83, 83)
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel5)
-                                        .addGap(99, 99, 99)
-                                        .addComponent(jLabel6)
-                                        .addGap(2, 2, 2)))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton20)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(106, 106, 106)
-                                        .addComponent(jLabel7)
-                                        .addGap(102, 102, 102)
-                                        .addComponent(jLabel8)
-                                        .addGap(94, 94, 94)
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel10))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(465, 465, 465)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel1))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(57, 57, 57)))
-                .addContainerGap())
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addGap(320, 320, 320)
+                                                                                .addComponent(jButton21)
+                                                                                .addGap(18, 18, 18))
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addGap(22, 22, 22)
+                                                                                .addComponent(jLabel2)
+                                                                                .addGap(83, 83, 83)
+                                                                                .addComponent(jLabel4)
+                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                .addComponent(jLabel5)
+                                                                                .addGap(99, 99, 99)
+                                                                                .addComponent(jLabel6)
+                                                                                .addGap(2, 2, 2)))
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jButton20)
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addGap(106, 106, 106)
+                                                                                .addComponent(jLabel7)
+                                                                                .addGap(102, 102, 102)
+                                                                                .addComponent(jLabel8)
+                                                                                .addGap(94, 94, 94)
+                                                                                .addComponent(jLabel9)
+                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                .addComponent(jLabel10))))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(465, 465, 465)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jLabel3)
+                                                                        .addComponent(jLabel1))
+                                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                                .addGap(57, 57, 57)))
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton21)
-                    .addComponent(jButton20))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButton21)
+                                        .addComponent(jButton20))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel8)
+                                        .addComponent(jLabel9)
+                                        .addComponent(jLabel10))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
 
         pack();
@@ -346,10 +316,9 @@ public class SearchResult extends javax.swing.JFrame {
         JTable source = (JTable) evt.getSource();
         int row = source.rowAtPoint(evt.getPoint());
         int column = source.columnAtPoint(evt.getPoint());
-        String s = source.getModel().getValueAt(row, column) + "";
         String[] temp;
         String str = "";
-        boolean vis = false;
+        boolean vis;
         switch (column) {
             case 2:
                 temp = f.get(row).getVento();

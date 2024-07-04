@@ -51,4 +51,6 @@ public interface ServerInterface extends Remote {
     void refresh() throws RemoteException;
 
     String normalizeStrings(String s) throws RemoteException;
+
+    float avg(String parametro) throws SQLException, RemoteException;
 }

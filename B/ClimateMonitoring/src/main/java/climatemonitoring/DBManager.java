@@ -4,7 +4,9 @@
  */
 package climatemonitoring;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -288,6 +290,23 @@ public class DBManager {
             stmt.setInt(1, Integer.parseInt(a));
             stmt.setString(2, ms.getName());
             stmt.executeUpdate();
+        }
+    }
+
+    /**
+     * Calcola la media di un parametro climatico.
+     * <p>
+     * Questo metodo calola la media di un parametro climatico specificato nella tabella "parametriclimatici" del database.
+     *
+     * @param conn la connessione al database
+     * @throws SQLException se si verifica un errore SQL durante l'esecuzione della query
+     */
+    public float avg(Connection conn, String parametro) throws SQLException {
+        String query = "SELECT AVG(CAST(SPLIT_PART(" + parametro + ", ',', 1) AS DECIMAL(10,2))) AS avg FROM parametriclimatici";
+        try (PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            rs.next();
+            return rs.getFloat("avg");
         }
     }
 }

@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f2685720-e0f7-445c-ac73-d9ec0a07c8f4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/DBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/DBManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/DatiCondivisi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/DatiCondivisi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/SearchResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/SearchResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/climatemonitoring/ServerMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -110,7 +112,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/climatemonitoring/DBManager.java</url>
-          <line>278</line>
+          <line>280</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
