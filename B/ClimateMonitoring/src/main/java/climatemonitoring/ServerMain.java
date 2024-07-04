@@ -4,7 +4,7 @@
  */
 package climatemonitoring;
 
-import java.io.*;
+//import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -16,15 +16,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import java.net.URL;
+//import java.net.URL;
 
-import org.apache.maven.shared.invoker.DefaultInvocationRequest;
-import org.apache.maven.shared.invoker.DefaultInvoker;
-import org.apache.maven.shared.invoker.InvocationRequest;
-import org.apache.maven.shared.invoker.Invoker;
-import org.apache.maven.shared.invoker.InvocationResult;
-
-import java.util.Collections;
+//import org.apache.maven.shared.invoker.DefaultInvocationRequest;
+//import org.apache.maven.shared.invoker.DefaultInvoker;
+//import org.apache.maven.shared.invoker.InvocationRequest;
+//import org.apache.maven.shared.invoker.Invoker;
+//import org.apache.maven.shared.invoker.InvocationResult;
+//
+//import java.util.Collections;
 
 /**
  * Classe principale del server.

@@ -76,14 +76,28 @@ public class ClientHandler extends UnicastRemoteObject {
         return stub;
     }
 
+    /**
+     * Restituisce l'indirizzo IP del server.
+     * @return l'indirizzo IP del server
+     */
     public String getIpServer() {
         return IpServer;
     }
 
+    /**
+     * Restituisce la porta su cui il client si connetterà al server.
+     * @return la porta di rete utilizzata per la comunicazione con il server
+     */
     public int getPort() {
         return PORT ;
     }
 
+    /**
+     * Imposta l'indirizzo IP del server.
+     * @param ip l'indirizzo IP del server
+     * @param port la porta su cui il client si connetterà al server
+     * @return true se la connessione è stata stabilita con successo, false altrimenti
+     */
     public boolean newConnection(String ip, String port) {
         IpServer = ip;
         PORT = Integer.parseInt(port);

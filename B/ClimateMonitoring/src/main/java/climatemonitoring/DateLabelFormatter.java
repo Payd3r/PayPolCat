@@ -19,13 +19,26 @@ class DateLabelFormatter extends AbstractFormatter {
     private String datePattern = "yyyy-MM-dd";
     private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
+    /**
+     * Metodo per convertire una stringa in oggetto
+     *
+     * @param text Stringa da convertire
+     * @return Oggetto convertito
+     * @throws ParseException Eccezione in caso di errore di conversione
+     */
     @Override
     public Object stringToValue(String text) throws ParseException {
         return dateFormatter.parseObject(text);
     }
 
+    /**
+     * Metodo per convertire un oggetto in stringa
+     *
+     * @param value Valore da convertire
+     * @return Stringa convertita
+     */
     @Override
-    public String valueToString(Object value) throws ParseException {
+    public String valueToString(Object value) {
         if (value != null) {
             if (value instanceof Calendar) {
                 Calendar cal = (Calendar) value;

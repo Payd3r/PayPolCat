@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 public class Settings extends javax.swing.JFrame {
 
     /**
-     * Creates new form Settings
+     * Crea una nuova finestra di impostazioni
      */
     public Settings() {
         initComponents();
@@ -133,7 +133,9 @@ public class Settings extends javax.swing.JFrame {
     }
 
     /**
-     * @param args the command line arguments
+     * metodo main
+     *
+     * @param args argomenti da riga di comando
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

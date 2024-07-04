@@ -41,6 +41,11 @@ public class SelectDateRange extends javax.swing.JFrame {
     private JDatePickerImpl endDatePicker;
     private JButton confirmButton;
 
+    /**
+     * Crea un oggetto SelectDateRange
+     * @param area Nome dell'area
+     * @param m Menu principale
+     */
     public SelectDateRange(String area, Menu m) {
         initComponents();
         areaName = area;
