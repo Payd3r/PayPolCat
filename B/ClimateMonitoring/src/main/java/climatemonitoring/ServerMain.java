@@ -5,6 +5,7 @@
 package climatemonitoring;
 
 //import java.io.*;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -499,6 +500,24 @@ public class ServerMain extends UnicastRemoteObject implements ServerInterface {
         try {
             return DatiCondivisi.getInstance().avg(parametro);
         } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    /**
+     * Imposta le credenziali del database utilizzando il nome utente e la password forniti.
+     * Questo metodo inizializza un'istanza singleton di {@code DatiCondivisi} con le credenziali fornite.
+     *
+     * @param u il nome utente per la connessione al database
+     * @param p la password per la connessione al database
+     * @throws RemoteException se si verifica un errore relativo alla comunicazione durante l'esecuzione
+     * @throws RuntimeException se si verifica un {@link ClassNotFoundException} o un {@link SQLException} durante l'inizializzazione della connessione al database
+     */
+
+    @Override
+    public void setDbCredentials(String u, String p) throws RemoteException {
+        try {
+            DatiCondivisi.getInstance(u, p);
+        } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }

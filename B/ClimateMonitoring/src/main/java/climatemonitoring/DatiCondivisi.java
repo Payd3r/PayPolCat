@@ -1,5 +1,7 @@
 package climatemonitoring;
 
+
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
@@ -87,6 +89,9 @@ public class DatiCondivisi extends UnicastRemoteObject {
      */
     private final String JDBC_DRIVER = "org.postgresql.Driver";
 
+    private static String User;
+
+    private static String Passw;
 
     /**
      * Costruttore privato per la classe <code>DatiCondivisi</code>.
@@ -111,8 +116,8 @@ public class DatiCondivisi extends UnicastRemoteObject {
         System.out.println("Connecting to database..."); // Stampa di debug
         conn = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/dbcm",
-                "postgres",
-                "postgres");
+                User,
+                Passw);
         System.out.println("Connected to database"); // Stampa di debug
         conn.setAutoCommit(false); // Assicurati che le transazioni siano gestite correttamente
 
@@ -130,10 +135,10 @@ public class DatiCondivisi extends UnicastRemoteObject {
         }
 
 
-
         operatore = null;
         sortAreas();
     }
+
 
     /**
      * Restituisce l'oggetto di connessione al database.
@@ -159,6 +164,20 @@ public class DatiCondivisi extends UnicastRemoteObject {
         // Crea l'oggetto solo se NON esiste:
         if (instance == null) {
             try {
+                instance = new DatiCondivisi();
+            } catch (RemoteException ex) {
+                Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return instance;
+    }
+
+    public static DatiCondivisi getInstance(String u, String p) throws ClassNotFoundException, SQLException {
+        // Crea l'oggetto solo se NON esiste:
+        if (instance == null) {
+            try {
+                User = u;
+                Passw = p;
                 instance = new DatiCondivisi();
             } catch (RemoteException ex) {
                 Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);

@@ -173,6 +173,11 @@
           <line>246</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/climatemonitoring/ClientHandler.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="6" />
