@@ -112,8 +112,7 @@ public class AddNotes extends javax.swing.JFrame {
         // Converte ZonedDateTime in un oggetto Instant
         Instant instant = zonedDateTime.toInstant();
         // Converte l'oggetto Instant in un oggetto Timestamp
-        Timestamp timestamp = Timestamp.from(instant);
-        JOptionPane.showMessageDialog(null, localDateTime + " " + zoneId + " " + zonedDateTime + " " + instant + " " + timestamp);
+        Timestamp timestamp = Timestamp.from(instant);        
         temp = new Forecast(idCitta, nomeStazione, new Date(), timestamp, vento, umidita, pressione, temperatura, precipitazioni, altitudine, massa);
     }
 
@@ -341,8 +340,7 @@ public class AddNotes extends javax.swing.JFrame {
             // Converte ZonedDateTime in un oggetto Instant
             Instant instant = zonedDateTime.toInstant();
             // Converte l'oggetto Instant in un oggetto Timestamp
-            Timestamp timestamp = Timestamp.from(instant);
-            JOptionPane.showMessageDialog(null, localDateTime + " " + zoneId + " " + zonedDateTime + " " + instant + " " + timestamp);
+            Timestamp timestamp = Timestamp.from(instant);            
             ClientHandler.getInstance().getStub().writeForecast(temp);
 
             MenuOperatore m = new MenuOperatore();

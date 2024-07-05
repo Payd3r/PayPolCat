@@ -103,7 +103,7 @@ public class SearchResult extends javax.swing.JFrame {
      * @throws SQLException           se si verifica un errore SQL durante l'interazione
      *                                con il database
      */
-    private void refreshTable() throws ClassNotFoundException, SQLException, RemoteException {
+    private void refreshTable() throws SQLException, RemoteException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
         List<Forecast> temp = ClientHandler.getInstance().getStub().readForecast();
@@ -117,6 +117,9 @@ public class SearchResult extends javax.swing.JFrame {
         for (Forecast forecast : temp) {
             Date dataPrevisione = forecast.getData();
             if (!dataPrevisione.before(dataInizio) && !dataPrevisione.after(dataFine)) {
+                model.addRow(new Object[]{dateFormat.format(dataPrevisione), new SimpleDateFormat("hh:mm:ss").format(forecast.getOra()), forecast.getVento()[0], forecast.getUmidita()[0], forecast.getPressione()[0], forecast.getTemperatura()[0], forecast.getPrecipitazioni()[0], forecast.getAltitudine()[0], forecast.getMassa()[0]});
+                f.add(forecast);
+            } else if (dataPrevisione.toString().equals(dataInizio.toString()) ||dataPrevisione.toString().equals(dataFine.toString())) {
                 model.addRow(new Object[]{dateFormat.format(dataPrevisione), new SimpleDateFormat("hh:mm:ss").format(forecast.getOra()), forecast.getVento()[0], forecast.getUmidita()[0], forecast.getPressione()[0], forecast.getTemperatura()[0], forecast.getPrecipitazioni()[0], forecast.getAltitudine()[0], forecast.getMassa()[0]});
                 f.add(forecast);
             }
