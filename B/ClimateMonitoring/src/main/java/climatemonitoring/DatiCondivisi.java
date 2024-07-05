@@ -107,6 +107,16 @@ public class DatiCondivisi extends UnicastRemoteObject {
         return conn;
     }
 
+    /**
+     * Imposta l'oggetto di connessione al database.
+     *
+     * @param host host del database
+     * @param porta porta del database
+     * @param user utente admin del database
+     * @param password password admin del database
+     * @throws SQLException Errore nella connessione al database o nell'esecuzione della query
+     * @throws ClassNotFoundException Errore nel caricamento dei driver jdbc
+     */
     public void setConnestion(String host, String porta, String user, String password) throws SQLException, ClassNotFoundException {
         System.out.println("Connecting to database..."); // Stampa di debug
         conn = DriverManager.getConnection(
