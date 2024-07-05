@@ -45,8 +45,6 @@ public class ClientHandler extends UnicastRemoteObject {
      */
     private static ClientHandler instance = null;
     private static String IpServer = "";
-    private static String User;
-    private static String Passw;
 
     /**
      * Costruttore della classe ClientHandler.
@@ -64,7 +62,6 @@ public class ClientHandler extends UnicastRemoteObject {
     public ClientHandler() throws RemoteException, NotBoundException, InterruptedException {
         if (PORT != 0 && IpServer != "") {
             stub = (ServerInterface) LocateRegistry.getRegistry(IpServer, PORT).lookup("Stub");
-            stub.setDbCredentials(User,Passw);
         }
     }
 
@@ -105,11 +102,9 @@ public class ClientHandler extends UnicastRemoteObject {
      * @param port la porta su cui il client si connetterà al server
      * @return true se la connessione è stata stabilita con successo, false altrimenti
      */
-    public boolean newConnection(String ip, String port, String u, String p) {
+    public boolean newConnection(String ip, String port) {
         IpServer = ip;
         PORT = Integer.parseInt(port);
-        User = u;
-        Passw = p;
         try {
             instance = new ClientHandler();
             return true;

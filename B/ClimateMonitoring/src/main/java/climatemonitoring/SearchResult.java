@@ -78,7 +78,7 @@ public class SearchResult extends javax.swing.JFrame {
      * @throws ClassNotFoundException se si verifica un errore di classe non
      *                                trovata
      */
-    public SearchResult(String areaName, Menu me, Date i, Date f) throws ClassNotFoundException, SQLException {
+    public SearchResult(String areaName, Menu me, Date i, Date f) throws ClassNotFoundException, SQLException, RemoteException {
         initComponents();
         grafica();
         this.m = me;
@@ -103,10 +103,10 @@ public class SearchResult extends javax.swing.JFrame {
      * @throws SQLException           se si verifica un errore SQL durante l'interazione
      *                                con il database
      */
-    private void refreshTable() throws ClassNotFoundException, SQLException {
+    private void refreshTable() throws ClassNotFoundException, SQLException, RemoteException {
         DefaultTableModel model = (DefaultTableModel) tblRilevazioni.getModel();
         model.setRowCount(0);
-        List<Forecast> temp = DatiCondivisi.getInstance().getForecasts(area);
+        List<Forecast> temp = ClientHandler.getInstance().getStub().readForecast();
         f = new ArrayList<>();
         if (dataInizio == null && dataFine == null) {
             dataInizio = temp.get(0).getData();
