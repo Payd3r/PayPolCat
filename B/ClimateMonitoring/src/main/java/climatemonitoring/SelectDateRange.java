@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -135,7 +136,7 @@ public class SelectDateRange extends javax.swing.JFrame {
                 SearchResult l = new SearchResult(areaName, m, startDateSql, endDateSql);
                 l.setVisible(rootPaneCheckingEnabled);
                 this.dispose();
-            } catch (ClassNotFoundException | SQLException ex) {
+            } catch (ClassNotFoundException | SQLException | RemoteException ex) {
                 Logger.getLogger(SelectDateRange.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
